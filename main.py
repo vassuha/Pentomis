@@ -260,13 +260,7 @@ while running:
                 ready = True
     #Игровой процесс
     while gameplay:
-        if checkCollision(area, tempFigure):
-            score = checkLine(area, score)
-            if checkEnd(area):
-                break
-            tempFigure = choice(figures)
-            spawn(area, tempFigure)
-            pygame.display.update()
+
         keys = pygame.key.get_pressed()
         if keys[pygame.K_RIGHT] and isMove==False:
             isMove = True
@@ -281,6 +275,7 @@ while running:
             isMove = True
             tempFigure.rotate(area)
 
+        #Отрисовка
         screen.fill(bgColor)
         for i in range(3, 24):
             s = str(area[i][4:14])
@@ -297,6 +292,13 @@ while running:
                 pygame.quit()
                 sys.exit()
             if event.type == MOVEMENT:
+                if checkCollision(area, tempFigure):
+                    score = checkLine(area, score)
+                    if checkEnd(area):
+                        gameplay = False
+                    tempFigure = choice(figures)
+                    spawn(area, tempFigure)
+                    pygame.display.update()
                 tempFigure.move(area, "down")
                 pygame.display.update()
                 MOVEMENT, T = pygame.USEREVENT, timer(score)
@@ -315,6 +317,7 @@ while running:
                     isMove = False
 
         clock.tick(60)
+
 
     #Завершающее меню
     with open("record.txt") as f:

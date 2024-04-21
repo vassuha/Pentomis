@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="152454ad-6c52-484e-bc30-826792bdf9ef" name="Changes" comment="Реализованы все базовые механики, кроме проигрыша. Игра без графического интерфейса, вывод через текстовый вывод матрицы">
+    <list default="true" id="152454ad-6c52-484e-bc30-826792bdf9ef" name="Changes" comment="Реализован проигрыш, запись рекорда в файл. Добалено стартовое и закрывающее меню">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -120,7 +120,7 @@
       <workItem from="1713185670613" duration="3305000" />
       <workItem from="1713457204768" duration="1788000" />
       <workItem from="1713636640164" duration="8882000" />
-      <workItem from="1713698177372" duration="1757000" />
+      <workItem from="1713698177372" duration="4065000" />
     </task>
     <task id="LOCAL-00001" summary="Добавлен спавн фигур и перемещение (только вправо)">
       <option name="closed" value="true" />
@@ -138,7 +138,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712847605440</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Реализован проигрыш, запись рекорда в файл. Добалено стартовое и закрывающее меню">
+      <option name="closed" value="true" />
+      <created>1713700265037</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1713700265037</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -147,9 +155,10 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Добавлен спавн фигур и перемещение (только вправо)" />
     <MESSAGE value="Реализованы все базовые механики, кроме проигрыша. Игра без графического интерфейса, вывод через текстовый вывод матрицы" />
-    <option name="LAST_COMMIT_MESSAGE" value="Реализованы все базовые механики, кроме проигрыша. Игра без графического интерфейса, вывод через текстовый вывод матрицы" />
+    <MESSAGE value="Реализован проигрыш, запись рекорда в файл. Добалено стартовое и закрывающее меню" />
+    <option name="LAST_COMMIT_MESSAGE" value="Реализован проигрыш, запись рекорда в файл. Добалено стартовое и закрывающее меню" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Pentomis$main.coverage" NAME="main Coverage Results" MODIFIED="1713699950340" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Pentomis$main.coverage" NAME="main Coverage Results" MODIFIED="1713702613975" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
