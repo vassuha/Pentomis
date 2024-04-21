@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="152454ad-6c52-484e-bc30-826792bdf9ef" name="Changes" comment="Добавлен спавн фигур и перемещение (только вправо)">
+    <list default="true" id="152454ad-6c52-484e-bc30-826792bdf9ef" name="Changes" comment="Реализованы все базовые механики, кроме проигрыша. Игра без графического интерфейса, вывод через текстовый вывод матрицы">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -116,7 +116,11 @@
       <workItem from="1712500494701" duration="5261000" />
       <workItem from="1712588028234" duration="8975000" />
       <workItem from="1712656724473" duration="22186000" />
-      <workItem from="1712820084304" duration="16946000" />
+      <workItem from="1712820084304" duration="17611000" />
+      <workItem from="1713185670613" duration="3305000" />
+      <workItem from="1713457204768" duration="1788000" />
+      <workItem from="1713636640164" duration="8882000" />
+      <workItem from="1713698177372" duration="1757000" />
     </task>
     <task id="LOCAL-00001" summary="Добавлен спавн фигур и перемещение (только вправо)">
       <option name="closed" value="true" />
@@ -126,7 +130,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712498793741</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Реализованы все базовые механики, кроме проигрыша. Игра без графического интерфейса, вывод через текстовый вывод матрицы">
+      <option name="closed" value="true" />
+      <created>1712847605440</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1712847605440</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -134,9 +146,10 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Добавлен спавн фигур и перемещение (только вправо)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Добавлен спавн фигур и перемещение (только вправо)" />
+    <MESSAGE value="Реализованы все базовые механики, кроме проигрыша. Игра без графического интерфейса, вывод через текстовый вывод матрицы" />
+    <option name="LAST_COMMIT_MESSAGE" value="Реализованы все базовые механики, кроме проигрыша. Игра без графического интерфейса, вывод через текстовый вывод матрицы" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Pentomis$main.coverage" NAME="main Coverage Results" MODIFIED="1712847462988" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Pentomis$main.coverage" NAME="main Coverage Results" MODIFIED="1713699950340" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

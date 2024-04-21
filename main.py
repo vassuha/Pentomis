@@ -1,4 +1,5 @@
 import sys
+import time
 
 import pygame
 import copy
@@ -114,7 +115,6 @@ class Figure:
             return True
 
     def throw(self, area):
-        print("drop")
         while self.move(area, "down"):
             pass
 
@@ -155,6 +155,12 @@ def checkLine(area, score):
             area[3][14] = 1
     score += sum(lines[3:24])
     return score
+
+def checkEnd(area):
+    for j in range(4, 14):
+        if area[4][j] == 1:
+            return True
+
 
 clock = pygame.time.Clock()
 
@@ -211,68 +217,130 @@ def timer(score=0):
         t = 100
     return t
 
+
+#def gameplay1(area)
+
+
 MOVEMENT, T= pygame.USEREVENT, timer()
 pygame.time.set_timer(MOVEMENT, T)
 
-score = 0
+try:
+    f = open("record.txt")
+except FileNotFoundError:
+    f = open("record.txt", "w")
+    f.write("0" + "\n")
+
 
 while running:
-    if checkCollision(area, tempFigure):
-        score = checkLine(area, score)
-        tempFigure = choice(figures)
-        spawn(area, tempFigure)
-        pygame.display.update()
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_RIGHT] and isMove==False:
-        isMove = True
-        tempFigure.move(area, "right")
-    if keys[pygame.K_LEFT] and isMove==False:
-        isMove = True
-        tempFigure.move(area, "left")
-    if keys[pygame.K_DOWN] and isMove==False:
-        isMove = True
-        tempFigure.throw(area)
-    if keys[pygame.K_UP] and isMove==False:
-        isMove = True
-        tempFigure.rotate(area)
+    #Создание игрового поля
+    area = []
+    for i in range(28):
+        area.append([0] * 18)
+        area[i][3] = 1;
+        area[i][14] = 1;
+    area[24] = [1] * 18
 
+    score = 0
 
-
-
-
+    #Стартовое меню
+    gameplay = False
     screen.fill(bgColor)
-    for i in range(3-2, 24+2):
-        s = str(area[i])
-        #s = s.replace("1", "@");
-        s = s.replace("1", "  ");
-        text1[i] = myFont.render(s, True, "White")
-        screen.blit(text1[i], (0, i*20))
+    screen.blit(myFont.render("Press any key to continue", True, "White"), (0, 20))
+    while not gameplay:
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == event.type == pygame.KEYDOWN:
+                gameplay = True
 
-
-    pygame.display.update()
-
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-            running = False
-            pygame.quit()
-            sys.exit()
-        if event.type == MOVEMENT:
-            tempFigure.move(area, "down")
+    pygame.event.clear()
+    ready = False
+    while not ready:
+        for e in pygame.event.get():
+            if e.type == pygame.KEYUP:
+                ready = True
+    #Игровой процесс
+    while gameplay:
+        if checkCollision(area, tempFigure):
+            score = checkLine(area, score)
+            if checkEnd(area):
+                break
+            tempFigure = choice(figures)
+            spawn(area, tempFigure)
             pygame.display.update()
-            MOVEMENT, T = pygame.USEREVENT, timer(score)
-            pygame.time.set_timer(MOVEMENT, T)
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_RIGHT:
-                isMove = False
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT:
-                isMove = False
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_UP:
-                isMove = False
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_DOWN:
-                isMove = False
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_RIGHT] and isMove==False:
+            isMove = True
+            tempFigure.move(area, "right")
+        if keys[pygame.K_LEFT] and isMove==False:
+            isMove = True
+            tempFigure.move(area, "left")
+        if keys[pygame.K_DOWN] and isMove==False:
+            isMove = True
+            tempFigure.throw(area)
+        if keys[pygame.K_UP] and isMove==False:
+            isMove = True
+            tempFigure.rotate(area)
 
-    clock.tick(60)
+        screen.fill(bgColor)
+        for i in range(3, 24):
+            s = str(area[i][4:14])
+            #s = s.replace("1", "@");
+            s = s.replace("1", "  ");
+            text1[i] = myFont.render(s, True, "White")
+            screen.blit(text1[i], (0, i*20))
+
+        pygame.display.update()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                running = False
+                pygame.quit()
+                sys.exit()
+            if event.type == MOVEMENT:
+                tempFigure.move(area, "down")
+                pygame.display.update()
+                MOVEMENT, T = pygame.USEREVENT, timer(score)
+                pygame.time.set_timer(MOVEMENT, T)
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_RIGHT:
+                    isMove = False
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT:
+                    isMove = False
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_UP:
+                    isMove = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_DOWN:
+                    isMove = False
+
+        clock.tick(60)
+
+    #Завершающее меню
+    with open("record.txt") as f:
+        record = int(f.readline())
+    if score > record:
+        record = score
+    with open("record.txt", "w") as f:
+            f.write(str(record) + "\n")
+    screen.fill(bgColor)
+    screen.blit(myFont.render("You lose. Score: " + str(score) + " , record: " + str(record), True, "White"), (0, 20))
+    screen.blit(myFont.render("Do you want to continue?", True, "White"), (0, 100))
+    screen.blit(myFont.render("Play again (Y)                   Quit (N)", True, "White"), (0, 200))
+    pygame.display.update()
+    time.sleep(0.5)
+
+    #Продолжить или завершить
+    isContinue = False
+    while not isContinue:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_y:
+                    isContinue = True
+                if event.key == pygame.K_n:
+                    running = False
+                    print("Stop")
+                    isContinue = True
+running = False
+pygame.quit()
+sys.exit()
