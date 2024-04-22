@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="152454ad-6c52-484e-bc30-826792bdf9ef" name="Changes" comment="Изменена механика просчета коллизий, вследствии чего стало возможным &quot;скольжение&quot; фигуры по плоской поверхности под ней">
+    <list default="true" id="152454ad-6c52-484e-bc30-826792bdf9ef" name="Changes" comment="Добавлен базовый графический интерфейс, текстурированы фигуры">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -40,7 +40,7 @@
   }
 }</component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="QODANA_PROBLEMS_VIEW_TAB" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
@@ -121,7 +121,10 @@
       <workItem from="1713457204768" duration="1788000" />
       <workItem from="1713636640164" duration="8882000" />
       <workItem from="1713698177372" duration="4607000" />
-      <workItem from="1713703171354" duration="24820000" />
+      <workItem from="1713703171354" duration="26527000" />
+      <workItem from="1713777656459" duration="5854000" />
+      <workItem from="1713791052102" duration="192000" />
+      <workItem from="1713791253234" duration="15000" />
     </task>
     <task id="LOCAL-00001" summary="Добавлен спавн фигур и перемещение (только вправо)">
       <option name="closed" value="true" />
@@ -155,20 +158,40 @@
       <option name="project" value="LOCAL" />
       <updated>1713702916130</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Добавлен базовый графический интерфейс, текстурированы фигуры">
+      <option name="closed" value="true" />
+      <created>1713733690034</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1713733690034</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Добавлен спавн фигур и перемещение (только вправо)" />
     <MESSAGE value="Реализованы все базовые механики, кроме проигрыша. Игра без графического интерфейса, вывод через текстовый вывод матрицы" />
     <MESSAGE value="Реализован проигрыш, запись рекорда в файл. Добалено стартовое и закрывающее меню" />
     <MESSAGE value="Изменена механика просчета коллизий, вследствии чего стало возможным &quot;скольжение&quot; фигуры по плоской поверхности под ней" />
-    <option name="LAST_COMMIT_MESSAGE" value="Изменена механика просчета коллизий, вследствии чего стало возможным &quot;скольжение&quot; фигуры по плоской поверхности под ней" />
+    <MESSAGE value="Добавлен базовый графический интерфейс, текстурированы фигуры" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавлен базовый графический интерфейс, текстурированы фигуры" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Pentomis$main.coverage" NAME="main Coverage Results" MODIFIED="1713732406989" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Pentomis$main.coverage" NAME="main Coverage Results" MODIFIED="1713790515507" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

@@ -244,26 +244,44 @@ for i in range(1, 20):
 def renderGameplay(area, background, score, blocks):
     bg = pygame.transform.scale(pygame.image.load(background).convert(), (screenWidth, screenHeight))
 
-    blockHeight = screenHeight/areaHeight*0.9
+    blockHeight = int(screenHeight//areaHeight*0.9)
     border = screenHeight//(270)
 
     screen.blit(bg, (0, 0)) #вывод
-    pygame.draw.rect(screen, (255, 0, 0), (screenWidth/2-blockHeight*(areaWidth/2-1)-border/2, screenHeight/2-blockHeight*(areaHeight/2)-border/2, blockHeight*areaWidth+border, blockHeight*(areaHeight+1)+border/2), border)
+    meshColor = (120, 122, 130)
+    mesh = pygame.Surface(( blockHeight*areaWidth+border, blockHeight*(areaHeight+1)+border//2))
+    #mesh = pygame.Surface(( 100, 100))
+    #mesh.fill(meshColor)
+    mesh.set_alpha(200)
 
+    #pygame.draw.rect(screen, meshColor, (screenWidth//2-blockHeight*(areaWidth//2-1)-border//2, screenHeight//2-blockHeight*(areaHeight//2), blockHeight*areaWidth+border, blockHeight*(areaHeight+1)+border//2), border)
+    pygame.draw.rect(mesh, meshColor, (0, 0, blockHeight*areaWidth+border, blockHeight*(areaHeight+1)+border//2), border)
+
+    for i in range(areaWidth):
+        pygame.draw.line(mesh, meshColor, (i*blockHeight, 0), (i*blockHeight, blockHeight*(areaHeight+1)))
+    for i in range(1, areaHeight+1):
+        pygame.draw.line(mesh, meshColor, (0, i*blockHeight), (blockHeight*areaWidth, i*blockHeight))
+
+    screen.blit(mesh, (screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) - border // 2,
+                       screenHeight // 2 - blockHeight * (areaHeight // 2)))
     for i in range(3, 24):
         for j in range(4, 14):
             #Отладкаааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааа
             if area[i][j] >0:
-                screen.blit(pygame.transform.scale(blocks[area[i][j]], (blockHeight, blockHeight)), (screenWidth/2+(j-8)*blockHeight, (i-2)*blockHeight))
+                screen.blit(pygame.transform.scale(blocks[area[i][j]], (blockHeight, blockHeight)), (screenWidth//2+(j-8)*blockHeight, screenHeight//2+(i-13)*blockHeight))
+
+    scoreText = myFont.render("Score: " + str(score), True, "White")
+    screen.blit(scoreText, (blockHeight * areaWidth, blockHeight * (areaHeight + 1)))
+
     pygame.display.update()
 
 
 
-def renderStartMenu(width, height):
-    background = pygame.transform.scale(pygame.image.load("img/background/start.png").convert(), (width, height))
+def renderStartMenu():
+    background = pygame.transform.scale(pygame.image.load("img/backgrounds/start.png").convert(), (screenWidth, screenHeight))
     screen.blit(background, (0, 0))
-    menu = pygame.draw.rect(surface, color, pygame.Rect(30, 30, 60, 60),  2, 3)
-    screen.blit(menu, (0, 0))
+    menu = pygame.draw.rect(screen, (71, 178, 255), pygame.Rect(30, 30, 60, 60),  2, 3)
+
 
 while running:
     #Создание игрового поля
@@ -286,6 +304,7 @@ while running:
     gameplay = False
     screen.fill(bgColor)
     screen.blit(myFont.render("Press any key to continue", True, "White"), (0, 20))
+    renderStartMenu()
     while not gameplay:
         pygame.display.update()
         for event in pygame.event.get():
