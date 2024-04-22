@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="152454ad-6c52-484e-bc30-826792bdf9ef" name="Changes" comment="Исправлен баг с щелями между блоками, добавлена сетка. В комммит добавлены а папка img">
+    <list default="true" id="152454ad-6c52-484e-bc30-826792bdf9ef" name="Changes" comment="Добалено отображение текущего счета на экране">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/record.txt" beforeDir="false" afterPath="$PROJECT_DIR$/record.txt" afterDir="false" />
@@ -130,7 +130,7 @@
       <workItem from="1713792227757" duration="350000" />
       <workItem from="1713792596751" duration="162000" />
       <workItem from="1713792768887" duration="6680000" />
-      <workItem from="1713800324043" duration="4634000" />
+      <workItem from="1713800324043" duration="12785000" />
     </task>
     <task id="LOCAL-00001" summary="Добавлен спавн фигур и перемещение (только вправо)">
       <option name="closed" value="true" />
@@ -180,7 +180,15 @@
       <option name="project" value="LOCAL" />
       <updated>1713791515550</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Добалено отображение текущего счета на экране">
+      <option name="closed" value="true" />
+      <created>1713805189867</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1713805189867</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -204,9 +212,10 @@
     <MESSAGE value="Изменена механика просчета коллизий, вследствии чего стало возможным &quot;скольжение&quot; фигуры по плоской поверхности под ней" />
     <MESSAGE value="Добавлен базовый графический интерфейс, текстурированы фигуры" />
     <MESSAGE value="Исправлен баг с щелями между блоками, добавлена сетка. В комммит добавлены а папка img" />
-    <option name="LAST_COMMIT_MESSAGE" value="Исправлен баг с щелями между блоками, добавлена сетка. В комммит добавлены а папка img" />
+    <MESSAGE value="Добалено отображение текущего счета на экране" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добалено отображение текущего счета на экране" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Pentomis$main.coverage" NAME="main Coverage Results" MODIFIED="1713804955891" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Pentomis$main.coverage" NAME="main Coverage Results" MODIFIED="1713814465714" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

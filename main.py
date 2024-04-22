@@ -165,7 +165,7 @@ def checkLine(area, score):
             area[3][3] = 1
             area[3][14] = 1
     #Отладкаааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааа
-    score += sum(lines[3:24])*10
+    score += sum(lines[3:24])
     return score
 
 def checkEnd(area):
@@ -186,8 +186,8 @@ area[24] = [1]*18
 
 figures = []
 
-pointForm= [[0, 0, 0], [0, 0, 0], [1, 0, 0]]
-pointFigure = Figure("point", area, pointForm, 0, (0, 0), "red", [2, 0])
+pointForm= [[0, 0, 0], [0, 0, 0], [10, 0, 0]]
+pointFigure = Figure("point", area, pointForm, 0, (0, 0), "black", [2, 0])
 figures.append(pointFigure)
 
 blueForm = [[0, 0, 0], [3, 0, 0], [3, 3, 3]]
@@ -198,13 +198,22 @@ greenForm = [[0, 0, 0], [0, 6, 6], [6, 6, 0]]
 greenFigure = Figure("green", area, greenForm, 0, (0, 0), "green", [1, 1])
 figures.append(greenFigure)
 
-blackForm = [[18, 18, 0], [18, 18, 0], [18, 18, 0]]
+blackForm = [[18, 0, 0], [18, 0, 0], [18, 18, 18]]
 blackFigure = Figure("black", area, blackForm, 0, (0, 0), "black", [1, 1])
 figures.append(blackFigure)
 
 lineForm = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [2, 2, 2, 2]]
 lineFigure = Figure("line", area, lineForm, 0, (0, 0), "purple", [3, 2])
 figures.append(lineFigure)
+
+#figures.append(Figure("", area, [[0, 0, 0], [0, 0, 0], [0, 0, 0]], 0, (0, 0), "", [, ]))
+figures.append(Figure("1", area, [[0, 0, 0], [1, 1, 0], [0, 1, 1]], 0, (0, 0), "red", [1, 1]))
+figures.append(Figure("4", area, [[0, 0, 0], [0, 0, 4], [4, 4, 4]], 0, (0, 0), "orange", [2, 1]))
+figures.append(Figure("5", area, [[0, 0, 0], [5, 5, 0], [5, 5, 0]], 0, (0, 0), "", [1, 1]))
+figures.append(Figure("7", area, [[0, 0, 0], [0, 7, 0], [7, 7, 7]], 0, (0, 0), "", [2, 1]))
+figures.append(Figure("8", area, [[8, 0], [8, 8]], 0, (0, 0), "", [1, 0]))
+figures.append(Figure("9", area, [[0, 9], [9, 9]], 0, (0, 0), "", [1, 1]))
+figures.append(Figure("11", area, [[0, 11, 11], [11, 11, 0], [0, 11, 0]], 0, (0, 0), "", [1, 1]))
 
 
 bgColor = 'Black'
@@ -240,6 +249,7 @@ except FileNotFoundError:
     f.write("0" + "\n")
 
 blocks = []
+blocks.append(pygame.image.load("img/textures/Pentomis_texture_" + str(20) + ".png").convert())
 for i in range(1, 20):
     blocks.append(pygame.image.load("img/textures/Pentomis_texture_" + str(i) + ".png").convert())
 def renderGameplay(area, background, score, blocks, nextFigure):
@@ -288,7 +298,7 @@ def renderGameplay(area, background, score, blocks, nextFigure):
     screen.blit(scoreArea, (screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) + blockHeight * areaWidth + border*10, screenHeight // 2 - blockHeight * (areaHeight // 2)))
 
     #Отображение следующей детали
-    nextFigureAreaHeight = screenHeight // 5
+    nextFigureAreaHeight = screenHeight // 4
     nextFigureAreaWidth = nextFigureAreaHeight
     nextFigureArea = pygame.Surface((nextFigureAreaWidth, nextFigureAreaHeight), pygame.SRCALPHA)
     nextFigureTranslucentArea = pygame.Surface((nextFigureAreaWidth, nextFigureAreaHeight), pygame.SRCALPHA)
@@ -296,8 +306,14 @@ def renderGameplay(area, background, score, blocks, nextFigure):
     pygame.draw.rect(nextFigureTranslucentArea, (0, 0, 0), (0, 0, nextFigureAreaWidth, nextFigureAreaWidth), nextFigureAreaWidth, nextFigureAreaWidth // 4)
     pygame.draw.rect(nextFigureTranslucentArea, meshColor, (0, 0, nextFigureAreaWidth, nextFigureAreaWidth), border, nextFigureAreaWidth // 4)
     nextFigureArea.blit(nextFigureTranslucentArea, (0, 0))
-    screen.blit(nextFigureArea, (screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) + blockHeight * areaWidth + border*10, screenHeight // 2 - blockHeight * (areaHeight // 2) + scoreAreaHeight))
 
+    for i in range(len(nextFigure.form)):
+        for j in range(len(nextFigure.form[i])):
+            if nextFigure.form[i][j] > 0:
+                nextFigureArea.blit(pygame.transform.scale(blocks[nextFigure.form[i][j]], (blockHeight, blockHeight)), (j*blockHeight + (nextFigureAreaHeight//2 - (len(nextFigure.form)+1)//2*blockHeight), (i)*blockHeight+ (nextFigureAreaHeight//2 - (len(nextFigure.form)+1)//2*blockHeight)))
+    screen.blit(nextFigureArea, (
+    screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) + blockHeight * areaWidth + border * 10,
+    screenHeight // 2 - blockHeight * (areaHeight // 2) + scoreAreaHeight))
 
     pygame.display.update()
 
@@ -334,7 +350,7 @@ while running:
     screen.fill(bgColor)
 
     tempFigure = choice(figures)
-    nextFigure = choice(figures)
+    nextFigure = copy.deepcopy(choice(figures))
     spawn(area, tempFigure)
 
     #Стартовое меню
@@ -372,6 +388,9 @@ while running:
             isMove = True
             tempFigure.rotate(area)
 
+        screenWidth = screen.get_size()[0]
+        screenHeight = screen.get_size()[1]
+        renderGameplay(area, "img/backgrounds/Minimalistic_landscape_1.jpg", score, blocks, nextFigure)
         #Отрисовка
         # screen.fill(bgColor)
         # for i in range(3, 24):
@@ -380,11 +399,9 @@ while running:
         #     s = s.replace("2", "  ");
         #     text1[i] = myFont.render(s, True, "White")
         #     screen.blit(text1[i], (0, i*20))
-        #
-        # pygame.display.update()
-        screenWidth = screen.get_size()[0]
-        screenHeight = screen.get_size()[1]
-        renderGameplay(area, "img/backgrounds/Minimalistic_landscape_1.jpg", score, blocks, nextFigure)
+
+        pygame.display.update()
+
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -397,9 +414,9 @@ while running:
                     if checkEnd(area):
                         gameplay = False
                     tempFigure = nextFigure
-                    nextFigure = choice(figures)
+                    nextFigure = copy.deepcopy(choice(figures))
                     spawn(area, tempFigure)
-                    isMove = False
+                    #isMove = False
                     pygame.display.update()
                 tempFigure.move(area, "down")
                 pygame.display.update()
@@ -414,7 +431,7 @@ while running:
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP:
                     isMove = False
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYUP:
                 if event.key == pygame.K_DOWN:
                     isMove = False
 
