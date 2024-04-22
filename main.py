@@ -164,7 +164,8 @@ def checkLine(area, score):
             area[3] = [0] * 18
             area[3][3] = 1
             area[3][14] = 1
-    score += sum(lines[3:24])
+    #Отладкаааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааа
+    score += sum(lines[3:24])*10
     return score
 
 def checkEnd(area):
@@ -241,7 +242,7 @@ except FileNotFoundError:
 blocks = []
 for i in range(1, 20):
     blocks.append(pygame.image.load("img/textures/Pentomis_texture_" + str(i) + ".png").convert())
-def renderGameplay(area, background, score, blocks):
+def renderGameplay(area, background, score, blocks, nextFigure):
     bg = pygame.transform.scale(pygame.image.load(background).convert(), (screenWidth, screenHeight))
 
     blockHeight = int(screenHeight//areaHeight*0.9)
@@ -266,12 +267,37 @@ def renderGameplay(area, background, score, blocks):
                        screenHeight // 2 - blockHeight * (areaHeight // 2)))
     for i in range(3, 24):
         for j in range(4, 14):
-            #Отладкаааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааа
             if area[i][j] >0:
                 screen.blit(pygame.transform.scale(blocks[area[i][j]], (blockHeight, blockHeight)), (screenWidth//2+(j-8)*blockHeight, screenHeight//2+(i-13)*blockHeight))
 
-    scoreText = myFont.render("Score: " + str(score), True, "White")
-    screen.blit(scoreText, (blockHeight * areaWidth, blockHeight * (areaHeight + 1)))
+    #Отображение текущего счета
+    scoreAreaHeight = screenHeight//9
+    scoreAreaWidth = scoreAreaHeight
+    gameplayFont =pygame.font.Font('fonts/Silkscreen-Regular.ttf', screenHeight//40)
+    gameplayFont1 =pygame.font.Font('fonts/Silkscreen-Regular.ttf', screenHeight//20)
+    scoreArea = pygame.Surface((scoreAreaWidth, scoreAreaHeight), pygame.SRCALPHA)
+    scoreText = gameplayFont.render("SCORE", True, "White")
+    scoreText1 = gameplayFont1.render(str(score), True, "White")
+    translucentArea = pygame.Surface((scoreAreaWidth, scoreAreaHeight), pygame.SRCALPHA)
+    translucentArea.set_alpha(200)
+    pygame.draw.rect(translucentArea, (0, 0, 0), (0, 0, scoreAreaHeight, scoreAreaHeight), scoreAreaHeight, scoreAreaHeight//4)
+    pygame.draw.rect(translucentArea, meshColor, (0, 0, scoreAreaHeight, scoreAreaHeight), border, scoreAreaHeight // 4)
+    scoreArea.blit(translucentArea, (0, 0))
+    scoreArea.blit(scoreText, (0+screenHeight/100, 0+screenHeight/100))
+    scoreArea.blit(scoreText1, (0+screenHeight/100- (len(str(score))-1)*screenHeight//80 +screenHeight//40, 0+screenHeight/100+ screenHeight/50))
+    screen.blit(scoreArea, (screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) + blockHeight * areaWidth + border*10, screenHeight // 2 - blockHeight * (areaHeight // 2)))
+
+    #Отображение следующей детали
+    nextFigureAreaHeight = screenHeight // 5
+    nextFigureAreaWidth = nextFigureAreaHeight
+    nextFigureArea = pygame.Surface((nextFigureAreaWidth, nextFigureAreaHeight), pygame.SRCALPHA)
+    nextFigureTranslucentArea = pygame.Surface((nextFigureAreaWidth, nextFigureAreaHeight), pygame.SRCALPHA)
+    nextFigureTranslucentArea.set_alpha(200)
+    pygame.draw.rect(nextFigureTranslucentArea, (0, 0, 0), (0, 0, nextFigureAreaWidth, nextFigureAreaWidth), nextFigureAreaWidth, nextFigureAreaWidth // 4)
+    pygame.draw.rect(nextFigureTranslucentArea, meshColor, (0, 0, nextFigureAreaWidth, nextFigureAreaWidth), border, nextFigureAreaWidth // 4)
+    nextFigureArea.blit(nextFigureTranslucentArea, (0, 0))
+    screen.blit(nextFigureArea, (screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) + blockHeight * areaWidth + border*10, screenHeight // 2 - blockHeight * (areaHeight // 2) + scoreAreaHeight))
+
 
     pygame.display.update()
 
@@ -280,7 +306,18 @@ def renderGameplay(area, background, score, blocks):
 def renderStartMenu():
     background = pygame.transform.scale(pygame.image.load("img/backgrounds/start.png").convert(), (screenWidth, screenHeight))
     screen.blit(background, (0, 0))
-    menu = pygame.draw.rect(screen, (71, 178, 255), pygame.Rect(30, 30, 60, 60),  2, 3)
+    if screenHeight > screenWidth:
+        squareWidth = screenHeight//5
+    else:
+        squareWidth = screenWidth//5
+    menu = pygame.draw.rect(screen, (71, 178, 255), pygame.Rect(screenWidth//2 - squareWidth//2, screenHeight//2 - squareWidth//2, squareWidth, squareWidth), screenWidth,squareWidth//12)
+    startFont =pygame.font.Font('fonts/Silkscreen-Regular.ttf', squareWidth//13)
+    startText = startFont.render("Enter any key to start", True, "White")
+    screen.blit(startText, (screenWidth//2 - squareWidth//2 + squareWidth//11, screenHeight//2 - squareWidth//2 + squareWidth//9 * 2))
+    startFont =pygame.font.Font('fonts/Silkscreen-Regular.ttf', squareWidth//7)
+    startText = startFont.render("Pentomis", True, "White")
+    screen.blit(startText, (screenWidth//2 - squareWidth//2 + squareWidth//9  , screenHeight//2 - squareWidth//2 + squareWidth//9))
+    pygame.display.update()
 
 
 while running:
@@ -304,9 +341,10 @@ while running:
     gameplay = False
     screen.fill(bgColor)
     screen.blit(myFont.render("Press any key to continue", True, "White"), (0, 20))
-    renderStartMenu()
     while not gameplay:
-        pygame.display.update()
+        screenWidth = screen.get_size()[0]
+        screenHeight = screen.get_size()[1]
+        renderStartMenu()
         for event in pygame.event.get():
             if event.type == event.type == pygame.KEYDOWN:
                 gameplay = True
@@ -346,7 +384,7 @@ while running:
         # pygame.display.update()
         screenWidth = screen.get_size()[0]
         screenHeight = screen.get_size()[1]
-        renderGameplay(area, "img/backgrounds/Minimalistic_landscape_1.jpg", score, blocks)
+        renderGameplay(area, "img/backgrounds/Minimalistic_landscape_1.jpg", score, blocks, nextFigure)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
