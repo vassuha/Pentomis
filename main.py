@@ -190,6 +190,9 @@ area[24] = [1]*18
 
 figures = []
 
+doomMusic = pygame.mixer.Sound("music/Doom Soundtrack.mp3")
+doomMusic.play()
+doomMusic.set_volume(0.2)
 
 #figures.append(Figure("", area, [[0, 0, 0], [0, 0, 0], [0, 0, 0]], 0, (0, 0), "", [, ]))
 figures.append(Figure("1", area, [[0, 0, 0], [1, 1, 0], [0, 1, 1]], 0, (0, 0), "red", [1, 1]))
@@ -204,13 +207,17 @@ figures.append(Figure("9", area, [[9, 9, 0], [0, 9, 9], [0, 9, 0]], 0, (0, 0), "
 figures.append(Figure("10", area, [[0, 0, 0, 0], [0, 0, 0, 0], [10, 10, 0, 0], [0, 10, 10, 10]], 0, (0, 0), "", [2, 1]))
 figures.append(Figure("11", area, [[0, 11, 11], [11, 11, 0], [0, 11, 0]], 0, (0, 0), "", [1, 1]))
 figures.append(Figure("12", area, [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 12, 12], [12, 12, 12, 0]], 0, (0, 0), "", [3, 2]))
+#figures.append(Figure("13", area, [[13, 13, 0], [0, 13, 0], [0, 13, 13]], 0, (0, 0), "", [1, 1]))
 figures.append(Figure("13", area, [[13, 13, 0], [0, 13, 0], [0, 13, 13]], 0, (0, 0), "", [1, 1]))
 figures.append(Figure("14", area, [[0, 0, 0], [14, 0, 14], [14, 14, 14]], 0, (0, 0), "", [2, 1]))
 #figures.append(Figure("15", area, [[0, 15, 0], [15, 15, 15], [0, 15, 0]], 0, (0, 0), "", [1, 1]))
+figures.append(Figure("15", area, [[0, 15, 0], [15, 15, 15], [0, 15, 0]], 0, (0, 0), "", [1, 1]))
 figures.append(Figure("16", area, [[16, 16, 16], [0, 16, 0], [0, 16, 0]], 0, (0, 0), "", [1, 1]))
 figures.append(Figure("17", area, [[17, 0, 0], [17, 17, 0], [17, 17, 0]], 0, (0, 0), "", [1, 0]))
 #figures.append(Figure("18", area, [[18, 0, 0], [18, 0, 0], [18, 18, 18]], 0, (0, 0), "", [1, 1]))
+figures.append(Figure("18", area, [[18, 0, 0], [18, 0, 0], [18, 18, 18]], 0, (0, 0), "", [1, 1]))
 figures.append(Figure("19", area, [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 19, 0], [19, 19, 19, 19]], 0, (0, 0), "", [3, 2]))
+#figures.append(Figure("20", area, [[0, 20, 20], [0, 20, 0], [20, 20, 0]], 0, (0, 0), "", [1, 1]))
 figures.append(Figure("20", area, [[0, 20, 20], [0, 20, 0], [20, 20, 0]], 0, (0, 0), "", [1, 1]))
 figures.append(Figure("21", area, [[0, 21, 0], [21, 21, 0], [21, 21, 0]], 0, (0, 0), "", [1, 1]))
 figures.append(Figure("22", area, [[0, 0, 0, 0], [0, 0, 0, 0], [22, 22, 22, 22],[0, 0, 22, 0]], 0, (0, 0), "", [2, 2]))
@@ -239,7 +246,7 @@ def timer(score=0):
     return t
 
 
-MOVEMENT, T= pygame.USEREVENT, timer()
+MOVEMENT, T= pygame.USEREVENT, timer(0)
 pygame.time.set_timer(MOVEMENT, T)
 
 try:
@@ -253,6 +260,10 @@ blocks.append(pygame.image.load("img/textures/Pentomis_texture_" + str(20) + ".p
 for i in range(1, 22+1):
     blocks.append(pygame.image.load("img/textures/Pentomis_texture_" + str(i) + ".png").convert())
 
+def gaussian_blur(surface, radius):
+    scaled_surface = pygame.transform.smoothscale(surface, (surface.get_width() // radius, surface.get_height() // radius))
+    scaled_surface = pygame.transform.smoothscale(scaled_surface, (surface.get_width(), surface.get_height()))
+    return scaled_surface
 def renderTextButton(x, y, width, height, text, textSize):
     font1 = pygame.font.Font('fonts/RubikMonoOne-Regular.ttf', textSize)
     rounding = screenHeight//36
@@ -270,7 +281,7 @@ def renderTextButton(x, y, width, height, text, textSize):
     area.blit(text, (width//2-textSize*len(str(text))//10, height//2-textSize*len(str(text))//10))
     screen.blit(area, (x,y))
 def renderImgButton(x, y, width, height, img, imgWidth, imgHeight):
-    img = pygame.transform.scale(pygame.image.load(img).convert(), (imgWidth, imgHeight))
+    img = pygame.transform.scale(pygame.image.load(img), (imgWidth, imgHeight))
     rounding = screenHeight//36
     border = screenHeight//(270)
     color = (120, 122, 130)
@@ -299,6 +310,7 @@ def renderVoidButton(x, y, width, height):
     screen.blit(area, (x,y))
 
 def renderGameplay(area, background, score, blocks, nextFigure):
+    global screen
     bg = pygame.transform.scale(pygame.image.load(background).convert(), (screenWidth, screenHeight))
 
     blockHeight = int(screenHeight//areaHeight*0.9)
@@ -306,9 +318,11 @@ def renderGameplay(area, background, score, blocks, nextFigure):
 
     screen.blit(bg, (0, 0)) #вывод
     meshColor = (120, 122, 130)
-    mesh = pygame.Surface(( blockHeight*areaWidth+border, blockHeight*(areaHeight+1)+border//2))
+    gameplayArea = pygame.Surface(( blockHeight*areaWidth+border, blockHeight*(areaHeight+1)+border//2), pygame.SRCALPHA)
     #mesh = pygame.Surface(( 100, 100))
-    #mesh.fill(meshColor)
+
+    mesh = pygame.Surface((blockHeight * areaWidth + border, blockHeight * (areaHeight + 1) + border // 2), pygame.SRCALPHA)
+    mesh.fill((0, 0, 0))
     mesh.set_alpha(200)
 
     #pygame.draw.rect(screen, meshColor, (screenWidth//2-blockHeight*(areaWidth//2-1)-border//2, screenHeight//2-blockHeight*(areaHeight//2), blockHeight*areaWidth+border, blockHeight*(areaHeight+1)+border//2), border)
@@ -319,12 +333,22 @@ def renderGameplay(area, background, score, blocks, nextFigure):
     for i in range(1, areaHeight+1):
         pygame.draw.line(mesh, meshColor, (0, i*blockHeight), (blockHeight*areaWidth, i*blockHeight))
 
-    screen.blit(mesh, (screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) - border // 2,
-                       screenHeight // 2 - blockHeight * (areaHeight // 2)))
+    #mesh = gaussian_blur(mesh, 100)
+
+    gameplayArea.blit(mesh, (0, 0))
+
+
     for i in range(3, 24):
         for j in range(4, 14):
             if area[i][j] >0:
-                screen.blit(pygame.transform.scale(blocks[area[i][j]], (blockHeight, blockHeight)), (screenWidth//2+(j-8)*blockHeight, screenHeight//2+(i-13)*blockHeight))
+                #screen.blit(pygame.transform.scale(blocks[area[i][j]], (blockHeight, blockHeight)), (screenWidth//2+(j-8)*blockHeight, screenHeight//2+(i-13)*blockHeight))
+                gameplayArea.blit(pygame.transform.scale(blocks[area[i][j]], (blockHeight, blockHeight)), ((j-4)*blockHeight+border//2, (i-3)*blockHeight))
+
+    #gameplayArea = gaussian_blur(gameplayArea, 5)
+    screen.blit(gameplayArea, (screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) ,
+                       screenHeight // 2 - blockHeight * (areaHeight // 2)))
+
+
 
     #Отображение текущего счета
     scoreAreaHeight = screenHeight//9
@@ -362,7 +386,7 @@ def renderGameplay(area, background, score, blocks, nextFigure):
     screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) + blockHeight * areaWidth + border * 10,
     screenHeight // 2 - blockHeight * (areaHeight // 2) + scoreAreaHeight + border*10))
 
-    #renderImgButton(100, 100, 100, 100, "img/textures/Pentomis_texture_1.png", 80, 80)
+    renderImgButton(screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) + blockHeight * areaWidth + border*10 + scoreAreaHeight + border*10, screenHeight // 2 - blockHeight * (areaHeight // 2 ), scoreAreaHeight, scoreAreaHeight, "img/icons/pause.png", scoreAreaHeight/1.4, scoreAreaHeight/1.4)
     pygame.display.update()
 
 
@@ -384,14 +408,17 @@ def renderStartMenu():
         pygame.draw.rect(screen, (71, 178, 255),pygame.Rect(screenWidth // 40 , screenHeight // 30 , squareWidth//5,squareWidth//5), screenWidth, squareWidth //3 // 12)#квадрат для динамика
         background = pygame.transform.scale(pygame.image.load("img/backgrounds/speaker.png"), (squareWidth//6, squareWidth//6)) #картинка динамика
         screen.blit(background, (screenWidth // 35 , screenHeight // 26 ))
+        doomMusic.set_volume(1)
     elif sound == 1:
         pygame.draw.rect(screen, (71, 178, 255),pygame.Rect(screenWidth // 40 , screenHeight // 30 , squareWidth//5,squareWidth//5), screenWidth, squareWidth //3 // 12)#квадрат для динамика
         background = pygame.transform.scale(pygame.image.load("img/backgrounds/speakerOnLow.png"), (squareWidth//6, squareWidth//6)) #картинка динамика
         screen.blit(background, (screenWidth // 35 , screenHeight // 26 ))
+        doomMusic.set_volume(0.2)
     else:
         pygame.draw.rect(screen, (71, 178, 255),pygame.Rect(screenWidth // 40 , screenHeight // 30 , squareWidth//5,squareWidth//5), screenWidth, squareWidth //3 // 12)#квадрат для динамика
         background = pygame.transform.scale(pygame.image.load("img/backgrounds/speakerOff.png"), (squareWidth//6, squareWidth//6)) #картинка динамика
         screen.blit(background, (screenWidth // 35 , screenHeight // 26 ))
+        doomMusic.set_volume(0)
     mouse1, mouse2, mouse3 = pygame.mouse.get_pressed()
     x, y = pygame.mouse.get_pos()
     if screenWidth // 50 < x < screenWidth // 40 * 2.7:
@@ -466,6 +493,7 @@ while running:
         for event in pygame.event.get():
             if event.type == event.type == pygame.KEYDOWN:
                 gameplay = True
+                isThrowing = False
 
     pygame.event.clear()
     ready = False
@@ -489,6 +517,8 @@ while running:
         if (keys[pygame.K_UP] or keys[pygame.K_w]) and isMove==False:
             isMove = True
             tempFigure.rotate(area)
+
+
 
         screenWidth = screen.get_size()[0]
         screenHeight = screen.get_size()[1]
@@ -517,6 +547,7 @@ while running:
                         gameplay = False
                     tempFigure = nextFigure
                     nextFigure = copy.deepcopy(choice(figures))
+                    isThrowing = False
                     if not spawn(area, tempFigure):
                         gameplay = False
                     #isMove = False
