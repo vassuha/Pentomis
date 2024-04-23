@@ -206,10 +206,10 @@ figures.append(Figure("11", area, [[0, 11, 11], [11, 11, 0], [0, 11, 0]], 0, (0,
 figures.append(Figure("12", area, [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 12, 12], [12, 12, 12, 0]], 0, (0, 0), "", [3, 2]))
 figures.append(Figure("13", area, [[13, 13, 0], [0, 13, 0], [0, 13, 13]], 0, (0, 0), "", [1, 1]))
 figures.append(Figure("14", area, [[0, 0, 0], [14, 0, 14], [14, 14, 14]], 0, (0, 0), "", [2, 1]))
-figures.append(Figure("15", area, [[0, 15, 0], [15, 15, 15], [0, 15, 0]], 0, (0, 0), "", [1, 1]))
+#figures.append(Figure("15", area, [[0, 15, 0], [15, 15, 15], [0, 15, 0]], 0, (0, 0), "", [1, 1]))
 figures.append(Figure("16", area, [[16, 16, 16], [0, 16, 0], [0, 16, 0]], 0, (0, 0), "", [1, 1]))
 figures.append(Figure("17", area, [[17, 0, 0], [17, 17, 0], [17, 17, 0]], 0, (0, 0), "", [1, 0]))
-figures.append(Figure("18", area, [[18, 0, 0], [18, 0, 0], [18, 18, 18]], 0, (0, 0), "", [1, 1]))
+#figures.append(Figure("18", area, [[18, 0, 0], [18, 0, 0], [18, 18, 18]], 0, (0, 0), "", [1, 1]))
 figures.append(Figure("19", area, [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 19, 0], [19, 19, 19, 19]], 0, (0, 0), "", [3, 2]))
 figures.append(Figure("20", area, [[0, 20, 20], [0, 20, 0], [20, 20, 0]], 0, (0, 0), "", [1, 1]))
 figures.append(Figure("21", area, [[0, 21, 0], [21, 21, 0], [21, 21, 0]], 0, (0, 0), "", [1, 1]))
@@ -282,8 +282,8 @@ def renderGameplay(area, background, score, blocks, nextFigure):
     #Отображение текущего счета
     scoreAreaHeight = screenHeight//9
     scoreAreaWidth = scoreAreaHeight
-    gameplayFont =pygame.font.Font('fonts/Silkscreen-Regular.ttf', screenHeight//40)
-    gameplayFont1 =pygame.font.Font('fonts/Silkscreen-Regular.ttf', screenHeight//20)
+    gameplayFont =pygame.font.Font('fonts/RubikMonoOne-Regular.ttf', screenHeight//50)
+    gameplayFont1 =pygame.font.Font('fonts/RubikMonoOne-Regular.ttf', screenHeight//20)
     scoreArea = pygame.Surface((scoreAreaWidth, scoreAreaHeight), pygame.SRCALPHA)
     scoreText = gameplayFont.render("SCORE", True, "White")
     scoreText1 = gameplayFont1.render(str(score), True, "White")
@@ -324,7 +324,7 @@ flag = False
 def renderStartMenu():
     global sound
     global flag
-    background = pygame.transform.scale(pygame.image.load("img/backgrounds/start.png").convert(), (screenWidth, screenHeight))
+    background = pygame.transform.scale(pygame.image.load("img/backgrounds/Start1.png"), (screenWidth, screenHeight))
     screen.blit(background, (0, 0))
     if screenHeight > screenWidth:
         squareWidth = screenHeight//5
@@ -378,12 +378,12 @@ def renderStartMenu():
                     print(x, y)
 
 
-    startFont =pygame.font.Font('fonts/Silkscreen-Regular.ttf', squareWidth//15)
+    startFont =pygame.font.Font('fonts/RubikMonoOne-Regular.ttf', squareWidth//15)
     startText = startFont.render("Enter any key to start", True, "White")
     screen.blit(startText, (screenWidth//2 - squareWidth//2 + squareWidth//50, screenHeight//2 - squareWidth//2 + squareWidth//9 * 2.5))
     startText = startFont.render("Press F to turn off the sound", True, "White")
     screen.blit(startText, (screenWidth//2 - squareWidth//2 + squareWidth//50, screenHeight//2 - squareWidth//2 + squareWidth//9 * 3.5))
-    startFont =pygame.font.Font('fonts/Silkscreen-Regular.ttf', squareWidth//7)
+    startFont =pygame.font.Font('fonts/RubikMonoOne-Regular.ttf', squareWidth//7)
     startText = startFont.render("Pentomis", True, "White")
     screen.blit(startText, (screenWidth//2 - squareWidth//2 + squareWidth//9  , screenHeight//2 - squareWidth//2 + squareWidth//9))
 
