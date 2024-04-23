@@ -186,35 +186,30 @@ area[24] = [1]*18
 
 figures = []
 
-pointForm= [[0, 0, 0], [0, 0, 0], [10, 0, 0]]
-pointFigure = Figure("point", area, pointForm, 0, (0, 0), "black", [2, 0])
-figures.append(pointFigure)
-
-blueForm = [[0, 0, 0], [3, 0, 0], [3, 3, 3]]
-blueFigure = Figure("blue", area, blueForm, 0, (0, 0), "blue", [2, 1])
-figures.append(blueFigure)
-
-greenForm = [[0, 0, 0], [0, 6, 6], [6, 6, 0]]
-greenFigure = Figure("green", area, greenForm, 0, (0, 0), "green", [1, 1])
-figures.append(greenFigure)
-
-blackForm = [[18, 0, 0], [18, 0, 0], [18, 18, 18]]
-blackFigure = Figure("black", area, blackForm, 0, (0, 0), "black", [1, 1])
-figures.append(blackFigure)
-
-lineForm = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [2, 2, 2, 2]]
-lineFigure = Figure("line", area, lineForm, 0, (0, 0), "purple", [3, 2])
-figures.append(lineFigure)
 
 #figures.append(Figure("", area, [[0, 0, 0], [0, 0, 0], [0, 0, 0]], 0, (0, 0), "", [, ]))
 figures.append(Figure("1", area, [[0, 0, 0], [1, 1, 0], [0, 1, 1]], 0, (0, 0), "red", [1, 1]))
+figures.append(Figure("2", area, [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [2, 2, 2, 2]], 0, (0, 0), "", [3, 2]))
+figures.append(Figure("3", area, [[0, 0, 0], [3, 0, 0], [3, 3, 3]], 0, (0, 0), "", [2, 1]))
 figures.append(Figure("4", area, [[0, 0, 0], [0, 0, 4], [4, 4, 4]], 0, (0, 0), "orange", [2, 1]))
 figures.append(Figure("5", area, [[0, 0, 0], [5, 5, 0], [5, 5, 0]], 0, (0, 0), "", [1, 1]))
+figures.append(Figure("6", area, [[0, 0, 0], [0, 6, 6], [6, 6, 0]], 0, (0, 0), "", [1, 1]))
 figures.append(Figure("7", area, [[0, 0, 0], [0, 7, 0], [7, 7, 7]], 0, (0, 0), "", [2, 1]))
 figures.append(Figure("8", area, [[8, 0], [8, 8]], 0, (0, 0), "", [1, 0]))
-figures.append(Figure("9", area, [[0, 9], [9, 9]], 0, (0, 0), "", [1, 1]))
+figures.append(Figure("9", area, [[9, 9, 0], [0, 9, 9], [0, 9, 0]], 0, (0, 0), "", [1, 1]))
+figures.append(Figure("10", area, [[0, 0, 0, 0], [0, 0, 0, 0], [10, 10, 0, 0], [0, 10, 10, 10]], 0, (0, 0), "", [2, 1]))
 figures.append(Figure("11", area, [[0, 11, 11], [11, 11, 0], [0, 11, 0]], 0, (0, 0), "", [1, 1]))
-
+figures.append(Figure("12", area, [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 12, 12], [12, 12, 12, 0]], 0, (0, 0), "", [3, 2]))
+figures.append(Figure("13", area, [[13, 13, 0], [0, 13, 0], [0, 13, 13]], 0, (0, 0), "", [1, 1]))
+figures.append(Figure("14", area, [[0, 0, 0], [14, 0, 14], [14, 14, 14]], 0, (0, 0), "", [2, 1]))
+figures.append(Figure("15", area, [[0, 15, 0], [15, 15, 15], [0, 15, 0]], 0, (0, 0), "", [1, 1]))
+figures.append(Figure("16", area, [[16, 16, 16], [0, 16, 0], [0, 16, 0]], 0, (0, 0), "", [1, 1]))
+figures.append(Figure("17", area, [[17, 0, 0], [17, 17, 0], [17, 17, 0]], 0, (0, 0), "", [1, 0]))
+figures.append(Figure("18", area, [[18, 0, 0], [18, 0, 0], [18, 18, 18]], 0, (0, 0), "", [1, 1]))
+figures.append(Figure("19", area, [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 19, 0], [19, 19, 19, 19]], 0, (0, 0), "", [3, 2]))
+figures.append(Figure("20", area, [[0, 20, 20], [0, 20, 0], [20, 20, 0]], 0, (0, 0), "", [1, 1]))
+figures.append(Figure("21", area, [[0, 21, 0], [21, 21, 0], [21, 21, 0]], 0, (0, 0), "", [1, 1]))
+figures.append(Figure("22", area, [[0, 0, 0, 0], [0, 0, 0, 0], [22, 22, 22, 22],[0, 0, 22, 0]], 0, (0, 0), "", [2, 2]))
 
 bgColor = 'Black'
 screen.fill(bgColor)
@@ -250,7 +245,7 @@ except FileNotFoundError:
 
 blocks = []
 blocks.append(pygame.image.load("img/textures/Pentomis_texture_" + str(20) + ".png").convert())
-for i in range(1, 20):
+for i in range(1, 22+1):
     blocks.append(pygame.image.load("img/textures/Pentomis_texture_" + str(i) + ".png").convert())
 def renderGameplay(area, background, score, blocks, nextFigure):
     bg = pygame.transform.scale(pygame.image.load(background).convert(), (screenWidth, screenHeight))
@@ -430,10 +425,10 @@ while running:
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_RIGHT] and isMove==False:
-            isMove = True
+            #isMove = True
             tempFigure.move(area, "right")
         if keys[pygame.K_LEFT] and isMove==False:
-            isMove = True
+            #isMove = True
             tempFigure.move(area, "left")
         if keys[pygame.K_DOWN] and isMove==False:
             isMove = True
