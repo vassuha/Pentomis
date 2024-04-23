@@ -135,7 +135,11 @@ def spawn(area, figure):
     figure.rotationAngle = 0
     for i in range(len(figure.form)):
         for j in range(len(figure.form)):
-            area[figure.position[0] + i][figure.position[1] + j] = figure.form[i][j]
+            if area[figure.position[0] + i][figure.position[1] + j] == 0:
+                area[figure.position[0] + i][figure.position[1] + j] = figure.form[i][j]
+            else:
+                return False
+    return True
 
 def checkCollision(area, figure):
     for i in range(len(figure.form)):
@@ -298,17 +302,18 @@ def renderGameplay(area, background, score, blocks, nextFigure):
     nextFigureArea = pygame.Surface((nextFigureAreaWidth, nextFigureAreaHeight), pygame.SRCALPHA)
     nextFigureTranslucentArea = pygame.Surface((nextFigureAreaWidth, nextFigureAreaHeight), pygame.SRCALPHA)
     nextFigureTranslucentArea.set_alpha(200)
-    pygame.draw.rect(nextFigureTranslucentArea, (0, 0, 0), (0, 0, nextFigureAreaWidth, nextFigureAreaWidth), nextFigureAreaWidth, nextFigureAreaWidth // 4)
-    pygame.draw.rect(nextFigureTranslucentArea, meshColor, (0, 0, nextFigureAreaWidth, nextFigureAreaWidth), border, nextFigureAreaWidth // 4)
+    pygame.draw.rect(nextFigureTranslucentArea, (0, 0, 0), (0, 0, nextFigureAreaWidth, nextFigureAreaWidth), nextFigureAreaWidth, scoreAreaHeight // 4)
+    pygame.draw.rect(nextFigureTranslucentArea, meshColor, (0, 0, nextFigureAreaWidth, nextFigureAreaWidth), border, scoreAreaHeight // 4)
     nextFigureArea.blit(nextFigureTranslucentArea, (0, 0))
 
     for i in range(len(nextFigure.form)):
         for j in range(len(nextFigure.form[i])):
             if nextFigure.form[i][j] > 0:
-                nextFigureArea.blit(pygame.transform.scale(blocks[nextFigure.form[i][j]], (blockHeight, blockHeight)), (j*blockHeight + (nextFigureAreaHeight//2 - (len(nextFigure.form)+1)//2*blockHeight), (i)*blockHeight+ (nextFigureAreaHeight//2 - (len(nextFigure.form)+1)//2*blockHeight)))
+                #nextFigureArea.blit(pygame.transform.scale(blocks[nextFigure.form[i][j]], (blockHeight, blockHeight)), (j*blockHeight + (nextFigureAreaHeight//2 - (len(nextFigure.form)+1)//2*blockHeight) + (((len(nextFigure.form)-1)/2+1+len(nextFigure.form)%2)-nextFigure.center[1])*blockHeight, (i)*blockHeight+ (nextFigureAreaHeight//2 - (len(nextFigure.form)+1)//2*blockHeight)+ (((len(nextFigure.form)-1)/2+1+len(nextFigure.form)%2)-nextFigure.center[0])*blockHeight))
+                nextFigureArea.blit(pygame.transform.scale(blocks[nextFigure.form[i][j]], (blockHeight, blockHeight)), (j*blockHeight + nextFigureAreaHeight//2-len(nextFigure.form)*blockHeight//2 , i*blockHeight + nextFigureAreaHeight//2-(len(nextFigure.form) + (len(nextFigure.form)-3)*(nextFigure.center[0]))*blockHeight//2 ))
     screen.blit(nextFigureArea, (
     screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) + blockHeight * areaWidth + border * 10,
-    screenHeight // 2 - blockHeight * (areaHeight // 2) + scoreAreaHeight))
+    screenHeight // 2 - blockHeight * (areaHeight // 2) + scoreAreaHeight + border*10))
 
     pygame.display.update()
 
@@ -424,16 +429,16 @@ while running:
     while gameplay:
 
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_RIGHT] and isMove==False:
+        if (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and isMove==False:
             #isMove = True
             tempFigure.move(area, "right")
-        if keys[pygame.K_LEFT] and isMove==False:
+        if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and isMove==False:
             #isMove = True
             tempFigure.move(area, "left")
-        if keys[pygame.K_DOWN] and isMove==False:
+        if (keys[pygame.K_DOWN] or keys[pygame.K_s]) and isMove==False:
             isMove = True
             tempFigure.throw(area)
-        if keys[pygame.K_UP] and isMove==False:
+        if (keys[pygame.K_UP] or keys[pygame.K_w]) and isMove==False:
             isMove = True
             tempFigure.rotate(area)
 
@@ -464,7 +469,8 @@ while running:
                         gameplay = False
                     tempFigure = nextFigure
                     nextFigure = copy.deepcopy(choice(figures))
-                    spawn(area, tempFigure)
+                    if not spawn(area, tempFigure):
+                        gameplay = False
                     #isMove = False
                     pygame.display.update()
                 tempFigure.move(area, "down")
@@ -472,16 +478,16 @@ while running:
                 MOVEMENT, T = pygame.USEREVENT, timer(score)
                 pygame.time.set_timer(MOVEMENT, T)
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_RIGHT:
+                if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                     isMove = False
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                     isMove = False
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_UP:
+                if event.key == pygame.K_UP or event.key == pygame.K_w:
                     isMove = False
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_DOWN:
+                if event.key == pygame.K_DOWN or event.key == pygame.K_s:
                     isMove = False
 
 
