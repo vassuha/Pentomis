@@ -222,6 +222,7 @@ tempFigure = choice(figures)
 spawn(area, tempFigure)
 
 myFont = pygame.font.SysFont('Arial', 20)
+
 text1 = [0]*28
 for i in range(28):
     s = str(area[i])
@@ -251,6 +252,52 @@ blocks = []
 blocks.append(pygame.image.load("img/textures/Pentomis_texture_" + str(20) + ".png").convert())
 for i in range(1, 22+1):
     blocks.append(pygame.image.load("img/textures/Pentomis_texture_" + str(i) + ".png").convert())
+
+def renderTextButton(x, y, width, height, text, textSize):
+    font1 = pygame.font.Font('fonts/RubikMonoOne-Regular.ttf', textSize)
+    rounding = screenHeight//36
+    border = screenHeight//(270)
+    color = (120, 122, 130)
+    blockHeight = int(screenHeight // areaHeight * 0.9)
+    area = pygame.Surface((width, height), pygame.SRCALPHA)
+    translucentArea = pygame.Surface((width, height), pygame.SRCALPHA)
+    translucentArea.set_alpha(200)
+    pygame.draw.rect(translucentArea, (0, 0, 0), (0, 0, width, height), height, rounding)
+    pygame.draw.rect(translucentArea, color, (0, 0, width, height), border, rounding)
+    area.blit(translucentArea, (0, 0))
+    #area.blit(scoreText, (0 + screenHeight / 100, 0 + screenHeight / 100))
+    text = font1.render(str(text), True, "White")
+    area.blit(text, (width//2-textSize*len(str(text))//10, height//2-textSize*len(str(text))//10))
+    screen.blit(area, (x,y))
+def renderImgButton(x, y, width, height, img, imgWidth, imgHeight):
+    img = pygame.transform.scale(pygame.image.load(img).convert(), (imgWidth, imgHeight))
+    rounding = screenHeight//36
+    border = screenHeight//(270)
+    color = (120, 122, 130)
+    blockHeight = int(screenHeight // areaHeight * 0.9)
+    area = pygame.Surface((width, height), pygame.SRCALPHA)
+    translucentArea = pygame.Surface((width, height), pygame.SRCALPHA)
+    translucentArea.set_alpha(200)
+    pygame.draw.rect(translucentArea, (0, 0, 0), (0, 0, width, height), height, rounding)
+    pygame.draw.rect(translucentArea, color, (0, 0, width, height), border, rounding)
+    area.blit(translucentArea, (0, 0))
+    #area.blit(scoreText, (0 + screenHeight / 100, 0 + screenHeight / 100))
+    area.blit(img, (width//2-imgWidth//2, height//2-imgHeight//2))
+    screen.blit(area, (x,y))
+
+def renderVoidButton(x, y, width, height):
+    rounding = screenHeight//36
+    border = screenHeight//(270)
+    color = (120, 122, 130)
+    blockHeight = int(screenHeight // areaHeight * 0.9)
+    area = pygame.Surface((width, height), pygame.SRCALPHA)
+    translucentArea = pygame.Surface((width, height), pygame.SRCALPHA)
+    translucentArea.set_alpha(200)
+    pygame.draw.rect(translucentArea, (0, 0, 0), (0, 0, width, height), height, rounding)
+    pygame.draw.rect(translucentArea, color, (0, 0, width, height), border, rounding)
+    area.blit(translucentArea, (0, 0))
+    screen.blit(area, (x,y))
+
 def renderGameplay(area, background, score, blocks, nextFigure):
     bg = pygame.transform.scale(pygame.image.load(background).convert(), (screenWidth, screenHeight))
 
@@ -315,6 +362,7 @@ def renderGameplay(area, background, score, blocks, nextFigure):
     screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) + blockHeight * areaWidth + border * 10,
     screenHeight // 2 - blockHeight * (areaHeight // 2) + scoreAreaHeight + border*10))
 
+    #renderImgButton(100, 100, 100, 100, "img/textures/Pentomis_texture_1.png", 80, 80)
     pygame.display.update()
 
 
