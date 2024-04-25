@@ -305,7 +305,7 @@ def renderVoidButton(x, y, width, height):
     area.blit(translucentArea, (0, 0))
     screen.blit(area, (x,y))
 
-def renderGameplay(area, background, score, blocks, nextFigure):
+def renderGameplay(area, background, score, blocks, nextFigure, tempFigure, deltaTime):
     global screen
     bg = pygame.transform.scale(pygame.image.load(background).convert(), (screenWidth, screenHeight))
 
@@ -333,12 +333,37 @@ def renderGameplay(area, background, score, blocks, nextFigure):
 
     gameplayArea.blit(mesh, (0, 0))
 
+    area1 = copy.deepcopy(area)
+    for i in range(len(tempFigure.form)):
+        for j in range(len(tempFigure.form)):
+            if (tempFigure.form[i][j] > 0):
+                area1[tempFigure.position[0] + i][tempFigure.position[1] + j] = 0
 
+    for i in range(len(tempFigure.form[0])):
+        for j in range(len(tempFigure.form[1])):
+            if tempFigure.form[i][j] != 0:
+                if not checkCollision(area, tempFigure):
+                    gameplayArea.blit(pygame.transform.scale(blocks[tempFigure.form[i][j]], (blockHeight, blockHeight)),((j+tempFigure.position[1] - 4) * blockHeight + border // 2, (i+tempFigure.position[0] - 3) * blockHeight + deltaTime/timer(score)*blockHeight ))
+                else:
+                    gameplayArea.blit(pygame.transform.scale(blocks[tempFigure.form[i][j]], (blockHeight, blockHeight)),
+                                      ((j + tempFigure.position[1] - 4) * blockHeight + border // 2,
+                                       (i + tempFigure.position[0] - 3) * blockHeight))
+
+    # for i in range(3, 24):
+    #     for j in range(4, 14):
+    #         if area[i][j] >0:
+    #             print(i, tempFigure.position[0], tempFigure.name)
+    #             if i-tempFigure.position[0] in range(0, len(tempFigure.form)) and j-tempFigure.position[1] in range(0, len(tempFigure.form)):
+    #                 if tempFigure.form[i-tempFigure.position[0]][j-tempFigure.position[1]] == int(tempFigure.name):
+    #                     pass
+    #             else:
+    #             #screen.blit(pygame.transform.scale(blocks[area[i][j]], (blockHeight, blockHeight)), (screenWidth//2+(j-8)*blockHeight, screenHeight//2+(i-13)*blockHeight))
+    #                 gameplayArea.blit(pygame.transform.scale(blocks[area[i][j]], (blockHeight, blockHeight)), ((j-4)*blockHeight+border//2 , (i-3)*blockHeight) )
     for i in range(3, 24):
         for j in range(4, 14):
-            if area[i][j] >0:
-                #screen.blit(pygame.transform.scale(blocks[area[i][j]], (blockHeight, blockHeight)), (screenWidth//2+(j-8)*blockHeight, screenHeight//2+(i-13)*blockHeight))
-                gameplayArea.blit(pygame.transform.scale(blocks[area[i][j]], (blockHeight, blockHeight)), ((j-4)*blockHeight+border//2, (i-3)*blockHeight))
+            if area1[i][j] >0:
+                gameplayArea.blit(pygame.transform.scale(blocks[area1[i][j]], (blockHeight, blockHeight)), ((j-4)*blockHeight+border//2 , (i-3)*blockHeight) )
+
 
     #gameplayArea = gaussian_blur(gameplayArea, 5)
     screen.blit(gameplayArea, (screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) ,
@@ -464,6 +489,7 @@ def renderStartMenu():
 
 while running:
     #Создание игрового поля
+
     area = []
     for i in range(28):
         area.append([0] * 18)
@@ -499,6 +525,7 @@ while running:
             if e.type == pygame.KEYUP:
                 ready = True
     #Игровой процесс
+    deltaTime = pygame.time.get_ticks()
     while gameplay:
 
         keys = pygame.key.get_pressed()
@@ -519,7 +546,7 @@ while running:
 
         screenWidth = screen.get_size()[0]
         screenHeight = screen.get_size()[1]
-        renderGameplay(area, "img/backgrounds/Minimalistic_landscape_1.jpg", score, blocks, nextFigure)
+        renderGameplay(area, "img/backgrounds/Minimalistic_landscape_1.jpg", score, blocks, nextFigure, tempFigure, pygame.time.get_ticks()-deltaTime)
         #Отрисовка
         # screen.fill(bgColor)
         # for i in range(3, 24):
@@ -553,6 +580,7 @@ while running:
                 pygame.display.update()
                 MOVEMENT, T = pygame.USEREVENT, timer(score)
                 pygame.time.set_timer(MOVEMENT, T)
+                deltaTime = pygame.time.get_ticks()
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                     isMove = False
