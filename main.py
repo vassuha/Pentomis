@@ -595,7 +595,7 @@ while running:
                     isMove = False
                 if event.key == pygame.K_DOWN or event.key == pygame.K_s:
                     isMove = False
-                if event.key == pygame.K_LSHIFT:
+                if event.key == pygame.K_SPACE:
                     isMove = False
 
 
