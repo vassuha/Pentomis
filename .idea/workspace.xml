@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="152454ad-6c52-484e-bc30-826792bdf9ef" name="Changes" comment="Добавлено плавное падение фигур">
+    <list default="true" id="152454ad-6c52-484e-bc30-826792bdf9ef" name="Changes" comment="Оптимизация фпс, изменено управление">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -243,7 +243,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714038181802</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Оптимизация фпс, изменено управление">
+      <option name="closed" value="true" />
+      <created>1714052012953</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1714052012953</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -274,9 +282,10 @@
     <MESSAGE value="Добавлены функции отрисовки кнопок" />
     <MESSAGE value="Изменено стартовое меню" />
     <MESSAGE value="Добавлено плавное падение фигур" />
-    <option name="LAST_COMMIT_MESSAGE" value="Добавлено плавное падение фигур" />
+    <MESSAGE value="Оптимизация фпс, изменено управление" />
+    <option name="LAST_COMMIT_MESSAGE" value="Оптимизация фпс, изменено управление" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Pentomis$main.coverage" NAME="main Coverage Results" MODIFIED="1714051611793" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Pentomis$main.coverage" NAME="main Coverage Results" MODIFIED="1714055992053" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
