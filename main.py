@@ -191,7 +191,7 @@ area[24] = [1]*18
 figures = []
 
 doomMusic = pygame.mixer.Sound("music/Doom Soundtrack.mp3")
-doomMusic.play()
+#doomMusic.play()
 doomMusic.set_volume(0.2)
 
 #figures.append(Figure("", area, [[0, 0, 0], [0, 0, 0], [0, 0, 0]], 0, (0, 0), "", [, ]))
@@ -256,6 +256,7 @@ blocks.append(pygame.image.load("img/textures/Pentomis_texture_" + str(20) + ".p
 for i in range(1, 22+1):
     blocks.append(pygame.image.load("img/textures/Pentomis_texture_" + str(i) + ".png").convert())
 
+
 def gaussian_blur(surface, radius):
     scaled_surface = pygame.transform.smoothscale(surface, (surface.get_width() // radius, surface.get_height() // radius))
     scaled_surface = pygame.transform.smoothscale(scaled_surface, (surface.get_width(), surface.get_height()))
@@ -277,7 +278,7 @@ def renderTextButton(x, y, width, height, text, textSize):
     area.blit(text, (width//2-textSize*len(str(text))//10, height//2-textSize*len(str(text))//10))
     screen.blit(area, (x,y))
 def renderImgButton(x, y, width, height, img, imgWidth, imgHeight):
-    img = pygame.transform.scale(pygame.image.load(img), (imgWidth, imgHeight))
+    img = pygame.transform.scale(pygame.image.load(img).convert(), (imgWidth, imgHeight))
     rounding = screenHeight//36
     border = screenHeight//(270)
     color = (120, 122, 130)
@@ -304,10 +305,12 @@ def renderVoidButton(x, y, width, height):
     pygame.draw.rect(translucentArea, color, (0, 0, width, height), border, rounding)
     area.blit(translucentArea, (0, 0))
     screen.blit(area, (x,y))
+bg = pygame.transform.scale(pygame.image.load("img/backgrounds/Minimalistic_landscape_1.jpg").convert(), (screenWidth, screenHeight))
 
-def renderGameplay(area, background, score, blocks, nextFigure, tempFigure, deltaTime):
+def renderGameplay(area, score, blocks, nextFigure, tempFigure, deltaTime):
     global screen
-    bg = pygame.transform.scale(pygame.image.load(background).convert(), (screenWidth, screenHeight))
+
+
 
     blockHeight = int(screenHeight//areaHeight*0.9)
     border = screenHeight//(270)
@@ -343,11 +346,11 @@ def renderGameplay(area, background, score, blocks, nextFigure, tempFigure, delt
         for j in range(len(tempFigure.form[1])):
             if tempFigure.form[i][j] != 0:
                 if not checkCollision(area, tempFigure):
+                    pass
                     gameplayArea.blit(pygame.transform.scale(blocks[tempFigure.form[i][j]], (blockHeight, blockHeight)),((j+tempFigure.position[1] - 4) * blockHeight + border // 2, (i+tempFigure.position[0] - 3) * blockHeight + deltaTime/timer(score)*blockHeight ))
                 else:
-                    gameplayArea.blit(pygame.transform.scale(blocks[tempFigure.form[i][j]], (blockHeight, blockHeight)),
-                                      ((j + tempFigure.position[1] - 4) * blockHeight + border // 2,
-                                       (i + tempFigure.position[0] - 3) * blockHeight))
+                    gameplayArea.blit(pygame.transform.scale(blocks[tempFigure.form[i][j]], (blockHeight, blockHeight)),((j + tempFigure.position[1] - 4) * blockHeight + border // 2,(i + tempFigure.position[0] - 3) * blockHeight))
+                    pass
 
     # for i in range(3, 24):
     #     for j in range(4, 14):
@@ -407,8 +410,7 @@ def renderGameplay(area, background, score, blocks, nextFigure, tempFigure, delt
     screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) + blockHeight * areaWidth + border * 10,
     screenHeight // 2 - blockHeight * (areaHeight // 2) + scoreAreaHeight + border*10))
 
-    renderImgButton(screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) + blockHeight * areaWidth + border*10 + scoreAreaHeight + border*10, screenHeight // 2 - blockHeight * (areaHeight // 2 ), scoreAreaHeight, scoreAreaHeight, "img/icons/pause.png", scoreAreaHeight/1.4, scoreAreaHeight/1.4)
-    pygame.display.update()
+    # renderImgButton(screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) + blockHeight * areaWidth + border*10 + scoreAreaHeight + border*10, screenHeight // 2 - blockHeight * (areaHeight // 2 ), scoreAreaHeight, scoreAreaHeight, "img/icons/pause.png", scoreAreaHeight/1.4, scoreAreaHeight/1.4)
 
 
 #звук не знал куда поставить, чтобы не обновлялось меняяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяять
@@ -417,7 +419,7 @@ flag = False
 def renderStartMenu():
     global sound
     global flag
-    background = pygame.transform.scale(pygame.image.load("img/backgrounds/Start1.png"), (screenWidth, screenHeight))
+    background = pygame.transform.scale(pygame.image.load("img/backgrounds/Start1.png").convert(), (screenWidth, screenHeight))
     screen.blit(background, (0, 0))
     if screenHeight > screenWidth:
         squareWidth = screenHeight//5
@@ -528,21 +530,26 @@ while running:
                 ready = True
     #Игровой процесс
     deltaTime = pygame.time.get_ticks()
+    timeMove = pygame.time.get_ticks()
     while gameplay:
+        #print(clock.get_fps())
+        print(pygame.time.get_ticks() - timeMove)
 
         keys = pygame.key.get_pressed()
-        if (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and isMove==False:
-            #isMove = True
-            tempFigure.move(area, "right")
+        if (keys[pygame.K_RIGHT] or keys[pygame.K_d]):
+            if pygame.time.get_ticks() - timeMove > 100:
+                tempFigure.move(area, "right")
+                timeMove = pygame.time.get_ticks()
         if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and isMove==False:
-            #isMove = True
-            tempFigure.move(area, "left")
+            if pygame.time.get_ticks() - timeMove > 100:
+                tempFigure.move(area, "left")
+                timeMove = pygame.time.get_ticks()
         if (keys[pygame.K_DOWN] or keys[pygame.K_s]) and isMove==False:
             isMove = True
             tempFigure.throw(area)
         if (keys[pygame.K_UP] or keys[pygame.K_w]) and isMove==False:
-            isMove = True
             tempFigure.rotate(area)
+            isMove = True
         if keys[pygame.K_SPACE] and isMove==False:
             isMove = True
             tempFigure, pauseFigure = pauseFigure, tempFigure
@@ -551,7 +558,7 @@ while running:
 
         screenWidth = screen.get_size()[0]
         screenHeight = screen.get_size()[1]
-        renderGameplay(area, "img/backgrounds/Minimalistic_landscape_1.jpg", score, blocks, nextFigure, tempFigure, pygame.time.get_ticks()-deltaTime)
+        renderGameplay(area, score, blocks, nextFigure, tempFigure, pygame.time.get_ticks()-deltaTime)
         #Отрисовка
         # screen.fill(bgColor)
         # for i in range(3, 24):
@@ -580,9 +587,7 @@ while running:
                     if not spawn(area, tempFigure):
                         gameplay = False
                     #isMove = False
-                    pygame.display.update()
                 tempFigure.move(area, "down")
-                pygame.display.update()
                 MOVEMENT, T = pygame.USEREVENT, timer(score)
                 pygame.time.set_timer(MOVEMENT, T)
                 deltaTime = pygame.time.get_ticks()
@@ -597,6 +602,20 @@ while running:
                     isMove = False
                 if event.key == pygame.K_SPACE:
                     isMove = False
+            # if event.type == pygame.KEYDOWN:
+            #     if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
+            #         tempFigure.move(area, "right")
+            #     if event.key == pygame.K_LEFT or event.key == pygame.K_a:
+            #         tempFigure.move(area, "left")
+            #     if event.key == pygame.K_UP or event.key == pygame.K_w:
+            #         #isMove = True
+            #         tempFigure.rotate(area)
+            #     if event.key == pygame.K_DOWN or event.key == pygame.K_s:
+            #         #isMove = True
+            #         tempFigure.throw(area)
+            #     if event.key == pygame.K_SPACE:
+            #         #isMove = True
+            #         tempFigure, pauseFigure = pauseFigure, tempFigure
 
 
         clock.tick(60)
