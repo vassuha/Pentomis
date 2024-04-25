@@ -503,6 +503,8 @@ while running:
 
     tempFigure = choice(figures)
     nextFigure = copy.deepcopy(choice(figures))
+    pauseFigure = Figure("-1", area, [[0, 0, 0], [0, 0, 0], [0, 0, 0]], 0, (0, 0), "", [1, 1])
+    #holdFigure = choice(figures)
     spawn(area, tempFigure)
 
     #Стартовое меню
@@ -541,6 +543,9 @@ while running:
         if (keys[pygame.K_UP] or keys[pygame.K_w]) and isMove==False:
             isMove = True
             tempFigure.rotate(area)
+        if keys[pygame.K_SPACE] and isMove==False:
+            isMove = True
+            tempFigure, pauseFigure = pauseFigure, tempFigure
 
 
 
@@ -584,14 +589,13 @@ while running:
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                     isMove = False
-            if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                     isMove = False
-            if event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP or event.key == pygame.K_w:
                     isMove = False
-            if event.type == pygame.KEYUP:
                 if event.key == pygame.K_DOWN or event.key == pygame.K_s:
+                    isMove = False
+                if event.key == pygame.K_LSHIFT:
                     isMove = False
 
 
