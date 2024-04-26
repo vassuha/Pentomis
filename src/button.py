@@ -41,7 +41,6 @@ class ImageButton:
         area.blit(self.image, (self.width // 2 - self.width // 2, self.height // 2 - self.height // 2))
         screen.blit(area, (self.x, self.y))
 
-
         # current_image = self.hover_image if self.is_hovered else self.image
         # screen.blit(current_image, self.rect.topleft)
         #
