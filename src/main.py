@@ -4,6 +4,7 @@ import copy
 from random import choice
 import pygame
 from figure import figure
+from button import ImageButton
 
 
 pygame.init()
@@ -110,9 +111,9 @@ MOVEMENT, T= pygame.USEREVENT, timer(0)
 pygame.time.set_timer(MOVEMENT, T)
 
 try:
-    f = open("../record.txt")
+    f = open("/record.txt")
 except FileNotFoundError:
-    f = open("../record.txt", "w")
+    f = open("/record.txt", "w")
     f.write("0" + "\n")
 
 blocks = []
@@ -291,22 +292,11 @@ def renderGameplay(area, score, blocks, nextfigure, tempfigure, deltaTime, isPau
         for j in range(len(tempfigure.form[1])):
             if tempfigure.form[i][j] != 0:
                 if not checkCollision(area, tempfigure):
-                    pass
-                    gameplayArea.blit(pygame.transform.scale(blocks[tempfigure.form[i][j]], (blockHeight, blockHeight)),((j+tempfigure.position[1] - 4) * blockHeight + border // 2, (i+tempfigure.position[0] - 3) * blockHeight + (deltaTime/timer(score))*blockHeight ))
+                    gameplayArea.blit(pygame.transform.scale(blocks[tempfigure.form[i][j]], (blockHeight, blockHeight)),((j+tempfigure.position[1] - 4) * blockHeight + border//2, (i+tempfigure.position[0] - 3) * blockHeight + (deltaTime/timer(score))*blockHeight ))
                 else:
                     gameplayArea.blit(pygame.transform.scale(blocks[tempfigure.form[i][j]], (blockHeight, blockHeight)),((j + tempfigure.position[1] - 4) * blockHeight + border // 2,(i + tempfigure.position[0] - 3) * blockHeight))
                     pass
 
-    # for i in range(3, 24):
-    #     for j in range(4, 14):
-    #         if area[i][j] >0:
-    #             print(i, tempfigure.position[0], tempfigure.name)
-    #             if i-tempfigure.position[0] in range(0, len(tempfigure.form)) and j-tempfigure.position[1] in range(0, len(tempfigure.form)):
-    #                 if tempfigure.form[i-tempfigure.position[0]][j-tempfigure.position[1]] == int(tempfigure.name):
-    #                     pass
-    #             else:
-    #             #screen.blit(pygame.transform.scale(blocks[area[i][j]], (blockHeight, blockHeight)), (screenWidth//2+(j-8)*blockHeight, screenHeight//2+(i-13)*blockHeight))
-    #                 gameplayArea.blit(pygame.transform.scale(blocks[area[i][j]], (blockHeight, blockHeight)), ((j-4)*blockHeight+border//2 , (i-3)*blockHeight) )
     for i in range(3, 24):
         for j in range(4, 14):
             if area1[i][j] >0:
@@ -357,8 +347,11 @@ def renderGameplay(area, score, blocks, nextfigure, tempfigure, deltaTime, isPau
 
     #buttonTwoStates(screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) + blockHeight * areaWidth + border*10 + scoreAreaHeight + border*10, screenHeight // 2 - blockHeight * (areaHeight // 2 ), scoreAreaHeight/1.4, scoreAreaHeight/1.4, isPause, pauseIcon, playIcon)
     renderImgButton(screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) + blockHeight * areaWidth + border*10 + scoreAreaHeight + border*10, screenHeight // 2 - blockHeight * (areaHeight // 2 ), scoreAreaHeight, scoreAreaHeight, pauseIcon, scoreAreaHeight/1.4, scoreAreaHeight/1.4)
-    renderImgButton(screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) - blockHeight * areaWidth + border*10 + scoreAreaHeight + border*10, screenHeight // 2 - blockHeight * (areaHeight // 2 ), scoreAreaHeight, scoreAreaHeight, crossIcon, scoreAreaHeight/1.4, scoreAreaHeight/1.4)
-    speakerButton(screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) - blockHeight * areaWidth + border*10 + scoreAreaHeight + border*10 + scoreAreaHeight + border*10, screenHeight // 2 - blockHeight * (areaHeight // 2 ), scoreAreaHeight, scoreAreaHeight*0.8, border*4)
+    renderImgButton(screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) -scoreAreaWidth - border*10 , screenHeight // 2 - blockHeight * (areaHeight // 2 ), scoreAreaHeight, scoreAreaHeight, crossIcon, scoreAreaHeight/1.4, scoreAreaHeight/1.4)
+    #speakerButton(screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) -scoreAreaWidth*2 - border*10*2, screenHeight // 2 - blockHeight * (areaHeight // 2 ), scoreAreaHeight, scoreAreaHeight*0.8, border*4)
+    pause_button = ImageButton(screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) -scoreAreaWidth*2 - border*10*2, screenHeight // 2 - blockHeight * (areaHeight // 2 ), scoreAreaHeight, scoreAreaHeight, "",pauseIcon)
+    pause_button.check_hover(pygame.mouse.get_pos())
+    pause_button.draw(screen, areaHeight)
 
 #звук не знал куда поставить, чтобы не обновлялось меняяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяять
 sound = 2
@@ -561,11 +554,11 @@ while running:
 
 
     #Завершающее меню
-    with open("../record.txt") as f:
+    with open("./record.txt") as f:
         record = int(f.readline())
     if score > record:
         record = score
-    with open("../record.txt", "w") as f:
+    with open("/record.txt", "w") as f:
             f.write(str(record) + "\n")
     screen.fill(bgColor)
     screen.blit(myFont.render("You lose. Score: " + str(score) + " , record: " + str(record), True, "White"), (0, 20))
