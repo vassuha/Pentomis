@@ -4,7 +4,7 @@ import copy
 from random import choice
 import pygame
 from figure import figure
-from button import ImageButton
+from button import ImageButton, BoxButton
 
 
 pygame.init()
@@ -55,9 +55,8 @@ def checkEnd(area):
 
 clock = pygame.time.Clock()
 
-doomMusic = pygame.mixer.Sound("music/Doom Soundtrack.mp3")
-#doomMusic.play()
-doomMusic.set_volume(0.2)
+gameplay_music = pygame.mixer.Sound("music/Doom Soundtrack.mp3")
+gameplay_music.set_volume(0.2)
 
 area = []
 for i in range(28):
@@ -134,17 +133,17 @@ def speakerButton(x, y, figureWidth, imageWidth, indent ):
         renderVoidButton(x, y, figureWidth, figureWidth)
         image1 = pygame.transform.scale(speaker, (imageWidth, imageWidth))  # картинка динамика
         screen.blit(image1, (x + indent , y + indent))
-        doomMusic.set_volume(1)
+        gameplay_music.set_volume(1)
     elif sound == 1:
         renderVoidButton(x, y, figureWidth, figureWidth)
         image2 = pygame.transform.scale(speakerOnLow, (imageWidth, imageWidth))  # картинка динамика
         screen.blit(image2, (x + indent, y + indent))
-        doomMusic.set_volume(0.2)
+        gameplay_music.set_volume(0.2)
     else:
         renderVoidButton(x, y, figureWidth, figureWidth)
         image3 = pygame.transform.scale(speakerOff, (imageWidth, imageWidth))  # картинка динамика
         screen.blit(image3, (x + indent, y + indent))
-        doomMusic.set_volume(0)
+        gameplay_music.set_volume(0)
 
     if x < xm < x + figureWidth and y < ym < y + figureWidth:
         if sound == 2:
@@ -218,9 +217,7 @@ def renderTextButton(x, y, width, height, text, textSize):
     area.blit(text, (width//2-textSize*len(str(text))//10, height//2-textSize*len(str(text))//10))
     screen.blit(area, (x,y))
 
-pauseIcon = pygame.image.load("img/icons/pause.png")
-playIcon = pygame.image.load("img/icons/play.png")
-crossIcon = pygame.image.load("img/icons/cross.png")
+
 def renderImgButton(x, y, width, height, img, imgWidth, imgHeight):
     img = pygame.transform.scale(img, (imgWidth, imgHeight))
     rounding = screenHeight//36
@@ -254,6 +251,18 @@ meshColor = (120, 122, 130)
 CloseMenuBg = pygame.transform.scale(pygame.image.load("img/backgrounds/Close_bg.jpg").convert(), (screenWidth, screenHeight))
 
 
+pauseIcon = pygame.image.load("img/icons/pause.png")
+playIcon = pygame.image.load("img/icons/play.png")
+crossIcon = pygame.image.load("img/icons/cross.png")
+speaker1Icon = pygame.image.load("img/icons/speaker1.png")
+speaker2Icon = pygame.image.load("img/icons/speaker2.png")
+speakerOffIcon = pygame.image.load("img/icons/speakerOff.png")
+
+cross_button = BoxButton("cross",0, 0, 1, 1, "", crossIcon)
+pause_button = BoxButton("pause",0, 0, 1, 1, "", pauseIcon)
+play_button = BoxButton("play",0, 0, 1, 1, "", playIcon)
+speaker_button = BoxButton("speaker",0, 0, 1, 1, "", speaker1Icon)
+sound = 1
 def renderGameplay(area, score, blocks, nextfigure, tempfigure, deltaTime, isPause):
     global screen
     bg1 = pygame.transform.scale(bg, (screenWidth, screenHeight))
@@ -346,12 +355,48 @@ def renderGameplay(area, score, blocks, nextfigure, tempfigure, deltaTime, isPau
     screenHeight // 2 - blockHeight * (areaHeight // 2) + scoreAreaHeight + border*10))
 
     #buttonTwoStates(screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) + blockHeight * areaWidth + border*10 + scoreAreaHeight + border*10, screenHeight // 2 - blockHeight * (areaHeight // 2 ), scoreAreaHeight/1.4, scoreAreaHeight/1.4, isPause, pauseIcon, playIcon)
-    renderImgButton(screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) + blockHeight * areaWidth + border*10 + scoreAreaHeight + border*10, screenHeight // 2 - blockHeight * (areaHeight // 2 ), scoreAreaHeight, scoreAreaHeight, pauseIcon, scoreAreaHeight/1.4, scoreAreaHeight/1.4)
-    renderImgButton(screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) -scoreAreaWidth - border*10 , screenHeight // 2 - blockHeight * (areaHeight // 2 ), scoreAreaHeight, scoreAreaHeight, crossIcon, scoreAreaHeight/1.4, scoreAreaHeight/1.4)
+    #renderImgButton(screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) + blockHeight * areaWidth + border*10 + scoreAreaHeight + border*10, screenHeight // 2 - blockHeight * (areaHeight // 2 ), scoreAreaHeight, scoreAreaHeight, pauseIcon, scoreAreaHeight/1.4, scoreAreaHeight/1.4)
+    #renderImgButton(screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) -scoreAreaWidth - border*10 , screenHeight // 2 - blockHeight * (areaHeight // 2 ), scoreAreaHeight, scoreAreaHeight, crossIcon, scoreAreaHeight/1.4, scoreAreaHeight/1.4)
     #speakerButton(screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) -scoreAreaWidth*2 - border*10*2, screenHeight // 2 - blockHeight * (areaHeight // 2 ), scoreAreaHeight, scoreAreaHeight*0.8, border*4)
-    pause_button = ImageButton(screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) -scoreAreaWidth*2 - border*10*2, screenHeight // 2 - blockHeight * (areaHeight // 2 ), scoreAreaHeight, scoreAreaHeight, "",pauseIcon)
-    pause_button.check_hover(pygame.mouse.get_pos())
-    pause_button.draw(screen, areaHeight)
+    global sound
+    global speaker_button
+
+    if sound == 1:
+        speaker_button = BoxButton("speaker", screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) -scoreAreaWidth*2 - border*10*2, screenHeight // 2 - blockHeight * (areaHeight // 2 ), scoreAreaHeight, scoreAreaHeight, "",speaker1Icon)
+
+    if sound == 2:
+        speaker_button = BoxButton("speaker", screenWidth // 2 - blockHeight * (
+                    areaWidth // 2 - 1) - scoreAreaWidth * 2 - border * 10 * 2,
+                                    screenHeight // 2 - blockHeight * (areaHeight // 2), scoreAreaHeight,
+                                    scoreAreaHeight, "", speaker2Icon)
+    if sound == 3:
+        speaker_button = BoxButton("speaker", screenWidth // 2 - blockHeight * (
+                    areaWidth // 2 - 1) - scoreAreaWidth * 2 - border * 10 * 2,
+                                    screenHeight // 2 - blockHeight * (areaHeight // 2), scoreAreaHeight,
+                                    scoreAreaHeight, "", speakerOffIcon)
+    speaker_button.check_hover(pygame.mouse.get_pos())
+    speaker_button.draw(screen, areaHeight)
+
+    if not isPause:
+        global pause_button
+        pause_button = BoxButton("pause",screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) + blockHeight * areaWidth + border*10 + scoreAreaHeight + border*10, screenHeight // 2 - blockHeight * (areaHeight // 2 ), scoreAreaHeight, scoreAreaHeight, "",pauseIcon)
+        pause_button.check_hover(pygame.mouse.get_pos())
+        pause_button.draw(screen, areaHeight)
+    else:
+        global play_button
+        play_button = BoxButton("play", screenWidth // 2 - blockHeight * (
+                    areaWidth // 2 - 1) + blockHeight * areaWidth + border * 10 + scoreAreaHeight + border * 10,
+                                 screenHeight // 2 - blockHeight * (areaHeight // 2), scoreAreaHeight, scoreAreaHeight,
+                                 "", playIcon)
+        play_button.check_hover(pygame.mouse.get_pos())
+        play_button.draw(screen, areaHeight)
+
+    global cross_button
+    cross_button = BoxButton("cross", screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) -scoreAreaWidth - border*10 , screenHeight // 2 - blockHeight * (areaHeight // 2 ), scoreAreaHeight, scoreAreaHeight,
+                                 "", crossIcon)
+    cross_button.check_hover(pygame.mouse.get_pos())
+    cross_button.draw(screen, areaHeight)
+
 
 #звук не знал куда поставить, чтобы не обновлялось меняяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяять
 sound = 2
@@ -377,17 +422,17 @@ def renderStartMenu():
         renderVoidButton(screenWidth // 40 , screenHeight // 30 , squareWidth//5,squareWidth//5)
         background = pygame.transform.scale(speaker, (squareWidth//6, squareWidth//6)) #картинка динамика
         screen.blit(background, (screenWidth // 35 , screenHeight // 26 ))
-        doomMusic.set_volume(1)
+        gameplay_music.set_volume(1)
     elif sound == 1:
         renderVoidButton(screenWidth // 40, screenHeight // 30, squareWidth // 5, squareWidth // 5)
         background = pygame.transform.scale(speakerOnLow, (squareWidth//6, squareWidth//6)) #картинка динамика
         screen.blit(background, (screenWidth // 35 , screenHeight // 26 ))
-        doomMusic.set_volume(0.2)
+        gameplay_music.set_volume(0.2)
     else:
         renderVoidButton(screenWidth // 40, screenHeight // 30, squareWidth // 5, squareWidth // 5)
         background = pygame.transform.scale(speakerOff, (squareWidth//6, squareWidth//6)) #картинка динамика
         screen.blit(background, (screenWidth // 35 , screenHeight // 26 ))
-        doomMusic.set_volume(0)
+        gameplay_music.set_volume(0)
     mouse1, mouse2, mouse3 = pygame.mouse.get_pressed()
     x, y = pygame.mouse.get_pos()
     if screenWidth * 0.025 < x < screenWidth * 0.063:
@@ -483,6 +528,7 @@ while running:
     timeMove = pygame.time.get_ticks()
     isPause = False
     tempfigure.spawn(area)
+    gameplay_music.play(loops=-1)
     while gameplay:
         keys = pygame.key.get_pressed()
         if (keys[pygame.K_RIGHT] or keys[pygame.K_d]):
@@ -544,11 +590,32 @@ while running:
                     isMove = False
             if event.type == pygame.VIDEORESIZE:
 
-                width = min(1920, max(300, event.w))
                 height = min(1080, max(300, event.h))
+                width = min(1920, max(300, event.w))
 
                 if (width, height) != event.size:
                     screen = pygame.display.set_mode((width, height), pygame.RESIZABLE)
+            pause_button.check_hover(pygame.mouse.get_pos())
+            pause_button.handle_event(event)
+            speaker_button.check_hover(pygame.mouse.get_pos())
+            speaker_button.handle_event(event)
+            if event.type == pygame.USEREVENT+1:
+                if event.button == "pause":
+                    isPause = not (isPause)
+                    tempfigure, pausefigure = pausefigure, tempfigure
+                if event.button == "play":
+                    isPause = not (isPause)
+                    tempfigure, pausefigure = pausefigure, tempfigure
+                if event.button == "speaker":
+                    sound = (sound)%3+1
+                    if sound == 1:
+                        gameplay_music.set_volume(0.2)
+                    elif sound == 2:
+                        gameplay_music.set_volume(1)
+                    elif sound == 3:
+                        gameplay_music.set_volume(0)
+                    print(sound)
+
 
         clock.tick(60)
 
