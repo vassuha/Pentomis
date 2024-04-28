@@ -110,9 +110,9 @@ MOVEMENT, T= pygame.USEREVENT, timer(0)
 pygame.time.set_timer(MOVEMENT, T)
 
 try:
-    f = open("/record.txt")
+    f = open("./record.txt")
 except FileNotFoundError:
-    f = open("/record.txt", "w")
+    f = open("./record.txt", "w")
     f.write("0" + "\n")
 
 blocks = []
@@ -126,115 +126,9 @@ def gaussian_blur(surface, radius):
     scaled_surface = pygame.transform.smoothscale(scaled_surface, (surface.get_width(), surface.get_height()))
     return scaled_surface
 
-def speakerButton(x, y, figureWidth, imageWidth, indent ):
-    global sound
-    xm, ym = pygame.mouse.get_pos()
-    if sound == 2:
-        renderVoidButton(x, y, figureWidth, figureWidth)
-        image1 = pygame.transform.scale(speaker, (imageWidth, imageWidth))  # картинка динамика
-        screen.blit(image1, (x + indent , y + indent))
-        gameplay_music.set_volume(1)
-    elif sound == 1:
-        renderVoidButton(x, y, figureWidth, figureWidth)
-        image2 = pygame.transform.scale(speakerOnLow, (imageWidth, imageWidth))  # картинка динамика
-        screen.blit(image2, (x + indent, y + indent))
-        gameplay_music.set_volume(0.2)
-    else:
-        renderVoidButton(x, y, figureWidth, figureWidth)
-        image3 = pygame.transform.scale(speakerOff, (imageWidth, imageWidth))  # картинка динамика
-        screen.blit(image3, (x + indent, y + indent))
-        gameplay_music.set_volume(0)
-
-    if x < xm < x + figureWidth and y < ym < y + figureWidth:
-        if sound == 2:
-            renderVoidButton(x, y, figureWidth, figureWidth)
-            image1 = pygame.transform.scale(speaker, (imageWidth, imageWidth))  # картинка динамика
-            screen.blit(image1, (x + indent , y + indent))
-            for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    sound = 1
-        elif sound == 1:
-            renderVoidButton(x, y, figureWidth, figureWidth)
-            image2 = pygame.transform.scale(speakerOnLow, (imageWidth, imageWidth))  # картинка динамика
-            screen.blit(image2, (x + indent, y + indent))
-            for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    sound = 0
-        else:
-            renderVoidButton(x, y, figureWidth, figureWidth)
-            image3 = pygame.transform.scale(speakerOff, (imageWidth, imageWidth))  # картинка динамика
-            screen.blit(image3, (x + indent, y + indent))
-            for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    sound = 2
 
 
-def buttonTwoStates(x, y, figureWidth, imageWidth, indent, state, passImage1, passImage2  ):
-    xm, ym = pygame.mouse.get_pos()
-    if state == True:
-        renderVoidButton(x, y, figureWidth, figureWidth)
-        image1 = pygame.transform.scale(passImage1, (imageWidth, imageWidth))  # картинка динамика
-        screen.blit(image1, (x + indent , y + indent))
-    elif state == False:
-        renderVoidButton(x, y, figureWidth, figureWidth)
-        image2 = pygame.transform.scale(passImage2, (imageWidth, imageWidth))  # картинка динамика
-        screen.blit(image2, (x + indent, y + indent))
-
-    if x < xm < x + figureWidth and y < ym < y + figureWidth:
-        if state == True:
-            renderVoidButton(x, y, figureWidth, figureWidth)
-            image1 = pygame.transform.scale(passImage1, (imageWidth, imageWidth))  # картинка динамика
-            screen.blit(image1, (x + indent , y + indent))
-            for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    state = False
-                    return state
-        elif state == False:
-            renderVoidButton(x, y, figureWidth, figureWidth)
-            image2 = pygame.transform.scale(passImage2, (imageWidth, imageWidth))  # картинка динамика
-            screen.blit(image2, (x + indent, y + indent))
-            for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    state = True
-                    return state
-
-
-
-def renderTextButton(x, y, width, height, text, textSize):
-    font1 = pygame.font.Font('fonts/RubikMonoOne-Regular.ttf', textSize)
-    rounding = screenHeight//36
-    border = screenHeight//(270)
-    color = (120, 122, 130)
-    blockHeight = int(screenHeight // areaHeight * 0.9)
-    area = pygame.Surface((width, height), pygame.SRCALPHA)
-    translucentArea = pygame.Surface((width, height), pygame.SRCALPHA)
-    translucentArea.set_alpha(200)
-    pygame.draw.rect(translucentArea, (0, 0, 0), (0, 0, width, height), height, rounding)
-    pygame.draw.rect(translucentArea, color, (0, 0, width, height), border, rounding)
-    area.blit(translucentArea, (0, 0))
-    #area.blit(scoreText, (0 + screenHeight / 100, 0 + screenHeight / 100))
-    text = font1.render(str(text), True, "White")
-    area.blit(text, (width//2-textSize*len(str(text))//10, height//2-textSize*len(str(text))//10))
-    screen.blit(area, (x,y))
-
-
-def renderImgButton(x, y, width, height, img, imgWidth, imgHeight):
-    img = pygame.transform.scale(img, (imgWidth, imgHeight))
-    rounding = screenHeight//36
-    border = screenHeight//(270)
-    color = (120, 122, 130)
-    blockHeight = int(screenHeight // areaHeight * 0.9)
-    area = pygame.Surface((width, height), pygame.SRCALPHA)
-    translucentArea = pygame.Surface((width, height), pygame.SRCALPHA)
-    translucentArea.set_alpha(200)
-    pygame.draw.rect(translucentArea, (0, 0, 0), (0, 0, width, height), height, rounding)
-    pygame.draw.rect(translucentArea, color, (0, 0, width, height), border, rounding)
-    area.blit(translucentArea, (0, 0))
-    #area.blit(scoreText, (0 + screenHeight / 100, 0 + screenHeight / 100))
-    area.blit(img, (width//2-imgWidth//2, height//2-imgHeight//2))
-    screen.blit(area, (x,y))
-
-def renderVoidButton(x, y, width, height):
+def renderVoidArea(x, y, width, height):
     rounding = screenHeight//36
     border = screenHeight//(270)
     color = (120, 122, 130)
@@ -257,6 +151,8 @@ crossIcon = pygame.image.load("img/icons/cross.png")
 speaker1Icon = pygame.image.load("img/icons/speaker1.png")
 speaker2Icon = pygame.image.load("img/icons/speaker2.png")
 speakerOffIcon = pygame.image.load("img/icons/speakerOff.png")
+playIcon = pygame.image.load("img/icons/play.png")
+playIcon_hovered = pygame.image.load("img/icons/play_large.png")
 
 cross_button = BoxButton("cross",0, 0, 1, 1, "", crossIcon)
 pause_button = BoxButton("pause",0, 0, 1, 1, "", pauseIcon)
@@ -354,10 +250,6 @@ def renderGameplay(area, score, blocks, nextfigure, tempfigure, deltaTime, isPau
     screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) + blockHeight * areaWidth + border * 10,
     screenHeight // 2 - blockHeight * (areaHeight // 2) + scoreAreaHeight + border*10))
 
-    #buttonTwoStates(screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) + blockHeight * areaWidth + border*10 + scoreAreaHeight + border*10, screenHeight // 2 - blockHeight * (areaHeight // 2 ), scoreAreaHeight/1.4, scoreAreaHeight/1.4, isPause, pauseIcon, playIcon)
-    #renderImgButton(screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) + blockHeight * areaWidth + border*10 + scoreAreaHeight + border*10, screenHeight // 2 - blockHeight * (areaHeight // 2 ), scoreAreaHeight, scoreAreaHeight, pauseIcon, scoreAreaHeight/1.4, scoreAreaHeight/1.4)
-    #renderImgButton(screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) -scoreAreaWidth - border*10 , screenHeight // 2 - blockHeight * (areaHeight // 2 ), scoreAreaHeight, scoreAreaHeight, crossIcon, scoreAreaHeight/1.4, scoreAreaHeight/1.4)
-    #speakerButton(screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) -scoreAreaWidth*2 - border*10*2, screenHeight // 2 - blockHeight * (areaHeight // 2 ), scoreAreaHeight, scoreAreaHeight*0.8, border*4)
     global sound
     global speaker_button
 
@@ -376,6 +268,8 @@ def renderGameplay(area, score, blocks, nextfigure, tempfigure, deltaTime, isPau
                                     scoreAreaHeight, "", speakerOffIcon)
     speaker_button.check_hover(pygame.mouse.get_pos())
     speaker_button.draw(screen, areaHeight)
+
+
 
     if not isPause:
         global pause_button
@@ -406,75 +300,50 @@ speaker = pygame.image.load("img/backgrounds/speaker.png")
 speakerOnLow= pygame.image.load("img/backgrounds/speakerOnLow.png")
 speakerOff = pygame.image.load("img/backgrounds/speakerOff.png")
 buttonPlayS = pygame.image.load("img/backgrounds/buttonPlay2W.png")
+
+start_button = ImageButton("start", 0, 0, 1000, 1000, "", playIcon)
 def renderStartMenu():
     global sound
     global flag
+    border = screenHeight // (270)
+    scoreAreaHeight = screenHeight // 9
     background1 = pygame.transform.scale((bgStart),(screenWidth, screenHeight))
     screen.blit(background1, (0, 0))
-    if screenHeight > screenWidth:
-        squareWidth = screenHeight//5
-    else:
-        squareWidth = screenWidth//5
+    squareWidth = screenWidth//5
 
-    renderVoidButton(screenWidth//2 - squareWidth//2, screenHeight//2 - squareWidth//2,squareWidth, squareWidth)
-
-    if sound == 2:
-        renderVoidButton(screenWidth // 40 , screenHeight // 30 , squareWidth//5,squareWidth//5)
-        background = pygame.transform.scale(speaker, (squareWidth//6, squareWidth//6)) #картинка динамика
-        screen.blit(background, (screenWidth // 35 , screenHeight // 26 ))
-        gameplay_music.set_volume(1)
-    elif sound == 1:
-        renderVoidButton(screenWidth // 40, screenHeight // 30, squareWidth // 5, squareWidth // 5)
-        background = pygame.transform.scale(speakerOnLow, (squareWidth//6, squareWidth//6)) #картинка динамика
-        screen.blit(background, (screenWidth // 35 , screenHeight // 26 ))
-        gameplay_music.set_volume(0.2)
-    else:
-        renderVoidButton(screenWidth // 40, screenHeight // 30, squareWidth // 5, squareWidth // 5)
-        background = pygame.transform.scale(speakerOff, (squareWidth//6, squareWidth//6)) #картинка динамика
-        screen.blit(background, (screenWidth // 35 , screenHeight // 26 ))
-        gameplay_music.set_volume(0)
-    mouse1, mouse2, mouse3 = pygame.mouse.get_pressed()
-    x, y = pygame.mouse.get_pos()
-    if screenWidth * 0.025 < x < screenWidth * 0.063:
-        if screenHeight * 0.031 < y < screenHeight * 0.1:
-            if sound == 2:
-                if mouse1 == False: flag = True
-                renderVoidButton(screenWidth // 45, screenHeight // 35, squareWidth // 5 + squareWidth // 30, squareWidth // 5 + squareWidth // 30)
-                background = pygame.transform.scale(speaker,(squareWidth // 5.3, squareWidth // 5.3))  # картинка динамика
-                screen.blit(background, (screenWidth // 37, screenHeight // 28))
-                if mouse1 == True and flag == True:
-                    sound = 1
-                    flag = False
-            elif sound == 1:
-                if mouse1 == False: flag = 1
-                renderVoidButton(screenWidth // 45, screenHeight // 35, squareWidth // 5 + squareWidth // 30,squareWidth // 5 + squareWidth // 30)
-                background = pygame.transform.scale(speakerOnLow,(squareWidth // 5.3, squareWidth // 5.3))  # картинка динамика
-                screen.blit(background, (screenWidth // 37, screenHeight // 28))
-                if mouse1 == True and flag == True:
-                    sound = 0
-                    flag = False
-            else:
-                if mouse1 == False: flag = 1
-                renderVoidButton(screenWidth // 45, screenHeight // 35, squareWidth // 5 + squareWidth // 30,squareWidth // 5 + squareWidth // 30)
-                background = pygame.transform.scale(speakerOff,(squareWidth // 5.3, squareWidth // 5.3))  # картинка динамика
-                screen.blit(background, (screenWidth // 37, screenHeight // 28))
-                if mouse1 == True and flag == True:
-                    sound = 2
-                    flag = False
-    buttonPlay = pygame.transform.scale(buttonPlayS,(squareWidth // 2, squareWidth // 2))  # картинка динамика
-    screen.blit(buttonPlay, (screenWidth // 2 - squareWidth // 2 * 0.45, screenHeight // 2 - squareWidth // 2 * 0.35))
-    if (screenWidth * 0.47 < x < screenWidth * 0.542) and (screenHeight * 0.46 < y < screenHeight * 0.59):
-        if mouse1 == False: flag = 1
-        buttonPlay = pygame.transform.scale(buttonPlayS,(squareWidth // 1.7, squareWidth // 1.7))  # картинка динамика
-        screen.blit(buttonPlay, (screenWidth//2 - squareWidth//2 * 0.52   , screenHeight//2 - squareWidth//2 * 0.435))
-        if mouse1 == True and flag == True:
-            sound = 2
-            flag = False
-            return True
-
+    renderVoidArea(screenWidth//2 - squareWidth//2, screenHeight//2 - squareWidth//2,squareWidth, squareWidth)
+    
     startFont =pygame.font.Font('fonts/RubikMonoOne-Regular.ttf', squareWidth//7)
     startText = startFont.render("Pentomis", True, "White")
     screen.blit(startText, (screenWidth//2 - squareWidth//2 * 0.95   , screenHeight//2 - squareWidth//2 + squareWidth//9))
+
+    global start_button
+
+    if start_button.check_hover(pygame.mouse.get_pos()):
+        start_button = ImageButton("start", screenWidth // 2 - squareWidth // 2 * 0.45,
+                                   screenHeight // 2 - squareWidth // 2 * 0.35, squareWidth // 2, squareWidth // 2, "",
+                                   playIcon_hovered)
+    else:
+        start_button = ImageButton("start", screenWidth // 2 - squareWidth // 2 * 0.45,
+                                   screenHeight // 2 - squareWidth // 2 * 0.35, squareWidth // 2, squareWidth // 2, "",
+                                   playIcon)
+
+    start_button.draw(screen)
+
+    global speaker_button
+
+    if sound == 1:
+        speaker_button = BoxButton("speaker", screenWidth//2 - squareWidth//2 - scoreAreaHeight - border*10, screenHeight//2 - squareWidth//2, scoreAreaHeight,
+                                   scoreAreaHeight, "", speaker1Icon)
+
+    if sound == 2:
+        speaker_button = BoxButton("speaker", screenWidth//2 - squareWidth//2 - scoreAreaHeight - border*10, screenHeight//2 - squareWidth//2, scoreAreaHeight,
+                                   scoreAreaHeight, "", speaker2Icon)
+    if sound == 3:
+        speaker_button = BoxButton("speaker", screenWidth//2 - squareWidth//2 - scoreAreaHeight - border*10, screenHeight//2 - squareWidth//2, scoreAreaHeight,
+                                   scoreAreaHeight, "", speakerOffIcon)
+    speaker_button.check_hover(pygame.mouse.get_pos())
+    speaker_button.draw(screen, areaHeight)
 
     pygame.display.update()
     return False
@@ -503,26 +372,37 @@ while running:
     while not gameplay:
         screenWidth = screen.get_size()[0]
         screenHeight = screen.get_size()[1]
-        gameplay = renderStartMenu()
-        if gameplay == True:
-            flagCheckMouseClik = True
+        renderStartMenu()
         for event in pygame.event.get():
+            start_button.check_hover(pygame.mouse.get_pos())
+            start_button.handle_event(event)
+            speaker_button.check_hover(pygame.mouse.get_pos())
+            speaker_button.handle_event(event)
+
             if event.type == event.type == pygame.KEYDOWN:
-                gameplay = True
                 isThrowing = False
-
-    pygame.event.clear()
-    if flagCheckMouseClik == False:
-        ready = False
-        while not ready:
-            for e in pygame.event.get():
-                if e.type == pygame.KEYUP:
-                    ready = True
-
-        if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                while not gameplay:
+                    for event in pygame.event.get():
+                        if event.type == pygame.KEYUP:
+                            gameplay = True
+            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 running = False
                 pygame.quit()
                 sys.exit()
+
+            print(event.type, pygame.USEREVENT+1)
+            if event.type == pygame.USEREVENT+1:
+                if event.button == "start":
+                    gameplay = True
+                if event.button == "speaker":
+                    sound = (sound) % 3 + 1
+                    if sound == 1:
+                        gameplay_music.set_volume(0.2)
+                    elif sound == 2:
+                        gameplay_music.set_volume(1)
+                    elif sound == 3:
+                        gameplay_music.set_volume(0)
+
     #Игровой процесс
     deltaTime = pygame.time.get_ticks()
     timeMove = pygame.time.get_ticks()
@@ -549,7 +429,6 @@ while running:
             isMove = True
             isPause = not(isPause)
             tempfigure, pausefigure = pausefigure, tempfigure
-
 
 
         screenWidth = screen.get_size()[0]
@@ -599,7 +478,9 @@ while running:
             pause_button.handle_event(event)
             speaker_button.check_hover(pygame.mouse.get_pos())
             speaker_button.handle_event(event)
+            cross_button.handle_event(event)
             if event.type == pygame.USEREVENT+1:
+                print("h1")
                 if event.button == "pause":
                     isPause = not (isPause)
                     tempfigure, pausefigure = pausefigure, tempfigure
@@ -614,7 +495,16 @@ while running:
                         gameplay_music.set_volume(1)
                     elif sound == 3:
                         gameplay_music.set_volume(0)
-                    print(sound)
+                if event.button == "cross":
+                    with open("./record.txt") as f:
+                        record = int(f.readline())
+                    if score > record:
+                        record = score
+                    with open("/record.txt", "w") as f:
+                        f.write(str(record) + "\n")
+                    running = False
+                    pygame.quit()
+                    sys.exit()
 
 
         clock.tick(60)

@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="152454ad-6c52-484e-bc30-826792bdf9ef" name="Changes" comment="Добавлен класс Button">
+    <list default="true" id="152454ad-6c52-484e-bc30-826792bdf9ef" name="Changes" comment="Конпки геймплея адаптированы под класс Button">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/backgrounds/buttonPlay.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/img/icons/cross.png" beforeDir="false" afterPath="$PROJECT_DIR$/img/icons/cross.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/icons/play.png" beforeDir="false" afterPath="$PROJECT_DIR$/img/icons/play.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/button.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/button.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
     </list>
@@ -155,7 +155,9 @@
       <workItem from="1714030563142" duration="10435000" />
       <workItem from="1714122265956" duration="14158000" />
       <workItem from="1714148049761" duration="13033000" />
-      <workItem from="1714219659081" duration="2161000" />
+      <workItem from="1714219659081" duration="10899000" />
+      <workItem from="1714234395245" duration="2250000" />
+      <workItem from="1714325324576" duration="4574000" />
     </task>
     <task id="LOCAL-00001" summary="Добавлен спавн фигур и перемещение (только вправо)">
       <option name="closed" value="true" />
@@ -317,7 +319,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714140314761</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Конпки геймплея адаптированы под класс Button">
+      <option name="closed" value="true" />
+      <created>1714222266979</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1714222266979</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -354,9 +364,10 @@
     <MESSAGE value="Добвалены иконки" />
     <MESSAGE value="Класс figure перенесен в отдельный модуль" />
     <MESSAGE value="Добавлен класс Button" />
-    <option name="LAST_COMMIT_MESSAGE" value="Добавлен класс Button" />
+    <MESSAGE value="Конпки геймплея адаптированы под класс Button" />
+    <option name="LAST_COMMIT_MESSAGE" value="Конпки геймплея адаптированы под класс Button" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Pentomis$main.coverage" NAME="main Coverage Results" MODIFIED="1714221839469" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Pentomis$main.coverage" NAME="main Coverage Results" MODIFIED="1714331676767" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
