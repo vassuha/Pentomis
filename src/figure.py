@@ -1,10 +1,12 @@
 import copy
+
+
 class figure:
-    def __init__(self, name, area, form, rotationAngle, position, color, center):
+    def __init__(self, name, area, form, rotation_angle, position, color, center):
         self.name = name
         self.form = form
         self.area = area
-        self.rotationAngle = rotationAngle
+        self.rotationAngle = rotation_angle
         self.position = [0, 8]
         self.center = center
 
@@ -13,28 +15,28 @@ class figure:
             for j in range(len(self.form)):
                 if (self.form[i][j] > 0):
                     area[self.position[0] + i][self.position[1] + j] = 0
-        tempForm = copy.deepcopy(self.form)
-        n = len(tempForm)
+        temp_form = copy.deepcopy(self.form)
+        n = len(temp_form)
         for i in range(len(self.form)):
             for j in range(len(self.form)):
-                self.form[i][j] = tempForm[n-j-1][i]
+                self.form[i][j] = temp_form[n - j - 1][i]
 
-        centerOld = copy.deepcopy(self.center)
+        center_old = copy.deepcopy(self.center)
         temp = copy.deepcopy(self.center[0])
         self.center[0] = self.center[1]
         self.center[1] = n - temp - 1
 
-        positionOld = copy.deepcopy(self.position)
+        position_old = copy.deepcopy(self.position)
 
-        self.position[0] += -self.center[0] +centerOld[0]
-        self.position[1] += -self.center[1] +centerOld[1]
+        self.position[0] += -self.center[0] + center_old[0]
+        self.position[1] += -self.center[1] + center_old[1]
 
         for i in range(len(self.form)):
             for j in range(len(self.form)):
-                if (area[self.position[0] + i][self.position[1] + j] >0) and (self.form[i][j] >0):
-                    self.position = copy.deepcopy(positionOld)
-                    self.form = copy.deepcopy(tempForm)
-                    self.center = copy.deepcopy(centerOld)
+                if (area[self.position[0] + i][self.position[1] + j] > 0) and (self.form[i][j] > 0):
+                    self.position = copy.deepcopy(position_old)
+                    self.form = copy.deepcopy(temp_form)
+                    self.center = copy.deepcopy(center_old)
                     for i in range(len(self.form)):
                         for j in range(len(self.form)):
                             if self.form[i][j] > 0:
@@ -45,18 +47,18 @@ class figure:
                 if self.form[i][j] > 0:
                     area[self.position[0] + i][self.position[1] + j] = self.form[i][j]
 
-
     def move(self, area, dir):
         if dir == "right":
             if self.position[1] + len(self.form) + 1 > len(area[0]):
                 return False
             for i in range(len(self.form)):
                 for j in range(len(self.form)):
-                    if(self.form[i][j] > 0):
+                    if (self.form[i][j] > 0):
                         area[self.position[0] + i][self.position[1] + j] = 0
             for i in range(len(self.form)):
                 for j in range(len(self.form)):
-                    if ((area[self.position[0] + i][self.position[1] + j + 1] > 0) and (self.form[i][j] > 0)) or (self.form[i][j] > 0 and (self.position[1]+j) > 12):
+                    if ((area[self.position[0] + i][self.position[1] + j + 1] > 0) and (self.form[i][j] > 0)) or (
+                            self.form[i][j] > 0 and (self.position[1] + j) > 12):
                         for i in range(len(self.form)):
                             for j in range(len(self.form)):
                                 if (self.form[i][j] > 0):
@@ -72,11 +74,12 @@ class figure:
                 return False
             for i in range(len(self.form)):
                 for j in range(len(self.form)):
-                    if(self.form[i][j] > 0):
+                    if (self.form[i][j] > 0):
                         area[self.position[0] + i][self.position[1] + j] = 0
             for i in range(len(self.form)):
                 for j in range(len(self.form)):
-                    if ((area[self.position[0] + i][self.position[1] + j - 1] > 0) and (self.form[i][j] > 0)) or (self.form[i][j] > 0 and (self.position[1]+j) < 5):
+                    if ((area[self.position[0] + i][self.position[1] + j - 1] > 0) and (self.form[i][j] > 0)) or (
+                            self.form[i][j] > 0 and (self.position[1] + j) < 5):
                         for i in range(len(self.form)):
                             for j in range(len(self.form)):
                                 if (self.form[i][j] > 0):
@@ -93,11 +96,12 @@ class figure:
 
             for i in range(len(self.form)):
                 for j in range(len(self.form)):
-                    if(self.form[i][j] > 0):
+                    if (self.form[i][j] > 0):
                         area[self.position[0] + i][self.position[1] + j] = 0
             for i in range(len(self.form)):
                 for j in range(len(self.form)):
-                    if ((area[self.position[0] + i + 1][self.position[1] + j] >0) and (self.form[i][j] > 0)) or (self.form[i][j] > 0 and (self.position[0]+i) > 22):
+                    if ((area[self.position[0] + i + 1][self.position[1] + j] > 0) and (self.form[i][j] > 0)) or (
+                            self.form[i][j] > 0 and (self.position[0] + i) > 22):
                         for i in range(len(self.form)):
                             for j in range(len(self.form)):
                                 if (self.form[i][j] > 0):

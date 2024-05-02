@@ -1,7 +1,8 @@
 import pygame
 
+
 class ImageButton:
-    def __init__ (self, name, x, y, width, height, text, image_path, hover_image_path=None, sound_path=None):
+    def __init__(self, name, x, y, width, height, text, image_path, hover_image_path=None, sound_path=None):
         self.name = name
         self.x = x
         self.y = y
@@ -26,7 +27,7 @@ class ImageButton:
         screen.blit(current_image, self.rect.topleft)
 
         font = pygame.font.Font(None, 36)
-        text_surface = font.render(self.text, True, (255,255,255))
+        text_surface = font.render(self.text, True, (255, 255, 255))
         text_rect = text_surface.get_rect(center=self.rect.center)
         screen.blit(text_surface, text_rect)
 
@@ -35,19 +36,20 @@ class ImageButton:
         return self.is_hovered
 
     def handle_event(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN  and self.is_hovered:
-            #self.sound.play()
-            pygame.event.post(pygame.event.Event(pygame.USEREVENT+1, button=self.name))
+        if event.type == pygame.MOUSEBUTTONDOWN and self.is_hovered:
+            # self.sound.play()
+            pygame.event.post(pygame.event.Event(pygame.USEREVENT + 1, button=self.name))
 
 
 class BoxButton(ImageButton):
-    def __init__(self,name, x, y, width, height, text, image_path, hover_image_path=None, sound_path=None):
+    def __init__(self, name, x, y, width, height, text, image_path, hover_image_path=None, sound_path=None):
         ImageButton.__init__(self, name, x, y, width, height, text, image_path, hover_image_path, sound_path)
         self.is_hovered = False
-    def draw(self, screen, areaHeight):
-        screenHeight = screen.get_rect().height
-        rounding = screenHeight // 36
-        border = screenHeight // (270)
+
+    def draw(self, screen, AREA_HEIGHT):
+        screen_height = screen.get_rect().height
+        rounding = screen_height // 36
+        border = screen_height // (270)
         color = (120, 122, 130)
         area = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
         translucentArea = pygame.Surface((self.width, self.height), pygame.SRCALPHA)

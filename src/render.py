@@ -1,208 +1,227 @@
-import sys
-import time
 import copy
 from random import choice
+import sys
+import time
 import pygame
+from button import *
 from figure import figure
-from button import ImageButton, BoxButton
+from functions import check_collision, timer
 from globals import *
-from functions import checkCollision, timer
+
 
 def gaussian_blur(surface, radius):
-    scaled_surface = pygame.transform.smoothscale(surface, (surface.get_width() // radius, surface.get_height() // radius))
+    scaled_surface = pygame.transform.smoothscale(surface,
+                                                  (surface.get_width() // radius, surface.get_height() // radius))
     scaled_surface = pygame.transform.smoothscale(scaled_surface, (surface.get_width(), surface.get_height()))
     return scaled_surface
-def renderVoidBox(x, y, width, height, screen):
-    screenHeight = screen.get_height()
-    global areaHeight
-    rounding = screenHeight//36
-    border = screenHeight//(270)
-    color = meshColor
+
+
+def render_void_box(x, y, width, height, screen):
+    screen_height = screen.get_height()
+    global AREA_HEIGHT
+    rounding = screen_height // 36
+    border = screen_height // 270
+    color = mesh_color
     area = pygame.Surface((width, height), pygame.SRCALPHA)
-    translucentArea = pygame.Surface((width, height), pygame.SRCALPHA)
-    translucentArea.set_alpha(200)
-    pygame.draw.rect(translucentArea, (0, 0, 0), (0, 0, width, height), height, rounding)
-    pygame.draw.rect(translucentArea, color, (0, 0, width, height), border, rounding)
-    area.blit(translucentArea, (0, 0))
-    screen.blit(area, (x,y))
+    translucent_area = pygame.Surface((width, height), pygame.SRCALPHA)
+    translucent_area.set_alpha(200)
+    pygame.draw.rect(translucent_area, (0, 0, 0), (0, 0, width, height), height, rounding)
+    pygame.draw.rect(translucent_area, color, (0, 0, width, height), border, rounding)
+    area.blit(translucent_area, (0, 0))
+    screen.blit(area, (x, y))
 
-def renderGameplay(area, score, blocks, nextfigure, tempfigure, deltaTime, isPause, sound):
+
+def render_gameplay(area, score, blocks, next_figure, temp_figure, delta_time, is_pause, sound):
     global screen
-    screenHeight = screen.get_height()
-    screenWidth = screen.get_width()
-    scoreAreaHeight = screenHeight // 9
-    scoreAreaWidth = scoreAreaHeight
-    bg1 = pygame.transform.scale(bg, (screenWidth, screenHeight))
+    screen_height = screen.get_height()
+    screen_width = screen.get_width()
+    score_area_height = screen_height // 9
+    score_area_width = score_area_height
+    bg1 = pygame.transform.scale(bg, (screen_width, screen_height))
 
-    blockHeight = int(screenHeight // areaHeight * 0.9)
-    border = screenHeight // (270)
+    block_height = int(screen_height // AREA_HEIGHT * 0.9)
+    border = screen_height // 270
 
-    screen.blit(bg1, (0, 0))  # вывод
+    screen.blit(bg1, (0, 0))
 
-    gameplayArea = pygame.Surface((blockHeight * areaWidth + border, blockHeight * (areaHeight + 1) + border // 2),
-                                  pygame.SRCALPHA)
-    mesh = pygame.Surface((blockHeight * areaWidth + border, blockHeight * (areaHeight + 1) + border // 2),
+    gameplay_area = pygame.Surface((block_height * AREA_WIDTH + border, block_height * (AREA_HEIGHT + 1) + border // 2),
+                                   pygame.SRCALPHA)
+    mesh = pygame.Surface((block_height * AREA_WIDTH + border, block_height * (AREA_HEIGHT + 1) + border // 2),
                           pygame.SRCALPHA)
     mesh.fill((0, 0, 0))
     mesh.set_alpha(200)
 
-    pygame.draw.rect(mesh, meshColor,
-                     (0, 0, blockHeight * areaWidth + border, blockHeight * (areaHeight + 1) + border // 2), border)
+    pygame.draw.rect(mesh, mesh_color,
+                     (0, 0, block_height * AREA_WIDTH + border, block_height * (AREA_HEIGHT + 1) + border // 2), border)
 
-    for i in range(areaWidth):
-        pygame.draw.line(mesh, meshColor, (i * blockHeight, 0), (i * blockHeight, blockHeight * (areaHeight + 1)))
-    for i in range(1, areaHeight + 1):
-        pygame.draw.line(mesh, meshColor, (0, i * blockHeight), (blockHeight * areaWidth, i * blockHeight))
+    for i in range(AREA_WIDTH):
+        pygame.draw.line(mesh, mesh_color, (i * block_height, 0), (i * block_height, block_height * (AREA_HEIGHT + 1)))
+    for i in range(1, AREA_HEIGHT + 1):
+        pygame.draw.line(mesh, mesh_color, (0, i * block_height), (block_height * AREA_WIDTH, i * block_height))
 
-    gameplayArea.blit(mesh, (0, 0))
+    gameplay_area.blit(mesh, (0, 0))
 
     area1 = copy.deepcopy(area)
-    for i in range(len(tempfigure.form)):
-        for j in range(len(tempfigure.form)):
-            if (tempfigure.form[i][j] > 0):
-                area1[tempfigure.position[0] + i][tempfigure.position[1] + j] = 0
+    for i in range(len(temp_figure.form)):
+        for j in range(len(temp_figure.form)):
+            if (temp_figure.form[i][j] > 0):
+                area1[temp_figure.position[0] + i][temp_figure.position[1] + j] = 0
 
-    for i in range(len(tempfigure.form[0])):
-        for j in range(len(tempfigure.form[1])):
-            if tempfigure.form[i][j] != 0:
-                if not checkCollision(area, tempfigure):
-                    gameplayArea.blit(pygame.transform.scale(blocks[tempfigure.form[i][j]], (blockHeight, blockHeight)),
-                                      ((j + tempfigure.position[1] - 4) * blockHeight + border // 2,
-                                       (i + tempfigure.position[0] - 3) * blockHeight + (
-                                                   deltaTime / timer(score)) * blockHeight))
+    for i in range(len(temp_figure.form[0])):
+        for j in range(len(temp_figure.form[1])):
+            if temp_figure.form[i][j] != 0:
+                if not check_collision(area, temp_figure):
+                    gameplay_area.blit(
+                        pygame.transform.scale(blocks[temp_figure.form[i][j]], (block_height, block_height)),
+                        ((j + temp_figure.position[1] - 4) * block_height + border // 2,
+                         (i + temp_figure.position[0] - 3) * block_height + (
+                                 delta_time / timer(score)) * block_height))
                 else:
-                    gameplayArea.blit(pygame.transform.scale(blocks[tempfigure.form[i][j]], (blockHeight, blockHeight)),
-                                      ((j + tempfigure.position[1] - 4) * blockHeight + border // 2,
-                                       (i + tempfigure.position[0] - 3) * blockHeight))
+                    gameplay_area.blit(
+                        pygame.transform.scale(blocks[temp_figure.form[i][j]], (block_height, block_height)),
+                        ((j + temp_figure.position[1] - 4) * block_height + border // 2,
+                         (i + temp_figure.position[0] - 3) * block_height))
                     pass
 
     for i in range(3, 24):
         for j in range(4, 14):
             if area1[i][j] > 0:
-                gameplayArea.blit(pygame.transform.scale(blocks[area1[i][j]], (blockHeight, blockHeight)),
-                                  ((j - 4) * blockHeight + border // 2, (i - 3) * blockHeight))
+                gameplay_area.blit(pygame.transform.scale(blocks[area1[i][j]], (block_height, block_height)),
+                                   ((j - 4) * block_height + border // 2, (i - 3) * block_height))
 
-    if isPause:
-        gameplayArea = gaussian_blur(gameplayArea, 50)
-    screen.blit(gameplayArea, (screenWidth // 2 - blockHeight * (areaWidth // 2 - 1),
-                               screenHeight // 2 - blockHeight * (areaHeight // 2)))
+    if is_pause:
+        gameplay_area = gaussian_blur(gameplay_area, 50)
+    screen.blit(gameplay_area, (screen_width // 2 - block_height * (AREA_WIDTH // 2 - 1),
+                                screen_height // 2 - block_height * (AREA_HEIGHT // 2)))
 
     # Отображение текущего счета
 
-    gameplayFont = pygame.font.Font('fonts/RubikMonoOne-Regular.ttf', screenHeight // 50)
-    gameplayFont1 = pygame.font.Font('fonts/RubikMonoOne-Regular.ttf', screenHeight // 20)
-    scoreText = gameplayFont.render("SCORE", True, "White")
-    scoreText1 = gameplayFont1.render(str(score), True, "White")
+    gameplay_font = pygame.font.Font('fonts/RubikMonoOne-Regular.ttf', screen_height // 50)
+    gameplay_font_1 = pygame.font.Font('fonts/RubikMonoOne-Regular.ttf', screen_height // 20)
+    score_text = gameplay_font.render("SCORE", True, "White")
+    score_text_1 = gameplay_font_1.render(str(score), True, "White")
 
+    score_area_x = screen_width // 2 - block_height * (AREA_WIDTH // 2 - 1) + block_height * AREA_WIDTH + border * 10
+    score_area_y = screen_height // 2 - block_height * (AREA_HEIGHT // 2)
 
-    score_area_x = screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) + blockHeight * areaWidth + border * 10
-    score_area_y = screenHeight // 2 - blockHeight * (areaHeight // 2)
-
-    renderVoidBox(score_area_x, score_area_y, scoreAreaHeight, scoreAreaHeight, screen)
-    screen.blit(scoreText, (score_area_x + screenHeight / 75, score_area_y + screenHeight / 50))
-    screen.blit(scoreText1, (score_area_x + screenHeight / 100 - (len(str(score)) - 1) * screenHeight // 50 + screenHeight // 40, score_area_y+ screenHeight / 50 + screenHeight / 50))
+    render_void_box(score_area_x, score_area_y, score_area_height, score_area_height, screen)
+    screen.blit(score_text, (score_area_x + screen_height / 75, score_area_y + screen_height / 50))
+    screen.blit(score_text_1, (
+        score_area_x + screen_height / 100 - (len(str(score)) - 1) * screen_height // 50 + screen_height // 40,
+        score_area_y + screen_height / 50 + screen_height / 50))
 
     # Отображение следующей детали
-    nextfigureAreaHeight = screenHeight // 4
+    nextfigureAreaHeight = screen_height // 4
     nextfigureArea = pygame.Surface((nextfigureAreaHeight, nextfigureAreaHeight), pygame.SRCALPHA)
 
-    next_figure_area_x = screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) + blockHeight * areaWidth + border * 10
-    next_figure_area_y = screenHeight // 2 - blockHeight * (areaHeight // 2) + scoreAreaHeight + border * 10
-    renderVoidBox(next_figure_area_x, next_figure_area_y, nextfigureAreaHeight, nextfigureAreaHeight, screen)
+    next_figure_area_x = screen_width // 2 - block_height * (
+            AREA_WIDTH // 2 - 1) + block_height * AREA_WIDTH + border * 10
+    next_figure_area_y = screen_height // 2 - block_height * (AREA_HEIGHT // 2) + score_area_height + border * 10
+    render_void_box(next_figure_area_x, next_figure_area_y, nextfigureAreaHeight, nextfigureAreaHeight, screen)
 
-    for i in range(len(nextfigure.form)):
-        for j in range(len(nextfigure.form[i])):
-            if nextfigure.form[i][j] > 0:
-                nextfigureArea.blit(pygame.transform.scale(blocks[nextfigure.form[i][j]], (blockHeight, blockHeight)), (
-                j * blockHeight + nextfigureAreaHeight // 2 - len(nextfigure.form) * blockHeight // 2,
-                i * blockHeight + nextfigureAreaHeight // 2 - (len(nextfigure.form) + (len(nextfigure.form) - 3) * (
-                nextfigure.center[0])) * blockHeight // 2))
+    for i in range(len(next_figure.form)):
+        for j in range(len(next_figure.form[i])):
+            if next_figure.form[i][j] > 0:
+                nextfigureArea.blit(
+                    pygame.transform.scale(blocks[next_figure.form[i][j]], (block_height, block_height)), (
+                        j * block_height + nextfigureAreaHeight // 2 - len(next_figure.form) * block_height // 2,
+                        i * block_height + nextfigureAreaHeight // 2 - (
+                                len(next_figure.form) + (len(next_figure.form) - 3) * (
+                            next_figure.center[0])) * block_height // 2))
     screen.blit(nextfigureArea, (
-        screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) + blockHeight * areaWidth + border * 10,
-        screenHeight // 2 - blockHeight * (areaHeight // 2) + scoreAreaHeight + border * 10))
+        screen_width // 2 - block_height * (AREA_WIDTH // 2 - 1) + block_height * AREA_WIDTH + border * 10,
+        screen_height // 2 - block_height * (AREA_HEIGHT // 2) + score_area_height + border * 10))
 
-    #Отображение кнопки громкости
+    # Отображение кнопки громкости
     global speaker_button
 
     if sound == 1:
-        speaker_button = BoxButton("speaker", screenWidth // 2 - blockHeight * (
-                    areaWidth // 2 - 1) - scoreAreaWidth * 2 - border * 10 * 2,
-                                   screenHeight // 2 - blockHeight * (areaHeight // 2), scoreAreaHeight,
-                                   scoreAreaHeight, "", speaker1Icon)
+        speaker_button = BoxButton("speaker", screen_width // 2 - block_height * (
+                AREA_WIDTH // 2 - 1) - score_area_width * 2 - border * 10 * 2,
+                                   screen_height // 2 - block_height * (AREA_HEIGHT // 2), score_area_height,
+                                   score_area_height, "", speaker1_icon)
 
     if sound == 2:
-        speaker_button = BoxButton("speaker", screenWidth // 2 - blockHeight * (
-                areaWidth // 2 - 1) - scoreAreaWidth * 2 - border * 10 * 2,
-                                   screenHeight // 2 - blockHeight * (areaHeight // 2), scoreAreaHeight,
-                                   scoreAreaHeight, "", speaker2Icon)
+        speaker_button = BoxButton("speaker", screen_width // 2 - block_height * (
+                AREA_WIDTH // 2 - 1) - score_area_width * 2 - border * 10 * 2,
+                                   screen_height // 2 - block_height * (AREA_HEIGHT // 2), score_area_height,
+                                   score_area_height, "", speaker2_icon)
     if sound == 3:
-        speaker_button = BoxButton("speaker", screenWidth // 2 - blockHeight * (
-                areaWidth // 2 - 1) - scoreAreaWidth * 2 - border * 10 * 2,
-                                   screenHeight // 2 - blockHeight * (areaHeight // 2), scoreAreaHeight,
-                                   scoreAreaHeight, "", speakerOffIcon)
+        speaker_button = BoxButton("speaker", screen_width // 2 - block_height * (
+                AREA_WIDTH // 2 - 1) - score_area_width * 2 - border * 10 * 2,
+                                   screen_height // 2 - block_height * (AREA_HEIGHT // 2), score_area_height,
+                                   score_area_height, "", speaker_off_icon)
     speaker_button.check_hover(pygame.mouse.get_pos())
-    speaker_button.draw(screen, areaHeight)
+    speaker_button.draw(screen, AREA_HEIGHT)
 
-    #Отображение кнопки пауза
-    if not isPause:
-        global pause_button
-        pause_button = BoxButton("pause", screenWidth // 2 - blockHeight * (
-                    areaWidth // 2 - 1) + blockHeight * areaWidth + border * 10 + scoreAreaHeight + border * 10,
-                                 screenHeight // 2 - blockHeight * (areaHeight // 2), scoreAreaHeight, scoreAreaHeight,
-                                 "", pauseIcon)
+    # Отображение кнопки пауза
+    global pause_button
+    global play_button
+    if not is_pause:
+        pause_button = BoxButton("pause", screen_width // 2 - block_height * (
+                AREA_WIDTH // 2 - 1) + block_height * AREA_WIDTH + border * 10 + score_area_height + border * 10,
+                                 screen_height // 2 - block_height * (AREA_HEIGHT // 2), score_area_height,
+                                 score_area_height,
+                                 "", pause_icon)
         pause_button.check_hover(pygame.mouse.get_pos())
-        pause_button.draw(screen, areaHeight)
+        pause_button.draw(screen, AREA_HEIGHT)
     else:
-        global play_button
-        play_button = BoxButton("play", screenWidth // 2 - blockHeight * (
-                areaWidth // 2 - 1) + blockHeight * areaWidth + border * 10 + scoreAreaHeight + border * 10,
-                                screenHeight // 2 - blockHeight * (areaHeight // 2), scoreAreaHeight, scoreAreaHeight,
-                                "", playIcon)
+
+        play_button = BoxButton("play", screen_width // 2 - block_height * (
+                AREA_WIDTH // 2 - 1) + block_height * AREA_WIDTH + border * 10 + score_area_height + border * 10,
+                                screen_height // 2 - block_height * (AREA_HEIGHT // 2), score_area_height,
+                                score_area_height,
+                                "", play_icon)
         play_button.check_hover(pygame.mouse.get_pos())
-        play_button.draw(screen, areaHeight)
+        play_button.draw(screen, AREA_HEIGHT)
 
     # Отображение кнопки закрыть
     global cross_button
     cross_button = BoxButton("cross",
-                             screenWidth // 2 - blockHeight * (areaWidth // 2 - 1) - scoreAreaWidth - border * 10,
-                             screenHeight // 2 - blockHeight * (areaHeight // 2), scoreAreaHeight, scoreAreaHeight,
-                             "", crossIcon)
+                             screen_width // 2 - block_height * (AREA_WIDTH // 2 - 1) - score_area_width - border * 10,
+                             screen_height // 2 - block_height * (AREA_HEIGHT // 2), score_area_height,
+                             score_area_height,
+                             "", cross_icon)
     cross_button.check_hover(pygame.mouse.get_pos())
-    cross_button.draw(screen, areaHeight)
+    cross_button.draw(screen, AREA_HEIGHT)
     pygame.display.update()
     buttons = [speaker_button, pause_button, play_button, cross_button]
     return buttons
 
 
-def renderStartMenu(sound):
-    global bgStart, playIcon_hovered, crossIcon
-    screenHeight = screen.get_height()
-    screenWidth = screen.get_width()
-    border = screenHeight // (270)
-    scoreAreaHeight = screenHeight // 9
-    background1 = pygame.transform.scale((bgStart), (screenWidth, screenHeight))
+def render_start_menu(sound):
+    global bg_start, play_icon_hovered, cross_icon
+    screen_height = screen.get_height()
+    screen_width = screen.get_width()
+    border = screen_height // 270
+    score_area_height = screen_height // 9
+    background1 = pygame.transform.scale((bg_start), (screen_width, screen_height))
     screen.blit(background1, (0, 0))
-    squareWidth = screenWidth // 5
+    square_width = screen_width // 5
 
-    renderVoidBox(screenWidth // 2 - squareWidth // 2, screenHeight // 2 - squareWidth // 2, squareWidth, squareWidth,
-                  screen)
+    render_void_box(screen_width // 2 - square_width // 2, screen_height // 2 - square_width // 2, square_width,
+                    square_width,
+                    screen)
 
-    startFont = pygame.font.Font('fonts/RubikMonoOne-Regular.ttf', squareWidth // 7)
-    startText = startFont.render("Pentomis", True, "White")
-    screen.blit(startText,
-                (screenWidth // 2 - squareWidth // 2 * 0.95, screenHeight // 2 - squareWidth // 2 + squareWidth // 9))
+    start_font = pygame.font.Font('fonts/RubikMonoOne-Regular.ttf', square_width // 7)
+    start_text = start_font.render("Pentomis", True, "White")
+    screen.blit(start_text,
+                (screen_width // 2 - square_width // 2 * 0.95,
+                 screen_height // 2 - square_width // 2 + square_width // 9))
 
     # Отображение кнопки старт
     global start_button
 
     if start_button.check_hover(pygame.mouse.get_pos()):
-        start_button = ImageButton("start", screenWidth // 2 - squareWidth // 2 * 0.45,
-                                   screenHeight // 2 - squareWidth // 2 * 0.35, squareWidth // 2, squareWidth // 2, "",
-                                   playIcon_hovered)
+        start_button = ImageButton("start", screen_width // 2 - square_width // 2 * 0.45,
+                                   screen_height // 2 - square_width // 2 * 0.35, square_width // 2, square_width // 2,
+                                   "",
+                                   play_icon_hovered)
     else:
-        start_button = ImageButton("start", screenWidth // 2 - squareWidth // 2 * 0.45,
-                                   screenHeight // 2 - squareWidth // 2 * 0.35, squareWidth // 2, squareWidth // 2, "",
-                                   playIcon)
+        start_button = ImageButton("start", screen_width // 2 - square_width // 2 * 0.45,
+                                   screen_height // 2 - square_width // 2 * 0.35, square_width // 2, square_width // 2,
+                                   "",
+                                   play_icon)
 
     start_button.draw(screen)
 
@@ -210,30 +229,30 @@ def renderStartMenu(sound):
     global speaker_button
 
     if sound == 1:
-        speaker_button = BoxButton("speaker", screenWidth // 2 - squareWidth // 2 - scoreAreaHeight - border * 10,
-                                   screenHeight // 2 - squareWidth // 2, scoreAreaHeight,
-                                   scoreAreaHeight, "", speaker1Icon)
+        speaker_button = BoxButton("speaker", screen_width // 2 - square_width // 2 - score_area_height - border * 10,
+                                   screen_height // 2 - square_width // 2, score_area_height,
+                                   score_area_height, "", speaker1_icon)
 
     if sound == 2:
-        speaker_button = BoxButton("speaker", screenWidth // 2 - squareWidth // 2 - scoreAreaHeight - border * 10,
-                                   screenHeight // 2 - squareWidth // 2, scoreAreaHeight,
-                                   scoreAreaHeight, "", speaker2Icon)
+        speaker_button = BoxButton("speaker", screen_width // 2 - square_width // 2 - score_area_height - border * 10,
+                                   screen_height // 2 - square_width // 2, score_area_height,
+                                   score_area_height, "", speaker2_icon)
     if sound == 3:
-        speaker_button = BoxButton("speaker", screenWidth // 2 - squareWidth // 2 - scoreAreaHeight - border * 10,
-                                   screenHeight // 2 - squareWidth // 2, scoreAreaHeight,
-                                   scoreAreaHeight, "", speakerOffIcon)
+        speaker_button = BoxButton("speaker", screen_width // 2 - square_width // 2 - score_area_height - border * 10,
+                                   screen_height // 2 - square_width // 2, score_area_height,
+                                   score_area_height, "", speaker_off_icon)
     speaker_button.check_hover(pygame.mouse.get_pos())
-    speaker_button.draw(screen, areaHeight)
+    speaker_button.draw(screen, AREA_HEIGHT)
 
     # Отображение кнопки закрыть
     global cross_button
 
     cross_button = BoxButton("cross",
-                             screenWidth // 2 - squareWidth // 2 + squareWidth + border * 10,
-                             screenHeight // 2 - squareWidth // 2, scoreAreaHeight, scoreAreaHeight,
-                             "", crossIcon)
+                             screen_width // 2 - square_width // 2 + square_width + border * 10,
+                             screen_height // 2 - square_width // 2, score_area_height, score_area_height,
+                             "", cross_icon)
     cross_button.check_hover(pygame.mouse.get_pos())
-    cross_button.draw(screen, areaHeight)
+    cross_button.draw(screen, AREA_HEIGHT)
 
     pygame.display.update()
     start_menu_buttons = [start_button, speaker_button, cross_button]

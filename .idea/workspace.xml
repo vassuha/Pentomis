@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="152454ad-6c52-484e-bc30-826792bdf9ef" name="Changes" comment="Функции рендера и глобальные переменные вынесены в отдельные модули">
-      <change afterPath="$PROJECT_DIR$/src/functions.py" afterDir="false" />
+    <list default="true" id="152454ad-6c52-484e-bc30-826792bdf9ef" name="Changes" comment="Функции детекции событий игрового поля вынесены в отдельный модуль">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/record.txt" beforeDir="false" afterPath="$PROJECT_DIR$/record.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/icons/play.png" beforeDir="false" afterPath="$PROJECT_DIR$/img/icons/play.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/button.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/button.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/figure.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/figure.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/functions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/globals.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/globals.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/render.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/render.py" afterDir="false" />
@@ -161,7 +163,7 @@
       <workItem from="1714325324576" duration="7847000" />
       <workItem from="1714384318084" duration="1314000" />
       <workItem from="1714560547746" duration="13165000" />
-      <workItem from="1714639780348" duration="2938000" />
+      <workItem from="1714639780348" duration="9338000" />
     </task>
     <task id="LOCAL-00001" summary="Добавлен спавн фигур и перемещение (только вправо)">
       <option name="closed" value="true" />
@@ -347,7 +349,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714641991908</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Функции детекции событий игрового поля вынесены в отдельный модуль">
+      <option name="closed" value="true" />
+      <created>1714642803147</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1714642803147</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -387,9 +397,10 @@
     <MESSAGE value="Конпки геймплея адаптированы под класс Button" />
     <MESSAGE value="Конпки start menu адаптированы под класс Button" />
     <MESSAGE value="Функции рендера и глобальные переменные вынесены в отдельные модули" />
-    <option name="LAST_COMMIT_MESSAGE" value="Функции рендера и глобальные переменные вынесены в отдельные модули" />
+    <MESSAGE value="Функции детекции событий игрового поля вынесены в отдельный модуль" />
+    <option name="LAST_COMMIT_MESSAGE" value="Функции детекции событий игрового поля вынесены в отдельный модуль" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Pentomis$main.coverage" NAME="main Coverage Results" MODIFIED="1714642650753" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Pentomis$main.coverage" NAME="main Coverage Results" MODIFIED="1714649252602" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

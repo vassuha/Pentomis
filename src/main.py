@@ -1,12 +1,12 @@
-import sys
-import time
 import copy
 from random import choice
+import sys
+import time
 import pygame
 from figure import figure
+from functions import *
 from render import *
 from globals import *
-from functions import *
 
 try:
     f = open("./record.txt")
@@ -16,27 +16,26 @@ except FileNotFoundError:
 
 running = True
 while running:
-    #Создание игрового поля
+    # Создание игрового поля
     area = []
     for i in range(28):
         area.append([0] * 18)
-        area[i][3] = 1;
-        area[i][14] = 1;
+        area[i][3] = 1
+        area[i][14] = 1
     area[24] = [1] * 18
 
     score = 0
 
-    tempfigure = choice(figures)
-    nextfigure = copy.deepcopy(choice(figures))
-    pausefigure = figure("-1", area, [[0, 0, 0], [0, 0, 0], [0, 0, 0]], 0, (0, 0), "", [1, 1])
+    temp_figure = choice(figures)
+    next_figure = copy.deepcopy(choice(figures))
+    pause_figure = figure("-1", area, [[0, 0, 0], [0, 0, 0], [0, 0, 0]], 0, (0, 0), "", [1, 1])
 
-
-    #Стартовое меню
+    # Стартовое меню
     gameplay = False
     while not gameplay:
-        screenWidth = screen.get_size()[0]
-        screenHeight = screen.get_size()[1]
-        start_menu_buttons = renderStartMenu(sound)
+        screen_width = screen.get_size()[0]
+        screen_height = screen.get_size()[1]
+        start_menu_buttons = render_start_menu(sound)
         start_button = start_menu_buttons[0]
         speaker_button = start_menu_buttons[1]
         cross_button = start_menu_buttons[2]
@@ -49,7 +48,7 @@ while running:
             cross_button.handle_event(event)
 
             if event.type == event.type == pygame.KEYDOWN and event.key != pygame.K_ESCAPE:
-                isThrowing = False
+                is_throwing = False
                 while not gameplay:
                     for event in pygame.event.get():
                         if event.type == pygame.KEYUP:
@@ -59,7 +58,7 @@ while running:
                 pygame.quit()
                 sys.exit()
 
-            if event.type == pygame.USEREVENT+1:
+            if event.type == pygame.USEREVENT + 1:
                 if event.button == "start":
                     gameplay = True
                 if event.button == "speaker":
@@ -75,11 +74,11 @@ while running:
                     pygame.quit()
                     sys.exit()
 
-    deltaTime = pygame.time.get_ticks()
-    timeMove = pygame.time.get_ticks()
-    isPause = False
-    isMove = False
-    tempfigure.spawn(area)
+    delta_time = pygame.time.get_ticks()
+    time_move = pygame.time.get_ticks()
+    is_pause = False
+    is_move = False
+    temp_figure.spawn(area)
     gameplay_music.play(loops=-1)
     MOVEMENT, T = pygame.USEREVENT, timer(0)
     pygame.time.set_timer(MOVEMENT, T)
@@ -87,27 +86,28 @@ while running:
     while gameplay:
         keys = pygame.key.get_pressed()
         if (keys[pygame.K_RIGHT] or keys[pygame.K_d]):
-            if pygame.time.get_ticks() - timeMove > 100:
-                tempfigure.move(area, "right")
-                timeMove = pygame.time.get_ticks()
-        if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and isMove==False:
-            if pygame.time.get_ticks() - timeMove > 100:
-                tempfigure.move(area, "left")
-                timeMove = pygame.time.get_ticks()
-        if (keys[pygame.K_DOWN] or keys[pygame.K_s]) and isMove==False:
-            isMove = True
-            tempfigure.throw(area)
-        if (keys[pygame.K_UP] or keys[pygame.K_w]) and isMove==False:
-            tempfigure.rotate(area)
-            isMove = True
-        if keys[pygame.K_SPACE] and isMove==False:
-            isMove = True
-            isPause = not(isPause)
-            tempfigure, pausefigure = pausefigure, tempfigure
+            if pygame.time.get_ticks() - time_move > 100:
+                temp_figure.move(area, "right")
+                time_move = pygame.time.get_ticks()
+        if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and is_move == False:
+            if pygame.time.get_ticks() - time_move > 100:
+                temp_figure.move(area, "left")
+                time_move = pygame.time.get_ticks()
+        if (keys[pygame.K_DOWN] or keys[pygame.K_s]) and is_move == False:
+            is_move = True
+            temp_figure.throw(area)
+        if (keys[pygame.K_UP] or keys[pygame.K_w]) and is_move == False:
+            temp_figure.rotate(area)
+            is_move = True
+        if keys[pygame.K_SPACE] and is_move == False:
+            is_move = True
+            is_pause = not (is_pause)
+            temp_figure, pause_figure = pause_figure, temp_figure
 
-        screenWidth = screen.get_size()[0]
-        screenHeight = screen.get_size()[1]
-        buttons = renderGameplay(area, score, blocks, nextfigure, tempfigure, pygame.time.get_ticks()-deltaTime, isPause, sound)
+        screen_width = screen.get_size()[0]
+        screen_height = screen.get_size()[1]
+        buttons = render_gameplay(area, score, blocks, next_figure, temp_figure, pygame.time.get_ticks() - delta_time,
+                                  is_pause, sound)
         speaker_button = buttons[0]
         pause_button = buttons[1]
         play_button = buttons[2]
@@ -120,30 +120,30 @@ while running:
                 pygame.quit()
                 sys.exit()
             if event.type == MOVEMENT:
-                if checkCollision(area, tempfigure):
-                    score = checkLine(area, score)
-                    if checkEnd(area):
+                if check_collision(area, temp_figure):
+                    score = check_line(area, score)
+                    if check_end(area):
                         gameplay = False
-                    tempfigure = nextfigure
-                    nextfigure = copy.deepcopy(choice(figures))
-                    isThrowing = False
-                    if not tempfigure.spawn(area):
+                    temp_figure = next_figure
+                    next_figure = copy.deepcopy(choice(figures))
+                    is_throwing = False
+                    if not temp_figure.spawn(area):
                         gameplay = False
-                tempfigure.move(area, "down")
+                temp_figure.move(area, "down")
                 MOVEMENT, T = pygame.USEREVENT, timer(score)
                 pygame.time.set_timer(MOVEMENT, T)
-                deltaTime = pygame.time.get_ticks()
+                delta_time = pygame.time.get_ticks()
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
-                    isMove = False
+                    is_move = False
                 if event.key == pygame.K_LEFT or event.key == pygame.K_a:
-                    isMove = False
+                    is_move = False
                 if event.key == pygame.K_UP or event.key == pygame.K_w:
-                    isMove = False
+                    is_move = False
                 if event.key == pygame.K_DOWN or event.key == pygame.K_s:
-                    isMove = False
+                    is_move = False
                 if event.key == pygame.K_SPACE:
-                    isMove = False
+                    is_move = False
             if event.type == pygame.VIDEORESIZE:
 
                 height = min(1080, max(300, event.h))
@@ -156,15 +156,15 @@ while running:
             speaker_button.check_hover(pygame.mouse.get_pos())
             speaker_button.handle_event(event)
             cross_button.handle_event(event)
-            if event.type == pygame.USEREVENT+1:
+            if event.type == pygame.USEREVENT + 1:
                 if event.button == "pause":
-                    isPause = not (isPause)
-                    tempfigure, pausefigure = pausefigure, tempfigure
+                    is_pause = not (is_pause)
+                    temp_figure, pause_figure = pause_figure, temp_figure
                 if event.button == "play":
-                    isPause = not (isPause)
-                    tempfigure, pausefigure = pausefigure, tempfigure
+                    is_pause = not (is_pause)
+                    temp_figure, pause_figure = pause_figure, temp_figure
                 if event.button == "speaker":
-                    sound = (sound)%3+1
+                    sound = (sound) % 3 + 1
                     if sound == 1:
                         gameplay_music.set_volume(0.2)
                     elif sound == 2:
@@ -184,30 +184,30 @@ while running:
 
         clock.tick(60)
 
-    #Завершающее меню
+    # Завершающее меню
     with open("./record.txt") as f:
         record = int(f.readline())
     if score > record:
         record = score
     with open("./record.txt", "w") as f:
-            f.write(str(record) + "\n")
-    screen.fill(bgColor)
-    screen.blit(myFont.render("You lose. Score: " + str(score) + " , record: " + str(record), True, "White"), (0, 20))
-    screen.blit(myFont.render("Do you want to continue?", True, "White"), (0, 100))
-    screen.blit(myFont.render("Play again (Y)                   Quit (N)", True, "White"), (0, 200))
+        f.write(str(record) + "\n")
+    screen.fill(bg_color)
+    screen.blit(my_font.render("You lose. Score: " + str(score) + " , record: " + str(record), True, "White"), (0, 20))
+    screen.blit(my_font.render("Do you want to continue?", True, "White"), (0, 100))
+    screen.blit(my_font.render("Play again (Y)                   Quit (N)", True, "White"), (0, 200))
     pygame.display.update()
     time.sleep(0.5)
 
-    #Продолжить или завершить
-    isContinue = False
-    while not isContinue:
+    # Продолжить или завершить
+    is_continue = False
+    while not is_continue:
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_y:
-                    isContinue = True
+                    is_continue = True
                 if event.key == pygame.K_n or event.key == pygame.K_ESCAPE:
                     running = False
-                    isContinue = True
+                    is_continue = True
 running = False
 pygame.quit()
 sys.exit()
