@@ -9,8 +9,6 @@ class ImageButton:
         self.height = height
         self.text = text
 
-
-
         self.image = image_path
         self.image = pygame.transform.scale(self.image, (width, height))
         self.hover_image = self.image
@@ -51,7 +49,6 @@ class BoxButton(ImageButton):
         rounding = screenHeight // 36
         border = screenHeight // (270)
         color = (120, 122, 130)
-        blockHeight = int(screenHeight // areaHeight * 0.9)
         area = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
         translucentArea = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
         if self.is_hovered:
@@ -61,6 +58,5 @@ class BoxButton(ImageButton):
         pygame.draw.rect(translucentArea, (0, 0, 0), (0, 0, self.width, self.height), self.height, rounding)
         pygame.draw.rect(translucentArea, color, (0, 0, self.width, self.height), border, rounding)
         area.blit(translucentArea, (0, 0))
-        # area.blit(scoreText, (0 + screenHeight / 100, 0 + screenHeight / 100))
         area.blit(self.image, (self.width // 2 - self.width // 2, self.height // 2 - self.height // 2))
         screen.blit(area, (self.x, self.y))
