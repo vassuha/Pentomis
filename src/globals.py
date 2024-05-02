@@ -34,7 +34,9 @@ figures.append(Figure("9", area, [[9, 9, 0], [0, 9, 9], [0, 9, 0]], 0, (0, 0), "
 figures.append(Figure("10", area, [[0, 0, 0, 0], [0, 0, 0, 0], [10, 10, 0, 0], [0, 10, 10, 10]], 0, (0, 0), "", [2, 1]))
 figures.append(Figure("11", area, [[0, 11, 11], [11, 11, 0], [0, 11, 0]], 0, (0, 0), "", [1, 1]))
 figures.append(Figure("12", area, [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 12, 12], [12, 12, 12, 0]], 0, (0, 0), "", [3, 2]))
-figures.append(Figure("13", area, [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [13, 13, 13, 13, 13]], 0, (0, 0), "", [4, 2]))
+figures.append(
+    Figure("13", area, [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [13, 13, 13, 13, 13]], 0,
+           (0, 0), "", [4, 2]))
 figures.append(Figure("14", area, [[0, 0, 0], [14, 0, 14], [14, 14, 14]], 0, (0, 0), "", [2, 1]))
 # figures.append(figure("15", area, [[0, 15, 0], [15, 15, 15], [0, 15, 0]], 0, (0, 0), "", [1, 1]))
 figures.append(Figure("16", area, [[16, 16, 16], [0, 16, 0], [0, 16, 0]], 0, (0, 0), "", [1, 1]))
@@ -58,6 +60,7 @@ bg = pygame.transform.scale(pygame.image.load("img/backgrounds/Minimalistic_land
 mesh_color = (120, 122, 130)
 
 delite_line_texture = pygame.image.load("img/textures/Delite_line_texture.png")
+trail_texture = pygame.image.load("img/textures/Trail.png")
 pause_icon = pygame.image.load("img/icons/pause.png")
 play_icon = pygame.image.load("img/icons/play.png")
 cross_icon = pygame.image.load("img/icons/cross.png")

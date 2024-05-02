@@ -31,7 +31,8 @@ def render_void_box(x, y, width, height, screen):
     screen.blit(area, (x, y))
 
 
-def render_gameplay(area, score, blocks, next_figure, temp_figure, delta_time, is_pause, sound, delete_lines):
+def render_gameplay(area, score, blocks, next_figure, temp_figure, delta_time, is_pause, sound, delete_lines,
+                    time_delete, throwing):
     global screen
     screen_height = screen.get_height()
     screen_width = screen.get_width()
@@ -60,6 +61,12 @@ def render_gameplay(area, score, blocks, next_figure, temp_figure, delta_time, i
         pygame.draw.line(mesh, mesh_color, (0, i * block_height), (block_height * AREA_WIDTH, i * block_height))
 
     gameplay_area.blit(mesh, (0, 0))
+
+    if throwing:
+        gameplay_area.blit(pygame.transform.scale(trail_texture, (
+            block_height * len(temp_figure.form[0]), (temp_figure.position[0] - throwing) * block_height)),
+                           ((temp_figure.position[1] - 4) * block_height + border // 2,
+                            (throwing + len(temp_figure.form) / 2 - 3) * block_height))
 
     area1 = copy.deepcopy(area)
     for i in range(len(temp_figure.form)):
@@ -90,15 +97,13 @@ def render_gameplay(area, score, blocks, next_figure, temp_figure, delta_time, i
                                    ((j - 4) * block_height + border // 2, (i - 3) * block_height))
 
     for i in range(len(delete_lines)):
-        if delete_lines[i] == 1 and delta_time/timer(score) < 0.9:
+        if delete_lines[i] == 1 and time_delete / timer(score) < 1:
             delete_line_area = pygame.Surface((screen_width, screen_height), pygame.SRCALPHA)
-            delete_line_area.set_alpha(256-delta_time/timer(score)*256)
-            delete_line_area.blit(pygame.transform.scale(delite_line_texture, (block_height*AREA_WIDTH, block_height)),
-                               (border // 2, (i - 3) * block_height))
+            delete_line_area.set_alpha(max(256 - time_delete * 2 / timer(score) * 256, 0))
+            delete_line_area.blit(
+                pygame.transform.scale(delite_line_texture, (block_height * AREA_WIDTH, block_height)),
+                (border // 2, (i - 3) * block_height))
             gameplay_area.blit(delete_line_area, (0, 0))
-
-    print(delta_time, sum(delete_lines))
-
 
     if is_pause:
         gameplay_area = gaussian_blur(gameplay_area, 50)

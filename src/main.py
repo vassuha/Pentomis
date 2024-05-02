@@ -7,6 +7,7 @@ from figure import Figure
 from functions import *
 from render import *
 from globals import *
+
 pygame.display.set_caption('Pentomis')
 
 try:
@@ -33,7 +34,7 @@ while not gameplay:
         cross_button.handle_event(event)
 
         if event.type == event.type == pygame.KEYDOWN and event.key != pygame.K_ESCAPE:
-            is_throwing = False
+            throwing = False
             while not gameplay:
                 for event in pygame.event.get():
                     if event.type == pygame.KEYUP:
@@ -78,9 +79,12 @@ while running:
     # Стартовое меню
 
     delta_time = pygame.time.get_ticks()
+    time_delete = pygame.time.get_ticks()
     time_move = pygame.time.get_ticks()
     is_pause = False
     is_move = False
+    throwing = False
+    collision = False
     temp_figure.spawn(area)
     gameplay_music.play(loops=-1)
     MOVEMENT, T = pygame.USEREVENT, timer(0)
@@ -99,7 +103,8 @@ while running:
                 time_move = pygame.time.get_ticks()
         if (keys[pygame.K_DOWN] or keys[pygame.K_s]) and is_move == False:
             is_move = True
-            temp_figure.throw(area)
+            throwing = temp_figure.position[0]
+            # temp_figure.throw(area)
         if (keys[pygame.K_UP] or keys[pygame.K_w]) and is_move == False:
             temp_figure.rotate(area)
             is_move = True
@@ -111,14 +116,26 @@ while running:
         screen_width = screen.get_size()[0]
         screen_height = screen.get_size()[1]
         buttons = render_gameplay(area, score, blocks, next_figure, temp_figure, pygame.time.get_ticks() - delta_time,
-                                  is_pause, sound, delete_lines)
-        #delete_lines = []
+                                  is_pause, sound, delete_lines, pygame.time.get_ticks() - time_delete, throwing)
         speaker_button = buttons[0]
         pause_button = buttons[1]
         play_button = buttons[2]
         cross_button = buttons[3]
         pygame.display.update()
 
+        if throwing:
+            temp_figure.move(area, "down")
+            temp_figure.move(area, "down")
+            if check_collision(area, temp_figure):
+                score, delete_lines = check_line(area, score)
+                time_delete = pygame.time.get_ticks()
+                if check_end(area):
+                    gameplay = False
+                temp_figure = next_figure
+                next_figure = copy.deepcopy(choice(figures))
+                throwing = False
+                if not temp_figure.spawn(area):
+                    gameplay = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 running = False
@@ -127,15 +144,17 @@ while running:
             if event.type == MOVEMENT:
                 if check_collision(area, temp_figure):
                     score, delete_lines = check_line(area, score)
+                    time_delete = pygame.time.get_ticks()
                     if check_end(area):
                         gameplay = False
                     temp_figure = next_figure
                     next_figure = copy.deepcopy(choice(figures))
-                    is_throwing = False
+                    throwing = False
                     if not temp_figure.spawn(area):
                         gameplay = False
-                else:
+                elif pygame.time.get_ticks() - time_delete > timer(score):
                     delete_lines = []
+
                 temp_figure.move(area, "down")
                 MOVEMENT, T = pygame.USEREVENT, timer(score)
                 pygame.time.set_timer(MOVEMENT, T)
@@ -219,7 +238,7 @@ while running:
             cross_button.handle_event(event)
 
             if event.type == event.type == pygame.KEYDOWN and event.key != pygame.K_ESCAPE:
-                is_throwing = False
+                throwing = False
                 while not gameplay:
                     for event in pygame.event.get():
                         if event.type == pygame.KEYUP:

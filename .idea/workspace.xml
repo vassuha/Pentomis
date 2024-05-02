@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="152454ad-6c52-484e-bc30-826792bdf9ef" name="Changes" comment="Добавлены новые текстуры">
+    <list default="true" id="152454ad-6c52-484e-bc30-826792bdf9ef" name="Changes" comment="Добавлена анимация удаления линии">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/functions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/globals.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/globals.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/render.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/render.py" afterDir="false" />
@@ -378,7 +377,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714672230350</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="Добавлена анимация удаления линии">
+      <option name="closed" value="true" />
+      <created>1714685431142</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1714685431142</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -396,7 +403,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Реализованы все базовые механики, кроме проигрыша. Игра без графического интерфейса, вывод через текстовый вывод матрицы" />
     <MESSAGE value="Реализован проигрыш, запись рекорда в файл. Добалено стартовое и закрывающее меню" />
     <MESSAGE value="Изменена механика просчета коллизий, вследствии чего стало возможным &quot;скольжение&quot; фигуры по плоской поверхности под ней" />
     <MESSAGE value="Добавлен базовый графический интерфейс, текстурированы фигуры" />
@@ -421,9 +427,10 @@
     <MESSAGE value="Слияние с веткой Better_code" />
     <MESSAGE value="Слияние ветки End-menu в master" />
     <MESSAGE value="Добавлены новые текстуры" />
-    <option name="LAST_COMMIT_MESSAGE" value="Добавлены новые текстуры" />
+    <MESSAGE value="Добавлена анимация удаления линии" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавлена анимация удаления линии" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Pentomis$main.coverage" NAME="main Coverage Results" MODIFIED="1714684954769" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Pentomis$main.coverage" NAME="main Coverage Results" MODIFIED="1714691714290" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
