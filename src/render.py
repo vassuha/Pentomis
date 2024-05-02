@@ -246,7 +246,6 @@ def render_start_menu(sound):
 
     # Отображение кнопки закрыть
     global cross_button
-
     cross_button = BoxButton("cross",
                              screen_width // 2 - square_width // 2 + square_width + border * 10,
                              screen_height // 2 - square_width // 2, score_area_height, score_area_height,
