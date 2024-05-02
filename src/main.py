@@ -14,7 +14,50 @@ except FileNotFoundError:
     f = open("./record.txt", "w")
     f.write("0" + "\n")
 
-running = True
+gameplay = False
+while not gameplay:
+    screen_width = screen.get_size()[0]
+    screen_height = screen.get_size()[1]
+    start_menu_buttons = render_start_menu(sound)
+    start_button = start_menu_buttons[0]
+    speaker_button = start_menu_buttons[1]
+    cross_button = start_menu_buttons[2]
+    for event in pygame.event.get():
+        start_button.check_hover(pygame.mouse.get_pos())
+        start_button.handle_event(event)
+        speaker_button.check_hover(pygame.mouse.get_pos())
+        speaker_button.handle_event(event)
+        cross_button.check_hover(pygame.mouse.get_pos())
+        cross_button.handle_event(event)
+
+        if event.type == event.type == pygame.KEYDOWN and event.key != pygame.K_ESCAPE:
+            is_throwing = False
+            while not gameplay:
+                for event in pygame.event.get():
+                    if event.type == pygame.KEYUP:
+                        gameplay = True
+        if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+            running = False
+            pygame.quit()
+            sys.exit()
+
+        if event.type == pygame.USEREVENT + 1:
+            if event.button == "start":
+                gameplay = True
+                running = True
+            if event.button == "speaker":
+                sound = (sound) % 3 + 1
+                if sound == 1:
+                    gameplay_music.set_volume(0.2)
+                elif sound == 2:
+                    gameplay_music.set_volume(1)
+                elif sound == 3:
+                    gameplay_music.set_volume(0)
+            if event.button == "cross":
+                running = False
+                pygame.quit()
+                sys.exit()
+
 while running:
     # Создание игрового поля
     area = []
@@ -30,48 +73,6 @@ while running:
     pause_figure = figure("-1", area, [[0, 0, 0], [0, 0, 0], [0, 0, 0]], 0, (0, 0), "", [1, 1])
 
     # Стартовое меню
-    gameplay = False
-    while not gameplay:
-        screen_width = screen.get_size()[0]
-        screen_height = screen.get_size()[1]
-        start_menu_buttons = render_start_menu(sound)
-        start_button = start_menu_buttons[0]
-        speaker_button = start_menu_buttons[1]
-        cross_button = start_menu_buttons[2]
-        for event in pygame.event.get():
-            start_button.check_hover(pygame.mouse.get_pos())
-            start_button.handle_event(event)
-            speaker_button.check_hover(pygame.mouse.get_pos())
-            speaker_button.handle_event(event)
-            cross_button.check_hover(pygame.mouse.get_pos())
-            cross_button.handle_event(event)
-
-            if event.type == event.type == pygame.KEYDOWN and event.key != pygame.K_ESCAPE:
-                is_throwing = False
-                while not gameplay:
-                    for event in pygame.event.get():
-                        if event.type == pygame.KEYUP:
-                            gameplay = True
-            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                running = False
-                pygame.quit()
-                sys.exit()
-
-            if event.type == pygame.USEREVENT + 1:
-                if event.button == "start":
-                    gameplay = True
-                if event.button == "speaker":
-                    sound = (sound) % 3 + 1
-                    if sound == 1:
-                        gameplay_music.set_volume(0.2)
-                    elif sound == 2:
-                        gameplay_music.set_volume(1)
-                    elif sound == 3:
-                        gameplay_music.set_volume(0)
-                if event.button == "cross":
-                    running = False
-                    pygame.quit()
-                    sys.exit()
 
     delta_time = pygame.time.get_ticks()
     time_move = pygame.time.get_ticks()
@@ -184,29 +185,56 @@ while running:
         clock.tick(60)
 
     # Завершающее меню
+    gameplay_music.stop()
+    is_new_best = False
     with open("./record.txt") as f:
         record = int(f.readline())
     if score > record:
         record = score
+        is_new_best = True
     with open("./record.txt", "w") as f:
         f.write(str(record) + "\n")
-    screen.fill(bg_color)
-    screen.blit(my_font.render("You lose. Score: " + str(score) + " , record: " + str(record), True, "White"), (0, 20))
-    screen.blit(my_font.render("Do you want to continue?", True, "White"), (0, 100))
-    screen.blit(my_font.render("Play again (Y)                   Quit (N)", True, "White"), (0, 200))
-    pygame.display.update()
-    time.sleep(0.5)
-
-    # Продолжить или завершить
-    is_continue = False
-    while not is_continue:
+    while not gameplay:
+        screen_width = screen.get_size()[0]
+        screen_height = screen.get_size()[1]
+        start_menu_buttons = render_end_menu(sound, score, is_new_best)
+        start_button = start_menu_buttons[0]
+        speaker_button = start_menu_buttons[1]
+        cross_button = start_menu_buttons[2]
         for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_y:
-                    is_continue = True
-                if event.key == pygame.K_n or event.key == pygame.K_ESCAPE:
+            start_button.check_hover(pygame.mouse.get_pos())
+            start_button.handle_event(event)
+            speaker_button.check_hover(pygame.mouse.get_pos())
+            speaker_button.handle_event(event)
+            cross_button.check_hover(pygame.mouse.get_pos())
+            cross_button.handle_event(event)
+
+            if event.type == event.type == pygame.KEYDOWN and event.key != pygame.K_ESCAPE:
+                is_throwing = False
+                while not gameplay:
+                    for event in pygame.event.get():
+                        if event.type == pygame.KEYUP:
+                            gameplay = True
+            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                running = False
+                pygame.quit()
+                sys.exit()
+
+            if event.type == pygame.USEREVENT + 1:
+                if event.button == "start":
+                    gameplay = True
+                if event.button == "speaker":
+                    sound = (sound) % 3 + 1
+                    if sound == 1:
+                        gameplay_music.set_volume(0.2)
+                    elif sound == 2:
+                        gameplay_music.set_volume(1)
+                    elif sound == 3:
+                        gameplay_music.set_volume(0)
+                if event.button == "cross":
                     running = False
-                    is_continue = True
+                    pygame.quit()
+                    sys.exit()
 running = False
 pygame.quit()
 sys.exit()

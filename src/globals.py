@@ -56,8 +56,6 @@ for i in range(1, 22 + 1):
 bg = pygame.transform.scale(pygame.image.load("img/backgrounds/Minimalistic_landscape_1.jpg").convert(),
                             (screen_width, screen_height))
 mesh_color = (120, 122, 130)
-close_menu_bg = pygame.transform.scale(pygame.image.load("img/backgrounds/Close_bg.jpg").convert(),
-                                       (screen_width, screen_height))
 
 pause_icon = pygame.image.load("img/icons/pause.png")
 play_icon = pygame.image.load("img/icons/play.png")
@@ -67,6 +65,8 @@ speaker2_icon = pygame.image.load("img/icons/speaker2.png")
 speaker_off_icon = pygame.image.load("img/icons/speakerOff.png")
 play_icon_hovered = pygame.image.load("img/icons/play_large.png")
 bg_start = pygame.transform.scale(pygame.image.load("img/backgrounds/Start1.png"), (screen_width, screen_height))
+bg_end = pygame.transform.scale(pygame.image.load("img/backgrounds/Close_bg.jpg").convert(),
+                                (screen_width, screen_height))
 
 cross_button = BoxButton("cross", 100, 0, 100, 100, "", cross_icon)
 pause_button = BoxButton("pause", 0, 0, 100, 100, "", pause_icon)

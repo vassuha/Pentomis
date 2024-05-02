@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="152454ad-6c52-484e-bc30-826792bdf9ef" name="Changes" comment="Функции детекции событий игрового поля вынесены в отдельный модуль" />
+    <list default="true" id="152454ad-6c52-484e-bc30-826792bdf9ef" name="Changes" comment="Слияние с веткой Better_code">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/record.txt" beforeDir="false" afterPath="$PROJECT_DIR$/record.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/globals.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/globals.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/render.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/render.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,7 +37,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Better_code" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -65,7 +71,7 @@
     "Python.main.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "End-menu",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -348,7 +354,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714642803147</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Слияние с веткой Better_code">
+      <option name="closed" value="true" />
+      <created>1714650162354</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1714650162354</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -389,9 +403,10 @@
     <MESSAGE value="Конпки start menu адаптированы под класс Button" />
     <MESSAGE value="Функции рендера и глобальные переменные вынесены в отдельные модули" />
     <MESSAGE value="Функции детекции событий игрового поля вынесены в отдельный модуль" />
-    <option name="LAST_COMMIT_MESSAGE" value="Функции детекции событий игрового поля вынесены в отдельный модуль" />
+    <MESSAGE value="Слияние с веткой Better_code" />
+    <option name="LAST_COMMIT_MESSAGE" value="Слияние с веткой Better_code" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Pentomis$main.coverage" NAME="main Coverage Results" MODIFIED="1714650065789" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Pentomis$main.coverage" NAME="main Coverage Results" MODIFIED="1714655420001" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

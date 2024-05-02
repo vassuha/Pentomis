@@ -257,3 +257,95 @@ def render_start_menu(sound):
     pygame.display.update()
     start_menu_buttons = [start_button, speaker_button, cross_button]
     return start_menu_buttons
+
+
+def render_end_menu(sound, score, is_new_best):
+    global bg_end, play_icon_hovered, cross_icon
+    screen_height = screen.get_height()
+    screen_width = screen.get_width()
+    border = screen_height // 270
+    score_area_height = screen_height // 9
+    background1 = pygame.transform.scale((bg_end), (screen_width, screen_height))
+    screen.blit(background1, (0, 0))
+    square_width = screen_width // 5
+
+    render_void_box(screen_width // 2 - square_width // 2, screen_height // 2 - square_width // 2, square_width,
+                    square_width,
+                    screen)
+
+    start_font = pygame.font.Font('fonts/RubikMonoOne-Regular.ttf', square_width // 8)
+    if not is_new_best:
+        start_text = []
+        start_text.append(start_font.render("score", True, "White"))
+        start_text.append(start_font.render(str(score), True, "White"))
+        screen.blit(start_text[0],
+                    (screen_width // 2 - square_width // 2 * 0.5,
+                     screen_height // 2 - square_width // 2 + square_width // 18))
+        screen.blit(start_text[1],
+                    (screen_width // 2 - square_width // 2 * 0.1 * len(str(score)),
+                     screen_height // 2 - square_width // 2 + square_width // 18 + square_width // 8))
+
+    else:
+        start_text = []
+        start_text.append(start_font.render("New", True, "White"))
+        start_text.append(start_font.render("record!", True, "White"))
+        start_text.append(start_font.render(str(score), True, "White"))
+        screen.blit(start_text[0],
+                    (screen_width // 2 - square_width // 2 * 0.35,
+                     screen_height // 2 - square_width // 2 + square_width // 18))
+        screen.blit(start_text[1],
+                    (screen_width // 2 - square_width // 2 * 0.7,
+                     screen_height // 2 - square_width // 2 + square_width // 18 + square_width // 8))
+        screen.blit(start_text[2],
+                    (screen_width // 2 - square_width // 2 * 0.1 * len(str(score)),
+                     screen_height // 2 - square_width // 2 + square_width // 18 + square_width // 4))
+    # Отображение кнопки старт
+    global start_button
+
+    if start_button.check_hover(pygame.mouse.get_pos()):
+        start_button = ImageButton("start", screen_width // 2 - square_width // 2 * 0.45,
+                                   screen_height // 2 - square_width // 2 * 0.35 + square_width // 7, square_width // 2,
+                                   square_width // 2,
+                                   "",
+                                   play_icon_hovered)
+    else:
+        start_button = ImageButton("start", screen_width // 2 - square_width // 2 * 0.45,
+                                   screen_height // 2 - square_width // 2 * 0.35 + square_width // 7, square_width // 2,
+                                   square_width // 2,
+                                   "",
+                                   play_icon)
+
+    start_button.draw(screen)
+
+    # Отображение кнопки громкости
+    global speaker_button
+
+    if sound == 1:
+        speaker_button = BoxButton("speaker", screen_width // 2 - square_width // 2 - score_area_height - border * 10,
+                                   screen_height // 2 - square_width // 2, score_area_height,
+                                   score_area_height, "", speaker1_icon)
+
+    if sound == 2:
+        speaker_button = BoxButton("speaker", screen_width // 2 - square_width // 2 - score_area_height - border * 10,
+                                   screen_height // 2 - square_width // 2, score_area_height,
+                                   score_area_height, "", speaker2_icon)
+    if sound == 3:
+        speaker_button = BoxButton("speaker", screen_width // 2 - square_width // 2 - score_area_height - border * 10,
+                                   screen_height // 2 - square_width // 2, score_area_height,
+                                   score_area_height, "", speaker_off_icon)
+    speaker_button.check_hover(pygame.mouse.get_pos())
+    speaker_button.draw(screen, AREA_HEIGHT)
+
+    # Отображение кнопки закрыть
+    global cross_button
+
+    cross_button = BoxButton("cross",
+                             screen_width // 2 - square_width // 2 + square_width + border * 10,
+                             screen_height // 2 - square_width // 2, score_area_height, score_area_height,
+                             "", cross_icon)
+    cross_button.check_hover(pygame.mouse.get_pos())
+    cross_button.draw(screen, AREA_HEIGHT)
+
+    pygame.display.update()
+    start_menu_buttons = [start_button, speaker_button, cross_button]
+    return start_menu_buttons
