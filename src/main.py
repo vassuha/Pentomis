@@ -85,6 +85,7 @@ while running:
     gameplay_music.play(loops=-1)
     MOVEMENT, T = pygame.USEREVENT, timer(0)
     pygame.time.set_timer(MOVEMENT, T)
+    delete_lines = []
     # Игровой процесс
     while gameplay:
         keys = pygame.key.get_pressed()
@@ -110,7 +111,8 @@ while running:
         screen_width = screen.get_size()[0]
         screen_height = screen.get_size()[1]
         buttons = render_gameplay(area, score, blocks, next_figure, temp_figure, pygame.time.get_ticks() - delta_time,
-                                  is_pause, sound)
+                                  is_pause, sound, delete_lines)
+        #delete_lines = []
         speaker_button = buttons[0]
         pause_button = buttons[1]
         play_button = buttons[2]
@@ -124,7 +126,7 @@ while running:
                 sys.exit()
             if event.type == MOVEMENT:
                 if check_collision(area, temp_figure):
-                    score = check_line(area, score)
+                    score, delete_lines = check_line(area, score)
                     if check_end(area):
                         gameplay = False
                     temp_figure = next_figure
@@ -132,6 +134,8 @@ while running:
                     is_throwing = False
                     if not temp_figure.spawn(area):
                         gameplay = False
+                else:
+                    delete_lines = []
                 temp_figure.move(area, "down")
                 MOVEMENT, T = pygame.USEREVENT, timer(score)
                 pygame.time.set_timer(MOVEMENT, T)

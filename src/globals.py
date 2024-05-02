@@ -57,6 +57,7 @@ bg = pygame.transform.scale(pygame.image.load("img/backgrounds/Minimalistic_land
                             (screen_width, screen_height))
 mesh_color = (120, 122, 130)
 
+delite_line_texture = pygame.image.load("img/textures/Delite_line_texture.png")
 pause_icon = pygame.image.load("img/icons/pause.png")
 play_icon = pygame.image.load("img/icons/play.png")
 cross_icon = pygame.image.load("img/icons/cross.png")

@@ -31,7 +31,7 @@ def render_void_box(x, y, width, height, screen):
     screen.blit(area, (x, y))
 
 
-def render_gameplay(area, score, blocks, next_figure, temp_figure, delta_time, is_pause, sound):
+def render_gameplay(area, score, blocks, next_figure, temp_figure, delta_time, is_pause, sound, delete_lines):
     global screen
     screen_height = screen.get_height()
     screen_width = screen.get_width()
@@ -88,6 +88,17 @@ def render_gameplay(area, score, blocks, next_figure, temp_figure, delta_time, i
             if area1[i][j] > 0:
                 gameplay_area.blit(pygame.transform.scale(blocks[area1[i][j]], (block_height, block_height)),
                                    ((j - 4) * block_height + border // 2, (i - 3) * block_height))
+
+    for i in range(len(delete_lines)):
+        if delete_lines[i] == 1 and delta_time/timer(score) < 0.9:
+            delete_line_area = pygame.Surface((screen_width, screen_height), pygame.SRCALPHA)
+            delete_line_area.set_alpha(256-delta_time/timer(score)*256)
+            delete_line_area.blit(pygame.transform.scale(delite_line_texture, (block_height*AREA_WIDTH, block_height)),
+                               (border // 2, (i - 3) * block_height))
+            gameplay_area.blit(delete_line_area, (0, 0))
+
+    print(delta_time, sum(delete_lines))
+
 
     if is_pause:
         gameplay_area = gaussian_blur(gameplay_area, 50)

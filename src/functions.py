@@ -27,7 +27,7 @@ def check_line(area, score):
             area[3][3] = 1
             area[3][14] = 1
     score += sum(lines[3:24])
-    return score
+    return score, lines
 
 
 def check_end(area):
