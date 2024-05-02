@@ -6,6 +6,7 @@ import pygame
 from figure import figure
 from button import ImageButton, BoxButton
 from globals import *
+from functions import checkCollision, timer
 
 def gaussian_blur(surface, radius):
     scaled_surface = pygame.transform.smoothscale(surface, (surface.get_width() // radius, surface.get_height() // radius))
@@ -24,23 +25,6 @@ def renderVoidBox(x, y, width, height, screen):
     pygame.draw.rect(translucentArea, color, (0, 0, width, height), border, rounding)
     area.blit(translucentArea, (0, 0))
     screen.blit(area, (x,y))
-
-def checkCollision(area, figure):
-    for i in range(len(figure.form)):
-        for j in range(len(figure.form)):
-            if figure.form[i][j] > 0  and area[figure.position[0] + i+1][figure.position[1] + j] > 0:
-                if i < len(figure.form)-1:
-                    if figure.form[i+1][j] == 0:
-                        return True
-                else:
-                    return True
-    return False
-
-def timer(score=0):
-    t=900-score*10
-    if t<75:
-        t = 75
-    return t
 
 def renderGameplay(area, score, blocks, nextfigure, tempfigure, deltaTime, isPause, sound):
     global screen

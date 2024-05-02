@@ -6,62 +6,13 @@ import pygame
 from figure import figure
 from render import *
 from globals import *
-
-
-def checkCollision(area, figure):
-    for i in range(len(figure.form)):
-        for j in range(len(figure.form)):
-            if figure.form[i][j] > 0  and area[figure.position[0] + i+1][figure.position[1] + j] > 0:
-                if i < len(figure.form)-1:
-                    if figure.form[i+1][j] == 0:
-                        return True
-                else:
-                    return True
-    return False
-
-def checkLine(area, score):
-    lines = [0] * 28
-    for i in range(3, 24):
-        isLine = True
-        for j in range(4, 14):
-            if area[i][j] == 0:
-                isLine = False
-        if isLine:
-            lines[i] = 1
-    for k in range(3, 24):
-        if lines[k] == 1:
-            for i in range(k, 3, -1):
-                area[i] = area[i - 1]
-            area[3] = [0] * 18
-            area[3][3] = 1
-            area[3][14] = 1
-    score += sum(lines[3:24])
-    return score
-
-def checkEnd(area):
-    for j in range(4, 14):
-        if area[4][j] > 0:
-            return True
-
-
-
-def timer(score=0):
-    t=900-score*10
-    if t<75:
-        t = 75
-    return t
-
-
-MOVEMENT, T= pygame.USEREVENT, timer(0)
-pygame.time.set_timer(MOVEMENT, T)
+from functions import *
 
 try:
     f = open("./record.txt")
 except FileNotFoundError:
     f = open("./record.txt", "w")
     f.write("0" + "\n")
-
-
 
 running = True
 while running:
@@ -124,12 +75,15 @@ while running:
                     pygame.quit()
                     sys.exit()
 
-    #Игровой процесс
     deltaTime = pygame.time.get_ticks()
     timeMove = pygame.time.get_ticks()
     isPause = False
+    isMove = False
     tempfigure.spawn(area)
     gameplay_music.play(loops=-1)
+    MOVEMENT, T = pygame.USEREVENT, timer(0)
+    pygame.time.set_timer(MOVEMENT, T)
+    # Игровой процесс
     while gameplay:
         keys = pygame.key.get_pressed()
         if (keys[pygame.K_RIGHT] or keys[pygame.K_d]):
@@ -235,7 +189,7 @@ while running:
         record = int(f.readline())
     if score > record:
         record = score
-    with open("/record.txt", "w") as f:
+    with open("./record.txt", "w") as f:
             f.write(str(record) + "\n")
     screen.fill(bgColor)
     screen.blit(myFont.render("You lose. Score: " + str(score) + " , record: " + str(record), True, "White"), (0, 20))
@@ -251,7 +205,7 @@ while running:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_y:
                     isContinue = True
-                if event.key == pygame.K_n:
+                if event.key == pygame.K_n or event.key == pygame.K_ESCAPE:
                     running = False
                     isContinue = True
 running = False

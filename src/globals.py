@@ -1,5 +1,6 @@
 import pygame
 from render import *
+
 screenWidth = 1920-500
 screenHeight = 1080-300
 areaWidth = 10
@@ -19,7 +20,6 @@ for i in range(28):
 area[24] = [1]*18
 
 figures = []
-
 #figures.append(figure("", area, [[0, 0, 0], [0, 0, 0], [0, 0, 0]], 0, (0, 0), "", [, ]))
 figures.append(figure("1", area, [[0, 0, 0], [1, 1, 0], [0, 1, 1]], 0, (0, 0), "red", [1, 1]))
 figures.append(figure("2", area, [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [2, 2, 2, 2]], 0, (0, 0), "", [3, 2]))
@@ -46,11 +46,7 @@ figures.append(figure("22", area, [[0, 0, 0, 0], [0, 0, 0, 0], [22, 22, 22, 22],
 
 bgColor = 'Black'
 tempfigure = choice(figures)
-
 myFont = pygame.font.SysFont('Arial', 20)
-
-
-isMove = False
 
 blocks = []
 blocks.append(pygame.image.load("img/textures/Pentomis_texture_" + str(20) + ".png").convert())
