@@ -23,7 +23,6 @@ while running:
         area[i][3] = 1
         area[i][14] = 1
     area[24] = [1] * 18
-
     score = 0
 
     temp_figure = choice(figures)
