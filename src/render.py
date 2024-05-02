@@ -4,7 +4,7 @@ import sys
 import time
 import pygame
 from button import *
-from figure import figure
+from figure import Figure
 from functions import check_collision, timer
 from globals import *
 

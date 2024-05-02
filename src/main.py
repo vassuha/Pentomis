@@ -3,10 +3,11 @@ from random import choice
 import sys
 import time
 import pygame
-from figure import figure
+from figure import Figure
 from functions import *
 from render import *
 from globals import *
+pygame.display.set_caption('Pentomis')
 
 try:
     f = open("./record.txt")
@@ -15,6 +16,7 @@ except FileNotFoundError:
     f.write("0" + "\n")
 
 gameplay = False
+running = False
 while not gameplay:
     screen_width = screen.get_size()[0]
     screen_height = screen.get_size()[1]
@@ -36,6 +38,7 @@ while not gameplay:
                 for event in pygame.event.get():
                     if event.type == pygame.KEYUP:
                         gameplay = True
+                        running = True
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             running = False
             pygame.quit()
@@ -70,7 +73,7 @@ while running:
 
     temp_figure = choice(figures)
     next_figure = copy.deepcopy(choice(figures))
-    pause_figure = figure("-1", area, [[0, 0, 0], [0, 0, 0], [0, 0, 0]], 0, (0, 0), "", [1, 1])
+    pause_figure = Figure("-1", area, [[0, 0, 0], [0, 0, 0], [0, 0, 0]], 0, (0, 0), "", [1, 1])
 
     # Стартовое меню
 
@@ -194,6 +197,8 @@ while running:
         is_new_best = True
     with open("./record.txt", "w") as f:
         f.write(str(record) + "\n")
+    render_end_menu(sound, score, is_new_best)
+    time.sleep(0.5)
     while not gameplay:
         screen_width = screen.get_size()[0]
         screen_height = screen.get_size()[1]

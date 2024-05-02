@@ -1,7 +1,7 @@
 import copy
 
 
-class figure:
+class Figure:
     def __init__(self, name, area, form, rotation_angle, position, color, center):
         self.name = name
         self.form = form
