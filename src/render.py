@@ -1,5 +1,6 @@
 import copy
 from random import choice
+from math import sin
 import sys
 import time
 import pygame
@@ -32,7 +33,7 @@ def render_void_box(x, y, width, height, screen):
 
 
 def render_gameplay(area, score, blocks, next_figure, temp_figure, delta_time, is_pause, sound, delete_lines,
-                    time_delete, throwing):
+                    time_delete, throwing, bounce_time):
     global screen
     screen_height = screen.get_height()
     screen_width = screen.get_width()
@@ -107,8 +108,14 @@ def render_gameplay(area, score, blocks, next_figure, temp_figure, delta_time, i
 
     if is_pause:
         gameplay_area = gaussian_blur(gameplay_area, 50)
-    screen.blit(gameplay_area, (screen_width // 2 - block_height * (AREA_WIDTH // 2 - 1),
-                                screen_height // 2 - block_height * (AREA_HEIGHT // 2)))
+    if bounce_time >= 0:
+        bounce_time = pygame.time.get_ticks() - bounce_time
+        screen.blit(gameplay_area, (screen_width // 2 - block_height * (AREA_WIDTH // 2 - 1),
+                                    screen_height // 2 - block_height * (AREA_HEIGHT // 2) + border * 1.5 * (
+                                        sin(3.1415 * (bounce_time / (timer(score) / 3)))) ** 2))
+    else:
+        screen.blit(gameplay_area, (screen_width // 2 - block_height * (AREA_WIDTH // 2 - 1),
+                                    screen_height // 2 - block_height * (AREA_HEIGHT // 2)))
 
     # Отображение текущего счета
 
@@ -274,7 +281,7 @@ def render_start_menu(sound):
     return start_menu_buttons
 
 
-def render_end_menu(sound, score, is_new_best):
+def render_end_menu(sound, score, is_new_best, record):
     global bg_end, play_icon_hovered, cross_icon
     screen_height = screen.get_height()
     screen_width = screen.get_width()
@@ -291,14 +298,14 @@ def render_end_menu(sound, score, is_new_best):
     start_font = pygame.font.Font('fonts/RubikMonoOne-Regular.ttf', square_width // 8)
     if not is_new_best:
         start_text = []
-        start_text.append(start_font.render("score", True, "White"))
-        start_text.append(start_font.render(str(score), True, "White"))
+        start_text.append(start_font.render("score "+str(score), True, "White"))
+        start_text.append(start_font.render("best "+ str(record), True, "White"))
         screen.blit(start_text[0],
-                    (screen_width // 2 - square_width // 2 * 0.5,
+                    (screen_width // 2 - square_width // 2  * 0.105 * (len(str(score))+6),
                      screen_height // 2 - square_width // 2 + square_width // 18))
         screen.blit(start_text[1],
-                    (screen_width // 2 - square_width // 2 * 0.1 * len(str(score)),
-                     screen_height // 2 - square_width // 2 + square_width // 18 + square_width // 8))
+                    (screen_width // 2 - square_width // 2 * 0.105 * (len(str(record))+5),
+                     screen_height // 2 - square_width // 2 + square_width // 18 + square_width // 5))
 
     else:
         start_text = []

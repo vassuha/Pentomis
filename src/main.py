@@ -85,6 +85,7 @@ while running:
     is_move = False
     throwing = False
     collision = False
+    bounce_time = -1
     temp_figure.spawn(area)
     gameplay_music.play(loops=-1)
     MOVEMENT, T = pygame.USEREVENT, timer(0)
@@ -116,7 +117,8 @@ while running:
         screen_width = screen.get_size()[0]
         screen_height = screen.get_size()[1]
         buttons = render_gameplay(area, score, blocks, next_figure, temp_figure, pygame.time.get_ticks() - delta_time,
-                                  is_pause, sound, delete_lines, pygame.time.get_ticks() - time_delete, throwing)
+                                  is_pause, sound, delete_lines, pygame.time.get_ticks() - time_delete, throwing,
+                                  bounce_time)
         speaker_button = buttons[0]
         pause_button = buttons[1]
         play_button = buttons[2]
@@ -134,8 +136,11 @@ while running:
                 temp_figure = next_figure
                 next_figure = copy.deepcopy(choice(figures))
                 throwing = False
+                bounce_time = pygame.time.get_ticks()
                 if not temp_figure.spawn(area):
                     gameplay = False
+        if pygame.time.get_ticks() - bounce_time > timer(score) / 3:
+            bounce_time = -1
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 running = False
@@ -220,12 +225,12 @@ while running:
         is_new_best = True
     with open("./record.txt", "w") as f:
         f.write(str(record) + "\n")
-    render_end_menu(sound, score, is_new_best)
+    render_end_menu(sound, score, is_new_best, record)
     time.sleep(0.5)
     while not gameplay:
         screen_width = screen.get_size()[0]
         screen_height = screen.get_size()[1]
-        start_menu_buttons = render_end_menu(sound, score, is_new_best)
+        start_menu_buttons = render_end_menu(sound, score, is_new_best, record)
         start_button = start_menu_buttons[0]
         speaker_button = start_menu_buttons[1]
         cross_button = start_menu_buttons[2]
