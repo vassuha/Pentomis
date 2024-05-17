@@ -220,7 +220,7 @@ def render_start_menu(sound):
     score_area_height = screen_height // 9
     background1 = pygame.transform.scale((bg_start), (screen_width, screen_height))
     screen.blit(background1, (0, 0))
-    square_width = screen_width // 5
+    square_width = screen_height // 3
 
     render_void_box(screen_width // 2 - square_width // 2, screen_height // 2 - square_width // 2, square_width,
                     square_width,
@@ -289,7 +289,7 @@ def render_end_menu(sound, score, is_new_best, record):
     score_area_height = screen_height // 9
     background1 = pygame.transform.scale((bg_end), (screen_width, screen_height))
     screen.blit(background1, (0, 0))
-    square_width = screen_width // 5
+    square_width = screen_height // 3
 
     render_void_box(screen_width // 2 - square_width // 2, screen_height // 2 - square_width // 2, square_width,
                     square_width,

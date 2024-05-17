@@ -4,8 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="152454ad-6c52-484e-bc30-826792bdf9ef" name="Changes" comment="Добавлена анимация бросания детали и удаления линий, переработана механика бросания">
+    <list default="true" id="152454ad-6c52-484e-bc30-826792bdf9ef" name="Changes" comment="Исправлена надпись на закрывающем меню">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_03_05_2024_2_20_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_03_05_2024_2_20__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_02_05_2024_14_40_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_02_05_2024_14_40__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_03_05_2024_2_21_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_03_05_2024_2_21__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music/Doom Soundtrack.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/music/Doom Soundtrack.mp3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/render.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/render.py" afterDir="false" />
     </list>
@@ -159,7 +166,11 @@
       <workItem from="1714384318084" duration="1314000" />
       <workItem from="1714560547746" duration="13165000" />
       <workItem from="1714639780348" duration="9338000" />
-      <workItem from="1714724900574" duration="7630000" />
+      <workItem from="1714724900574" duration="16451000" />
+      <workItem from="1714819727004" duration="2471000" />
+      <workItem from="1714942185901" duration="1522000" />
+      <workItem from="1715006504318" duration="1893000" />
+      <workItem from="1715925990802" duration="3799000" />
     </task>
     <task id="LOCAL-00001" summary="Добавлен спавн фигур и перемещение (только вправо)">
       <option name="closed" value="true" />
@@ -377,7 +388,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714692175545</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="Исправлена надпись на закрывающем меню">
+      <option name="closed" value="true" />
+      <created>1714734451983</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1714734451983</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -395,7 +414,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Реализованы все базовые механики, кроме проигрыша. Игра без графического интерфейса, вывод через текстовый вывод матрицы" />
     <MESSAGE value="Реализован проигрыш, запись рекорда в файл. Добалено стартовое и закрывающее меню" />
     <MESSAGE value="Изменена механика просчета коллизий, вследствии чего стало возможным &quot;скольжение&quot; фигуры по плоской поверхности под ней" />
     <MESSAGE value="Добавлен базовый графический интерфейс, текстурированы фигуры" />
@@ -420,9 +438,10 @@
     <MESSAGE value="Слияние с веткой Better_code" />
     <MESSAGE value="Слияние ветки End-menu в master" />
     <MESSAGE value="Добавлена анимация бросания детали и удаления линий, переработана механика бросания" />
-    <option name="LAST_COMMIT_MESSAGE" value="Добавлена анимация бросания детали и удаления линий, переработана механика бросания" />
+    <MESSAGE value="Исправлена надпись на закрывающем меню" />
+    <option name="LAST_COMMIT_MESSAGE" value="Исправлена надпись на закрывающем меню" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Pentomis$main.coverage" NAME="main Coverage Results" MODIFIED="1714734087070" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Pentomis$main.coverage" NAME="main Coverage Results" MODIFIED="1715932114600" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

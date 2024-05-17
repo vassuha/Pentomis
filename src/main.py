@@ -226,7 +226,7 @@ while running:
     with open("./record.txt", "w") as f:
         f.write(str(record) + "\n")
     render_end_menu(sound, score, is_new_best, record)
-    time.sleep(0.5)
+    #time.sleep(0.5)
     while not gameplay:
         screen_width = screen.get_size()[0]
         screen_height = screen.get_size()[1]
