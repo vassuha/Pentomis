@@ -1,6 +1,7 @@
 import pygame
 from render import *
 from button import ImageButton, BoxButton
+from figure import Figure
 
 screen_width = 1920 - 500
 screen_height = 1080 - 300
@@ -9,8 +10,8 @@ AREA_HEIGHT = 20
 TEXTURE_WIDTH = 54
 pygame.init()
 screen = pygame.display.set_mode((screen_width, screen_height), pygame.RESIZABLE)
-gameplay_music = pygame.mixer.Sound("music/Doom Soundtrack.mp3")
-gameplay_music.set_volume(0.2)
+gameplay_music = pygame.mixer.Sound("music/Tetris_soundtrack.mp3")
+gameplay_music.set_volume(1)
 clock = pygame.time.Clock()
 
 area = []
@@ -35,8 +36,7 @@ figures.append(Figure("10", area, [[0, 0, 0, 0], [0, 0, 0, 0], [10, 10, 0, 0], [
 figures.append(Figure("11", area, [[0, 11, 11], [11, 11, 0], [0, 11, 0]], 0, (0, 0), "", [1, 1]))
 figures.append(Figure("12", area, [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 12, 12], [12, 12, 12, 0]], 0, (0, 0), "", [3, 2]))
 figures.append(
-    Figure("13", area, [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [13, 13, 13, 13, 13]], 0,
-           (0, 0), "", [4, 2]))
+    Figure("13", area, [[0, 0, 0], [0, 0, 0], [13, 13, 13]], 0,(0, 0), "", [2, 1]))
 figures.append(Figure("14", area, [[0, 0, 0], [14, 0, 14], [14, 14, 14]], 0, (0, 0), "", [2, 1]))
 # figures.append(figure("15", area, [[0, 15, 0], [15, 15, 15], [0, 15, 0]], 0, (0, 0), "", [1, 1]))
 figures.append(Figure("16", area, [[16, 16, 16], [0, 16, 0], [0, 16, 0]], 0, (0, 0), "", [1, 1]))
