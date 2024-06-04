@@ -228,21 +228,26 @@ def render_start_menu(sound):
 
     start_font = pygame.font.Font('fonts/RubikMonoOne-Regular.ttf', square_width // 7)
     start_text = start_font.render("Pentomis", True, "White")
-    screen.blit(start_text,
-                (screen_width // 2 - square_width // 2 * 0.95,
-                 screen_height // 2 - square_width // 2 + square_width // 9))
+    # screen.blit(start_text,
+    #             (screen_width // 2 - square_width // 2 * 0.95,
+    #              screen_height // 2 - square_width // 2 + square_width // 9))
+
+    screen.blit(pygame.transform.scale(pentomis_logo,
+                                       (screen_height / 7 * 2, screen_height / 7)),
+                (screen_width // 2 - square_width // 2 * 0.85,
+                 screen_height // 2 - square_width // 2 + square_width // 19))
 
     # Отображение кнопки старт
     global start_button
 
     if start_button.check_hover(pygame.mouse.get_pos()):
         start_button = ImageButton("start", screen_width // 2 - square_width // 2 * 0.45,
-                                   screen_height // 2 - square_width // 2 * 0.35, square_width // 2, square_width // 2,
+                                   screen_height // 2 - square_width // 2 * 0.1, square_width // 2, square_width // 2,
                                    "",
                                    play_icon_hovered)
     else:
         start_button = ImageButton("start", screen_width // 2 - square_width // 2 * 0.45,
-                                   screen_height // 2 - square_width // 2 * 0.35, square_width // 2, square_width // 2,
+                                   screen_height // 2 - square_width // 2 * 0.1, square_width // 2, square_width // 2,
                                    "",
                                    play_icon)
 
@@ -298,13 +303,13 @@ def render_end_menu(sound, score, is_new_best, record):
     start_font = pygame.font.Font('fonts/RubikMonoOne-Regular.ttf', square_width // 8)
     if not is_new_best:
         start_text = []
-        start_text.append(start_font.render("score "+str(score), True, "White"))
-        start_text.append(start_font.render("best "+ str(record), True, "White"))
+        start_text.append(start_font.render("score " + str(score), True, "White"))
+        start_text.append(start_font.render("best " + str(record), True, "White"))
         screen.blit(start_text[0],
-                    (screen_width // 2 - square_width // 2  * 0.105 * (len(str(score))+6),
+                    (screen_width // 2 - square_width // 2 * 0.105 * (len(str(score)) + 6),
                      screen_height // 2 - square_width // 2 + square_width // 18))
         screen.blit(start_text[1],
-                    (screen_width // 2 - square_width // 2 * 0.105 * (len(str(record))+5),
+                    (screen_width // 2 - square_width // 2 * 0.105 * (len(str(record)) + 5),
                      screen_height // 2 - square_width // 2 + square_width // 18 + square_width // 5))
 
     else:

@@ -36,7 +36,7 @@ figures.append(Figure("10", area, [[0, 0, 0, 0], [0, 0, 0, 0], [10, 10, 0, 0], [
 figures.append(Figure("11", area, [[0, 11, 11], [11, 11, 0], [0, 11, 0]], 0, (0, 0), "", [1, 1]))
 figures.append(Figure("12", area, [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 12, 12], [12, 12, 12, 0]], 0, (0, 0), "", [3, 2]))
 figures.append(
-    Figure("13", area, [[0, 0, 0], [0, 0, 0], [13, 13, 13]], 0,(0, 0), "", [2, 1]))
+    Figure("13", area, [[0, 0, 0], [0, 0, 0], [13, 13, 13]], 0, (0, 0), "", [2, 1]))
 figures.append(Figure("14", area, [[0, 0, 0], [14, 0, 14], [14, 14, 14]], 0, (0, 0), "", [2, 1]))
 # figures.append(figure("15", area, [[0, 15, 0], [15, 15, 15], [0, 15, 0]], 0, (0, 0), "", [1, 1]))
 figures.append(Figure("16", area, [[16, 16, 16], [0, 16, 0], [0, 16, 0]], 0, (0, 0), "", [1, 1]))
@@ -71,6 +71,8 @@ play_icon_hovered = pygame.image.load("img/icons/play_large.png")
 bg_start = pygame.transform.scale(pygame.image.load("img/backgrounds/Start1.png"), (screen_width, screen_height))
 bg_end = pygame.transform.scale(pygame.image.load("img/backgrounds/Close_bg.jpg").convert(),
                                 (screen_width, screen_height))
+pentomis_logo = pygame.image.load("img/icons/Pentomis_logo.png")
+pentomis_logo_minimalistic = pygame.image.load('img/icons/Pentomis_logo_minimalistic.png')
 
 cross_button = BoxButton("cross", 100, 0, 100, 100, "", cross_icon)
 pause_button = BoxButton("pause", 0, 0, 100, 100, "", pause_icon)

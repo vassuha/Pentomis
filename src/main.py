@@ -9,6 +9,7 @@ from render import *
 from globals import *
 
 pygame.display.set_caption('Pentomis')
+pygame.display.set_icon(pentomis_logo_minimalistic)
 
 try:
     f = open("./record.txt")
@@ -226,7 +227,7 @@ while running:
     with open("./record.txt", "w") as f:
         f.write(str(record) + "\n")
     render_end_menu(sound, score, is_new_best, record)
-    #time.sleep(0.5)
+    # time.sleep(0.5)
     while not gameplay:
         screen_width = screen.get_size()[0]
         screen_height = screen.get_size()[1]
